@@ -30,3 +30,83 @@ let db ={
 //   "password": "123456"
 
 // }
+
+const userDetails = {
+//redux data
+credentials = {
+    userId : "sdasdadasdass",
+    email : "user@email.com",
+    handle : "user",
+    listed : "2020-07-16T05:38:52.043Z",
+    imageUrl : "dsadasdsa/d/as/dsa/dsa",
+    bio : "Hello my name is user",
+    website : "https://user.com",
+    location : "melbourne, victoria"
+},
+likes : [
+    {
+        userHandle : 'user',
+        screamUd : 'asdsadasdasdas'
+    },
+    {
+        userHandle : 'user',
+        screamUd : 'asdsadasdasdas'
+    }
+]
+}
+
+
+////user profile////
+//profileImg,
+//fullName,
+//recentEmp,
+//trade,
+//about,
+/*exp : { 
+    exp1 :{
+        text: text;
+        date : date
+    },
+    exp2 :{
+        text: text;
+        date : date
+    },
+    exp3 :{
+        text: text;
+        date : date
+    },
+    exp4 :{
+        text: text;
+        date : date
+    }    
+},*/ 
+/*skills {
+      Licenses: [text, text ,text, text, text, text ,text, text, text, text]up to 10
+      Education :[text, text ,text, text, text] up to 5
+      Refrences :[text,text ,text ] up to 3
+}
+bestWork{
+    house1 : {
+        header: text
+        desc: text
+        imageUrl: text
+    },
+    house2 : {
+        header: text
+        desc: text
+        imageUrl: text
+    },
+    house3 : {
+        header: text
+        desc: text
+        imageUrl: text
+    },
+    house4 : {
+        header: text
+        desc: text
+        imageUrl: text
+    }
+
+}
+*/
+

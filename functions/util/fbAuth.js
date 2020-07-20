@@ -19,7 +19,7 @@ module.exports = (request, response, next) => {
   admin.auth().verifyIdToken(idToken)
   .then(decodedToken =>{
     request.user = decodedToken
-    console.log(decodedToken)
+
     //auth doesn't return a handle becuase it's stored in users so we need to check the users for a id which is stored in the token and the users section it uses the decoded token to match the db uid
     return db.collection('users')
     //returns one result where userId from the token is equal to db userId and get return a promise of this data to get the handle it will retrun a docs array which will need to be accessed using data.docs[0].data() to get the first item from the docs

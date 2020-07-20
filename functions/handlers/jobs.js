@@ -30,6 +30,7 @@ exports.getAllJobs = (request, response) => {
   }
 
   exports.createNewJob = (request, response) => {
+    console.log(request)
 
     //because of FBAuth we don't have to name the user handle as we have already got it from this previous function
     const newJob = {
