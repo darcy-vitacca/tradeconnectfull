@@ -3,7 +3,7 @@ const {db} = require('../util/admin');
 // this uses express to route things through post or get automatcally
 exports.getAllJobs = (request, response) => {
     db.collection("job")
-      .orderBy("listed", "desc")
+      .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
         let jobs = [];
@@ -15,7 +15,7 @@ exports.getAllJobs = (request, response) => {
             location: doc.data().location,
             salary: doc.data().salary,
             salaryFreq: doc.data().salaryFreq,
-            listed: doc.data().listed,
+            createdAt: doc.data().listed,
             aboutBusiness: doc.data().aboutBusiness,
             role: doc.data().role,
             skillsExp: doc.data().skillsExp,
@@ -30,7 +30,6 @@ exports.getAllJobs = (request, response) => {
   }
 
   exports.createNewJob = (request, response) => {
-    console.log(request)
 
     //because of FBAuth we don't have to name the user handle as we have already got it from this previous function
     const newJob = {
@@ -44,7 +43,7 @@ exports.getAllJobs = (request, response) => {
       skillsExp: request.body.skillsExp,
       applyNow: request.body.applyNow,
       contactDetails: request.body.contactDetails,
-      listed: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       handle: request.user.handle
       
     };

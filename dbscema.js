@@ -110,3 +110,78 @@ bestWork{
 }
 */
 
+
+////user profile////
+// profileImg, ?
+// fullName, X
+// recentEmp, X
+// trade,  X
+// about, X
+/*exp : {  X
+    exp1 :{
+        text: text;
+        date : date
+    },
+    exp2 :{
+        text: text;
+        date : date
+    },
+    exp3 :{
+        text: text;
+        date : date
+    },
+    exp4 :{
+        text: text;
+        date : date
+    }    
+},*/
+
+// "exp": [
+//   {
+//       "exp1" :{
+//           "date": "1",
+//           "text": "1"
+//       }
+
+//   },
+//   {
+//        "exp2" :{
+//           "date": "2",
+//           "text": "2"
+//       }
+//   },
+//    {
+//        "exp3" :{
+//           "date": "3",
+//           "text": "3"
+//       }
+//   },
+//    {
+//        "exp4" :{
+//           "date": "4",
+//           "text": "4"
+//       }
+//   }
+
+// ],
+
+//     house2 : {
+// header: text
+// desc: text
+// imageUrl: text
+// date : text
+//     },
+//     house3 : {
+//         header: text
+//         desc: text
+//         imageUrl: text
+//         date : text
+//     },
+//     house4 : {
+//         header: text
+//         desc: text
+//         imageUrl: text
+//         date : text
+//     }
+
+// }

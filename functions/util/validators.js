@@ -1,3 +1,6 @@
+const config = require("../util/config");
+
+
 //Helper methods
 const isEmpty = (string) => {
   if (string.trim() === "") return true;
@@ -13,8 +16,7 @@ const isEmail = (email) => {
 exports.validateSignUpData = (data) => {
   //This section checks for errors in the sign up and if they have it it will add and error to the object which will it turn be check and if any errors come up it will be shown
   let errors = {};
-  console.log("here");
-  console.log(data);
+
   if (isEmpty(data.email)) {
     errors.email = "Must not be empty";
   } else if (!isEmail(data.email)) {
@@ -35,7 +37,6 @@ exports.validateSignUpData = (data) => {
 
 //checks login
 exports.validateLoginData = (data) => {
-  console.log(data);
   let errors = {};
   if (isEmpty(data.email)) errors.email = "Must not be empty";
   if (isEmpty(data.password)) errors.password = "Must not be empty";
@@ -60,141 +61,100 @@ exports.reduceUserDetails = (data) => {
 };
 
 //TODO:
-//handle images
+//handle images - profile images, company images, bestwork images
+//add location
+
 exports.reduceProfileDetails = (data) => {
   let profileDetails = {};
   let expArr = [];
-  
+  let expCheck;
+  let workArr = [];
+  let bestWorkEntry;
+  const noImgComp = "no-imgcomp.jpg"
+  const noImg = "no-img.png";
+  //
+  if (!isEmpty(data.profileImageUrl)) {
+    profileDetails.profileImageUrl = data.profileImageUrl
+  } else {
+    profileDetails.profileImageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`
+  }
   if (!isEmpty(data.fullName.trim())) profileDetails.fullName = data.fullName;
   if (!isEmpty(data.recentEmp.trim()))
     profileDetails.recentEmp = data.recentEmp;
   if (!isEmpty(data.trade.trim())) profileDetails.trade = data.trade;
   if (!isEmpty(data.about.trim())) profileDetails.about = data.about;
 
+  //experience
   if (data.exp) {
     data.exp.forEach((doc) => {
-      if (!isEmpty(doc["text"])) {
-        expArr.push({ exp : doc });
+      if ( !isEmpty(doc["company"]) && !isEmpty(doc["date"]) && !isEmpty(doc["text"])) {
+        expArr.push(doc);
       } else {
-        // console.log("Text entry missing");
+        expCheck = Object.entries(doc);
+        expCheck.forEach((entry) => {
+          if (entry[1] === "") {
+            if (entry[0] === "imageUrl" && entry[1] === ''){
+              entry[1] = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`
+           }
+           else{
+             entry[1] = "Please Enter Text";
+            entry[1] = "Please Enter Text";
+          } 
+        }
+        });
+        let newExpEntry = expCheck.reduce((result, [key, value]) => {
+          result[key] = value;
+          return result;
+        }, {});
+        expArr.push(newExpEntry);
       }
     });
     profileDetails.exp = expArr;
   }
-
+  //skills
   if (data.licences) {
-    if (!isEmpty(data.licences[0])){
+    if (!isEmpty(data.licences[0])) {
       profileDetails.licences = data.licences;
     } else {
       profileDetails.licences = data.licences;
-      console.log("Text entry missing");
     }
   }
   if (data.education) {
-  if (!isEmpty(data.education[0])){
-    profileDetails.education = data.education;
-  } else {
-    profileDetails.education = data.education;
-    console.log("Text entry missing");
+    if (!isEmpty(data.education[0])) {
+      profileDetails.education = data.education;
+    } else {
+      profileDetails.education = data.education;
+    }
   }
-}
-if (data.refrences) {
-  if (!isEmpty(data.refrences[0])) {
-    profileDetails.refrences = data.refrences;
-  } else {
-    profileDetails.refrences = data.refrences;
-    console.log("Text entry missing");
+  if (data.refrences) {
+    if (!isEmpty(data.refrences[0])) {
+      profileDetails.refrences = data.refrences;
+    } else {
+      profileDetails.refrences = data.refrences;
+    }
   }
-}
 
-  // TODO:
-  //handle object
-  //check first oject then get all key values and check if they all have something and set it
-  //continue till there is none left
-  if (!isEmpty(data.bestWork.trim())) profileDetails.bestWork = data.bestWork;
-
+  if (data.bestWork) {
+    data.bestWork.forEach((doc) => {
+      bestWorkEntry = Object.entries(doc);
+      bestWorkEntry.forEach((entry) => {
+        if (entry[1] === "") {
+          if (entry[0] === "imageUrl" && entry[1] === ''){
+             entry[1] = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`
+          }
+          else{
+            entry[1] = "Please Enter Text";
+        } 
+      }
+      });
+      let newBestWorkEntry = bestWorkEntry.reduce((result, [key, value]) => {
+        result[key] = value;
+        return result;
+      }, {});
+      workArr.push(newBestWorkEntry);
+    });
+    profileDetails.bestWork = workArr;
+  }
+  // console.log(profileDetails)
   return profileDetails;
 };
-
-
-// bestWork{
-//     house1 : {
-//         header: text
-//         desc: text
-//         imageUrl: text
-//     },
-//     house2 : {
-//         header: text
-//         desc: text
-//         imageUrl: text
-//     },
-//     house3 : {
-//         header: text
-//         desc: text
-//         imageUrl: text
-//     },
-//     house4 : {
-//         header: text
-//         desc: text
-//         imageUrl: text
-//     }
-    
-// }
-
-
-
-
-
-////user profile////
-// profileImg, ?
-// fullName, X
-// recentEmp, X
-// trade,  X 
-// about, X
-/*exp : {  X
-    exp1 :{
-        text: text;
-        date : date
-    },
-    exp2 :{
-        text: text;
-        date : date
-    },
-    exp3 :{
-        text: text;
-        date : date
-    },
-    exp4 :{
-        text: text;
-        date : date
-    }    
-},*/
-
-// "exp": [
-//   {
-//       "exp1" :{
-//           "date": "1",
-//           "text": "1"
-//       }
-
-//   },
-//   {
-//        "exp2" :{
-//           "date": "2",
-//           "text": "2"
-//       }
-//   },
-//    {
-//        "exp3" :{
-//           "date": "3",
-//           "text": "3"
-//       }
-//   },
-//    {
-//        "exp4" :{
-//           "date": "4",
-//           "text": "4"
-//       }
-//   }
-
-// ],
