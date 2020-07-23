@@ -4,7 +4,7 @@ const app = require("express")();
 
 const FBAuth = require("./util/fbAuth");
 
-const { getAllJobs, createNewJob } = require("./handlers/jobs");
+const { getJob , getAllJobs, createNewJob,deleteJob } = require("./handlers/jobs");
 const {
   signup,
   login,
@@ -12,24 +12,25 @@ const {
   addUserDetails,
   addProfile,
   getAuthenticatedUser,
-  getAllProfiles
+  getAllProfiles,
+  deleteProfile
 } = require("./handlers/users");
 const {getProfile} = require ("./handlers/profile");
-
+//IF YOU ARE GOING TO ADD NOTIFACTIONS AND HCAT ETC. WATCH VIDEO 12 + 13 again
 //JOB ROUTES
-//TODO:                                         //get one job
+app.get("/getjob/:jobId", getJob);              //get one job - with full details
 app.get("/getjobs", getAllJobs);               //get all jobs
-app.post("/createjob", FBAuth, createNewJob);//create new job 
-
+app.post("/createjob", FBAuth, createNewJob); //create new job 
+app.delete("/deletejob/:jobId", FBAuth, deleteJob)//remove job
 
 //PROFILE
-app.post("/createprofile", FBAuth, addProfile); //add profile
-app.get("/getprofile/:userId", getProfile); //get one profile
-//TODO:                                    //get all profiles
+app.post("/createprofile", FBAuth, addProfile);                  //add profile
+app.get("/getprofile/:userId", getProfile);                     //get one profile
+app.delete("/deleteprofile/:profileId", FBAuth, deleteProfile) //remove profile                                       
+
 app.get("/getprofiles", getAllProfiles);
+//TODO:  //get all profiles- maybe without pictures or a smaller version then get the full version
 //TODO:                                      //chat to person
-
-
 
 //USER ROUTES
 app.post("/signup", signup);

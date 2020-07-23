@@ -26,7 +26,6 @@ exports.signup = (request, response) => {
   if (!valid) return response.status(400).json(errors);
 
   const noImg = "no-img.png";
-
   //validate data checks if handle is valid and unqiuewe return an object containing errors  if it isn't it creates a new user which returns an authentication token
   let token, userId;
   db.doc(`/users/${newUser.handle}`)
@@ -67,7 +66,7 @@ exports.signup = (request, response) => {
       if (err.code === "auth/email-already-in-use") {
         return response.status(400).json({ email: "Email is already in use." });
       } else {
-        return response.status(500).json({ error: err.code });
+        return response.status(500).json({ general : "Something went wrong please try again." });
       }
     });
 };
@@ -131,10 +130,6 @@ exports.getAllProfiles = (request, response) =>{
   .catch((err) => console.error(err));
 }
 
-
-
-
-
 //ADD USER DETAILS// MAY GET DELETED OR CHANGED INTO UPDATE USER DETAILS
 exports.addUserDetails = (request, response) => {
   let userDetails = reduceUserDetails(request.body);
@@ -154,6 +149,7 @@ exports.addUserDetails = (request, response) => {
 exports.addProfile = (request, response) => {
   let profileDetails = reduceProfileDetails(request.body);
   profileDetails.userId = request.user.uid;
+  profileDetails.handle = request.user.handle;
   profileDetails.createdAt = new Date().toISOString();
 
   db.doc(`/profiles/${request.user.uid}`)
@@ -181,13 +177,14 @@ exports.getAuthenticatedUser = (request, response) => {
 };
 
 
-//UPLOAD IMAGES
 //TODO:
 //check for duplicate images
 ////limit size and amount images
-// handle submissions from other routes
+//Figure out how to route photos first from upload then into profile.
 //if a profile photo is added add to the users/image
-//
+//keep them seperated in the correct category
+
+//UPLOAD IMAGES
 exports.uploadImage = (request, response) => {
   //path is a default package from node same with os]
   const BusBoy = require("busboy");
@@ -268,3 +265,27 @@ exports.uploadImage = (request, response) => {
   });
   busboy.end(request.rawBody);
 };
+
+//DELETE PROFILE
+exports.deleteProfile = (request,response) =>{
+
+  const document = db.doc(`/profiles/${request.params.profileId}`);
+  document.get()
+    .then(doc =>{
+        if(!doc.exists){
+          return response.status(404).json({error : "Profile not found"});
+        }
+        if(doc.data().handle !== request.user.handle){
+          return response.status(403).json({error : "Unauthorized"});
+        }else {
+          document.delete();
+          return response.json({message : 'Profile deleted successfully'});
+        }
+    })
+    .catch(err =>{
+      console.error(err);
+      response.status(500).json({error : err.code})
+    })
+}
+
+

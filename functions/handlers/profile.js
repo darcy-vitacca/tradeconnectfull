@@ -19,6 +19,6 @@ exports.getProfile = (request, response) =>{
     
 }
 
-
+//TODO:
 //to get filtered profiles rewatch video 10 or all profiles that meet a certain param
 //for complex queries you need to make indexes in firebase so for all your searches it will need  certain index

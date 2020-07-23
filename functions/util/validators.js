@@ -40,7 +40,6 @@ exports.validateLoginData = (data) => {
   let errors = {};
   if (isEmpty(data.email)) errors.email = "Must not be empty";
   if (isEmpty(data.password)) errors.password = "Must not be empty";
-
   return {
     errors,
     valid: Object.keys(errors).length === 0 ? true : false,
@@ -62,14 +61,13 @@ exports.reduceUserDetails = (data) => {
 
 //TODO:
 //handle images - profile images, company images, bestwork images
-//add location
-
 exports.reduceProfileDetails = (data) => {
   let profileDetails = {};
   let expArr = [];
   let expCheck;
   let workArr = [];
   let bestWorkEntry;
+  //default images
   const noImgComp = "no-imgcomp.jpg"
   const noImg = "no-img.png";
   //
@@ -78,7 +76,9 @@ exports.reduceProfileDetails = (data) => {
   } else {
     profileDetails.profileImageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`
   }
+  
   if (!isEmpty(data.fullName.trim())) profileDetails.fullName = data.fullName;
+  if (!isEmpty(data.location.trim())) profileDetails.locaiton = data.location;
   if (!isEmpty(data.recentEmp.trim()))
     profileDetails.recentEmp = data.recentEmp;
   if (!isEmpty(data.trade.trim())) profileDetails.trade = data.trade;
@@ -155,6 +155,5 @@ exports.reduceProfileDetails = (data) => {
     });
     profileDetails.bestWork = workArr;
   }
-  // console.log(profileDetails)
   return profileDetails;
 };

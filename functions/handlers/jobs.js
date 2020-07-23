@@ -1,6 +1,25 @@
 const {db} = require('../util/admin');
 
-// this uses express to route things through post or get automatcally
+//GET A SINGLE JOB
+exports.getJob = (request,response) =>{
+  let jobData = {}
+  db.doc(`/job/${request.params.jobId}`).get()
+    .then((doc) =>{
+      if(!doc.exists){
+        return response.status(404).json({error : 'Job not found'})
+      }
+      jobData = doc.data()
+      console.log(jobData)
+      return response.json({ message: "Job retrived" });
+    })
+    .catch((err) => {
+      console.error(err);
+      return response.status(500).json({ error: err.code });
+    });
+
+}
+
+//GET ALL JOBS
 exports.getAllJobs = (request, response) => {
     db.collection("job")
       .orderBy("createdAt", "desc")
@@ -30,7 +49,6 @@ exports.getAllJobs = (request, response) => {
   }
 
   exports.createNewJob = (request, response) => {
-
     //because of FBAuth we don't have to name the user handle as we have already got it from this previous function
     const newJob = {
       job: request.body.job,
@@ -45,16 +63,44 @@ exports.getAllJobs = (request, response) => {
       contactDetails: request.body.contactDetails,
       createdAt: new Date().toISOString(),
       handle: request.user.handle
-      
     };
   
     db.collection("job")
       .add(newJob)
       .then((doc) => {
-        response.json({ message: `document ${doc.id} created succesfully` });
+        db.doc(`/job/${doc.id}`)
+        .update({jobId : doc.id})
+        .then(() => {
+          response.json({ message: `document ${doc.id} created succesfully` });
+        })
+        .catch((err) => {
+          console.error(err);
+          return response.status(500).json({ error: err.code });
+        });
       })
       .catch((err) => {
         response.status(500).json({ error: "something went wrong" });
         console.error(err);
       });
   }
+
+//DELETE JOB
+exports.deleteJob = (request,response) =>{
+  const document = db.doc(`/job/${request.params.jobId}`);
+  document.get()
+  .then( doc =>{
+    if(!doc.exists){
+      return response.status(404).json({error : "Job not found"})
+    }
+    if(doc.data().handle !== request.user.handle){
+      return response.status(403).json({error : "Unauthorized"});
+    }else {
+      document.delete();
+      return response.json({message : 'Job deleted successfully'});
+    }
+  }) 
+  .catch(err =>{
+    console.error(err);
+    return response.status(500).json({error : err.code})
+  })
+}
