@@ -1,0 +1,83 @@
+.profileCard{
+    background: white;
+    margin :1vh;
+    text-align:none;
+}
+
+
+.head-profile-card-row1{
+    display:flex;
+    justify-content: space-between;
+    padding: 2vh 4vh 2vh 4vh;
+}
+
+.expIconProfile{
+    width :80px;
+    height: 60px;
+
+}
+
+
+.iconProfile{
+    width : 18vh;
+    height: 18vh;
+}
+
+
+.head-profile-card-row2{
+    padding: 2vh 4vh 2vh 4vh;
+}
+
+.exp-profile-card-row{
+    padding: 2vh 4vh 2vh 4vh;
+}
+
+
+.expCard{
+    display: flex;
+    padding-top:0;
+}
+
+.expIconLeft p{
+    font-size: 15px;
+    
+
+
+}
+
+.expIconRight p{
+   margin-top: 0;
+   margin-left: 4vh;
+}
+
+
+
+.bestWorkLeftImg{
+    width:500px;
+    height:340px;
+    padding: 0vh 0vh 2vh 0vh;
+}
+
+.skills-profile-card-row{
+    padding: 2vh 4vh 2vh 4vh;
+}
+.bestWork-profile-card-row{
+    padding: 2vh 4vh 2vh 4vh;
+    
+
+}
+
+.bestWorkCont{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.bestWorkRight {
+    padding: 0vh 4vh 2vh 4vh;
+    margin :0;
+}
+
+.bestWorkRight h3, p{
+    margin-top :0;
+}

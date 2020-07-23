@@ -1,0 +1,108 @@
+.peopleSearchHeader {
+  text-align: right;
+  margin-right: 2em;
+  max-width: 1800px;
+}
+
+.peopleSearchExpandBar {
+  background-color: #e16b05;
+  text-align: right;
+  color: white;
+  font-weight: bold;
+  max-height: 35px;
+  padding: 0;
+}
+
+.peopleSearchExpandBar p {
+  padding-right: 0.6em;
+}
+
+.peopleSearchBody {
+  background: #e5e5e5;
+  margin: 1vh;
+  text-align: none;
+}
+
+.peopleSearchBar {
+  margin: 1vh;
+}
+
+.peopleSearchBarForm {
+  width: 100%;
+  text-align: center;
+}
+.peopleSearchCard {
+  width: 100%;
+  max-width: 1800px;
+}
+.searchPeopleName {
+  width: 40%;
+  min-width: 300px;
+  max-width: 520px;
+}
+.searchPeopleTrade {
+  width: 40%;
+  min-width: 300px;
+  max-width: 480px;
+}
+.searchButtonPeople {
+  width: 100px;
+}
+
+.peopleSearchCard {
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+}
+
+.peopleSearchHead {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vh;
+}
+
+
+.peopleSearchHeadLeft {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+
+/* RIGHT SIDE CARD */
+.peopleSearchHeadRight h1, h2,
+h4 {
+  padding: 0;
+  margin: 0;
+}
+
+.peopleSearchHeadRight {
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+.peopleSearchHeadRightJob,
+.peopleSearchHeadRightLocation {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+
+/* EXPANDED SECTION */
+.peopleSearchExpandedBody {
+  padding: 2.4vh;
+  padding-top: 0em;
+}
+.peopleSearchExpandedBody p {
+  font-size: 20px;
+}
+
+.peopleSearchIcon{
+  width: 180px;
+  height: 180px;
+}

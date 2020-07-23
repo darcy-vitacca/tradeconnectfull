@@ -1,0 +1,135 @@
+.jobSearchHeader {
+  text-align: right;
+  margin-right: 2em;
+  max-width: 1800px;
+}
+
+.jobSearchExpandBar {
+  background-color: #e16b05;
+  text-align: right;
+  color: white;
+  font-weight: bold;
+  max-height: 35px;
+  padding: 0;
+}
+
+.jobSearchExpandBar p {
+  padding-right: 0.6em;
+}
+
+.jobSearchBody {
+  background: #e5e5e5;
+  margin: 1vh;
+  text-align: none;
+}
+
+.jobSearchBar {
+  margin: 1vh;
+}
+
+.searchBarForm {
+  width: 100%;
+  text-align: center;
+}
+.jobSearchCard {
+  width: 100%;
+  max-width: 1800px;
+}
+
+/* Job search boxes */
+.searchKeywordJobs {
+  width: 40%;
+  min-width: 300px;
+  max-width: 520px;
+}
+.searchLocationJobs {
+  width: 40%;
+  min-width: 300px;
+  max-width: 480px;
+}
+.searchButtonJobs {
+  width: 100px;
+}
+/**/
+
+.jobSearchCard {
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+}
+
+.jobSearchHead {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vh;
+}
+.jobSearchHeadLeft {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.jobSearchIcon {
+  width: 100px;
+  height: 100px;
+}
+
+.jobSearchHeadLeftMiddle h2,
+h4 {
+  padding: 0;
+  margin: 0;
+}
+
+.jobSearchHeadRight {
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+.jobSearchHeadLeftJob,
+.jobSearchHeadLeftLocation {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.jobSearchWage,
+.jobSearchListed {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.jobSearchExpandedKeyPoints li {
+  font-size: 20px;
+}
+
+.jobSearchExpandedBody {
+  padding: 2.4vh;
+  padding-top: 0em;
+}
+.jobSearchExpandedBody p {
+  font-size: 20px;
+}
+
+.applyRow{
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+}
+
+.applyButton{
+  background: #e16b05;
+  color: white;
+  border-radius: 25%;
+  width: 90px;
+  text-align: center;
+ 
+}
+
+.contactText p{
+  padding: 0;
+  margin: 0;
+}

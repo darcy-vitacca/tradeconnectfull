@@ -1,0 +1,115 @@
+.apprenticeSearchHeader {
+  text-align: right;
+  margin-right: 2em;
+  max-width: 1800px;
+}
+
+.apprenticeSearchExpandBar {
+  background-color: #e16b05;
+  text-align: right;
+  color: white;
+  font-weight: bold;
+  max-height: 35px;
+  padding: 0;
+}
+
+.apprenticeSearchExpandBar p {
+  padding-right: 0.6em;
+}
+
+.apprenticeSearchBody {
+  background: #e5e5e5;
+  margin: 1vh;
+  text-align: none;
+}
+
+.apprenticeSearchBar {
+  margin: 1vh;
+}
+
+.searchBarForm {
+  width: 100%;
+  text-align: center;
+}
+.apprenticeSearchCard {
+  width: 100%;
+  max-width: 1800px;
+}
+
+/* Job search boxes */
+.searchKeywordApprentice {
+  width: 40%;
+  min-width: 300px;
+  max-width: 520px;
+}
+.searchLocationApprentice {
+  width: 40%;
+  min-width: 300px;
+  max-width: 480px;
+}
+.searchButtonApprenticeships {
+  width: 100px;
+}
+/**/
+
+.apprenticeSearchCard {
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+}
+
+.apprenticeSearchHead {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vh;
+}
+.apprenticeSearchHeadLeft {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.apprenticeSearchIcon {
+  width: 100px;
+  height: 100px;
+}
+
+.apprenticeSearchHeadLeftMiddle h2,
+h4 {
+  padding: 0;
+  margin: 0;
+}
+
+.apprenticeSearchHeadRight {
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+.apprenticeSearchHeadLeftJob,
+.apprenticeSearchHeadLeftLocation {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.apprenticeSearchWage,
+.apprenticeSearchListed {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.apprenticeSearchExpandedKeyPoints li {
+  font-size: 20px;
+}
+
+.apprenticeSearchExpandedBody {
+  padding: 2.4vh;
+  padding-top: 0em;
+}
+.apprenticeSearchExpandedBody p {
+  font-size: 20px;
+}
