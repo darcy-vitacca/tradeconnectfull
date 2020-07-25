@@ -34,7 +34,7 @@ exports.signup = (request, response) => {
       if (doc.exists) {
         return response
           .status(400)
-          .json({ handle: "This handle is already taken" });
+          .json({ handle: "This Username is already taken" });
         //If it isn't already taken we then create and auth it and get the id token  then return a token and if there is an error we can catch it
       } else {
         return firebase
@@ -92,7 +92,7 @@ exports.login = (request, response) => {
     })
     .catch((err) => {
       console.error(err);
-      if (err.code == "auth/user-not-found") {
+      if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
         return response
           .status(403)
           .json({ general: "Wrong credentials please try again." });

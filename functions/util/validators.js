@@ -1,6 +1,5 @@
 const config = require("../util/config");
 
-
 //Helper methods
 const isEmpty = (string) => {
   if (string.trim() === "") return true;
@@ -14,18 +13,37 @@ const isEmail = (email) => {
 
 //checks signUpData
 exports.validateSignUpData = (data) => {
+  console.log("here")
+  console.log(data);
   //This section checks for errors in the sign up and if they have it it will add and error to the object which will it turn be check and if any errors come up it will be shown
   let errors = {};
-
+  if (data.password === undefined) {
+    data.password = "";
+  }
+  if (data.confirmPassword === undefined) {
+    data.confirmPassword = "";
+  }
   if (isEmpty(data.email)) {
     errors.email = "Must not be empty";
   } else if (!isEmail(data.email)) {
     errors.email = "Must be a valid email address";
   }
-  if (isEmpty(data.password)) errors.password = "Must not be empty";
+  if (isEmpty(data.password)) {
+    errors.password = "Must not be empty";
+  } else if (data.password.length < 8) {
+    errors.password = "Must be 8 characters or more";
+  }
+  if (isEmpty(data.confirmPassword)) {
+    errors.confirmPassword = "Must not be empty";
+  } else if (data.confirmPassword.length < 8) {
+    errors.confirmPassword = "Must be 8 characters or more";
+  }
   if (data.password !== data.confirmPassword)
     errors.confirmPassword = "Passwords must match";
+
   if (isEmpty(data.password)) errors.password = "Must not be empty";
+  if (isEmpty(data.confirmPassword))
+    errors.confirmPassword = "Must not be empty";
   if (isEmpty(data.handle)) errors.handle = "Must not be empty";
 
   // check if there is no keys in errors
@@ -38,6 +56,9 @@ exports.validateSignUpData = (data) => {
 //checks login
 exports.validateLoginData = (data) => {
   let errors = {};
+  if (data.password === undefined) {
+    data.password = "";
+  }
   if (isEmpty(data.email)) errors.email = "Must not be empty";
   if (isEmpty(data.password)) errors.password = "Must not be empty";
   return {
@@ -59,6 +80,18 @@ exports.reduceUserDetails = (data) => {
   return userDetails;
 };
 
+//TODO: CHANGE THIS IMAGE VALIDATOR TEMP FOR JOBS
+exports.imageCheck = (data) => {
+  const noImgComp = "no-imgcomp.jpg";
+  if (!isEmpty(data)) {
+    return data;
+  } else {
+    return `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`;
+  }
+};
+
+//TODO: HANDLE JOB UPLOADS AND VALIDATE THEM NEW SECTION
+
 //TODO:
 //handle images - profile images, company images, bestwork images
 exports.reduceProfileDetails = (data) => {
@@ -68,15 +101,15 @@ exports.reduceProfileDetails = (data) => {
   let workArr = [];
   let bestWorkEntry;
   //default images
-  const noImgComp = "no-imgcomp.jpg"
+  const noImgComp = "no-imgcomp.jpg";
   const noImg = "no-img.png";
   //
   if (!isEmpty(data.profileImageUrl)) {
-    profileDetails.profileImageUrl = data.profileImageUrl
+    profileDetails.profileImageUrl = data.profileImageUrl;
   } else {
-    profileDetails.profileImageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`
+    profileDetails.profileImageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`;
   }
-  
+
   if (!isEmpty(data.fullName.trim())) profileDetails.fullName = data.fullName;
   if (!isEmpty(data.location.trim())) profileDetails.locaiton = data.location;
   if (!isEmpty(data.recentEmp.trim()))
@@ -87,20 +120,23 @@ exports.reduceProfileDetails = (data) => {
   //experience
   if (data.exp) {
     data.exp.forEach((doc) => {
-      if ( !isEmpty(doc["company"]) && !isEmpty(doc["date"]) && !isEmpty(doc["text"])) {
+      if (
+        !isEmpty(doc["company"]) &&
+        !isEmpty(doc["date"]) &&
+        !isEmpty(doc["text"])
+      ) {
         expArr.push(doc);
       } else {
         expCheck = Object.entries(doc);
         expCheck.forEach((entry) => {
           if (entry[1] === "") {
-            if (entry[0] === "imageUrl" && entry[1] === ''){
-              entry[1] = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`
-           }
-           else{
-             entry[1] = "Please Enter Text";
-            entry[1] = "Please Enter Text";
-          } 
-        }
+            if (entry[0] === "imageUrl" && entry[1] === "") {
+              entry[1] = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`;
+            } else {
+              entry[1] = "Please Enter Text";
+              entry[1] = "Please Enter Text";
+            }
+          }
         });
         let newExpEntry = expCheck.reduce((result, [key, value]) => {
           result[key] = value;
@@ -139,13 +175,12 @@ exports.reduceProfileDetails = (data) => {
       bestWorkEntry = Object.entries(doc);
       bestWorkEntry.forEach((entry) => {
         if (entry[1] === "") {
-          if (entry[0] === "imageUrl" && entry[1] === ''){
-             entry[1] = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`
-          }
-          else{
+          if (entry[0] === "imageUrl" && entry[1] === "") {
+            entry[1] = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`;
+          } else {
             entry[1] = "Please Enter Text";
-        } 
-      }
+          }
+        }
       });
       let newBestWorkEntry = bestWorkEntry.reduce((result, [key, value]) => {
         result[key] = value;

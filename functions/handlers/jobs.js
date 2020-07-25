@@ -1,4 +1,7 @@
 const {db} = require('../util/admin');
+const {
+  imageCheck,
+} = require("../util/validators");
 
 //GET A SINGLE JOB
 exports.getJob = (request,response) =>{
@@ -29,18 +32,19 @@ exports.getAllJobs = (request, response) => {
         data.forEach((doc) => {
           jobs.push({
             jobId: doc.id,
-            job: request.body.job,
+            job: doc.data().job,
             company: doc.data().company,
             location: doc.data().location,
             salary: doc.data().salary,
             salaryFreq: doc.data().salaryFreq,
-            createdAt: doc.data().listed,
+            createdAt: doc.data().createdAt,
             aboutBusiness: doc.data().aboutBusiness,
             role: doc.data().role,
             skillsExp: doc.data().skillsExp,
             applyNow: doc.data().applyNow,
             contactDetails: doc.data().contactDetails,
-            handle : doc.data().handle
+            handle : doc.data().handle,
+            imageUrl : doc.data().imageUrl
           });
         });
         return response.json(jobs);
@@ -50,6 +54,8 @@ exports.getAllJobs = (request, response) => {
 
   exports.createNewJob = (request, response) => {
     //because of FBAuth we don't have to name the user handle as we have already got it from this previous function
+    let imageUrl = imageCheck(request.body.imageUrl)
+  
     const newJob = {
       job: request.body.job,
       company: request.body.company,
@@ -62,7 +68,8 @@ exports.getAllJobs = (request, response) => {
       applyNow: request.body.applyNow,
       contactDetails: request.body.contactDetails,
       createdAt: new Date().toISOString(),
-      handle: request.user.handle
+      handle: request.user.handle,
+      imageUrl : imageUrl
     };
   
     db.collection("job")
@@ -71,7 +78,7 @@ exports.getAllJobs = (request, response) => {
         db.doc(`/job/${doc.id}`)
         .update({jobId : doc.id})
         .then(() => {
-          response.json({ message: `document ${doc.id} created succesfully` });
+          response.json({ message: `document ${doc.id} created succesfully`});
         })
         .catch((err) => {
           console.error(err);

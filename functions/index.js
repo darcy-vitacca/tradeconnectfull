@@ -1,6 +1,9 @@
 const functions = require("firebase-functions");
 const app = require("express")();
 // const {admin} = require('./util/admin');
+const cors = require('cors');
+app.use(cors());
+
 
 const FBAuth = require("./util/fbAuth");
 
@@ -27,7 +30,6 @@ app.delete("/deletejob/:jobId", FBAuth, deleteJob)//remove job
 app.post("/createprofile", FBAuth, addProfile);                  //add profile
 app.get("/getprofile/:userId", getProfile);                     //get one profile
 app.delete("/deleteprofile/:profileId", FBAuth, deleteProfile) //remove profile                                       
-
 app.get("/getprofiles", getAllProfiles);
 //TODO:  //get all profiles- maybe without pictures or a smaller version then get the full version
 //TODO:                                      //chat to person
