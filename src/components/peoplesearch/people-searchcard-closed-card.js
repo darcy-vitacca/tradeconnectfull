@@ -1,16 +1,15 @@
 import React from "react";
 
-function JobSearchCardExp() {
+function JobSearchCardMin() {
   return (
     <div className="peopleSearchCard">
       <div className="peopleSearchExpandBar">
-        <p>&minus;</p>
+        <p>&#43;</p>
       </div>
       <div className="peopleSearchHead">
         <div className="peopleSearchHeadLeft">
-          <img className="peopleSearchIcon"src={require("../images/profilephoto.png")}></img>
+        <img className="peopleSearchIcon"src={require("../../images/profilephoto.png")} alt="people search"></img>
         </div>
-
 
         <div className="peopleSearchHeadRight">
           <h1>Darcy Vitacca</h1>
@@ -27,28 +26,17 @@ function JobSearchCardExp() {
           Learnt from blah blah over the time I did these jobs worked with this
           person and was a high achiever in tafe. The major jobs we did were and
           it was mainly filled between with x and y. Learnt from blah blah over
-          the time I did these jobs worked with this person and was a high
-          achiever in tafe.
-        </p>
-        <p>
-          Learnt from blah blah over the time I did these jobs worked with this
-          person and was a high achiever in tafe. The major jobs we did were and
-          it was mainly filled between with x and y. -Learnt from blah blah over
-          the time I did these jobs worked with this person and was a high
-          achiever in tafe.
+          the time. Learnt from blah blah over the time.
         </p>
         <p>
           Learnt from blah blah over the time I did these jobs worked with this
           person and was a high achiever in tafe. The major jobs we did were and
           it was mainly filled between with x and y. Learnt from blah blah over
-          the time I did these jobs worked with this person and was a high
-          achiever in tafe.
+          the time. Learnt from blah blah over the time.
         </p>
-  
-        <p>Contact 042330111 or email at vitacca6@hotmail.com</p>
       </div>
     </div>
   );
 }
 
-export default JobSearchCardExp;
+export default JobSearchCardMin;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../App.css";
+import "../../App.css";
 
 
 function NavSignedIn() {
@@ -29,6 +29,7 @@ function NavSignedIn() {
         <li className="nav-links">Post a Job ad/Tender</li>
       </Link>
       <Link>
+      {/* TODO: ADD LOGOUT FUNC.*/}
         <li className="nav-links">Logout</li>
       </Link>
       <Link>

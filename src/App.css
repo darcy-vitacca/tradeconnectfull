@@ -131,7 +131,7 @@ nav ul {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
+/* POST JOB */
 .postJobFormCont {
   position: relative;
   text-align: center;
@@ -142,43 +142,122 @@ nav ul {
   grid-template-columns: 2fr 8fr 2fr;
 }
 
-.postJobForm textarea{
+.postJobForm textarea {
   display: inline-block;
   width: 1100px;
   max-width: 1100px;
   min-width: 1100px;
   height: 400px;
-  min-height:400px ;
+  min-height: 400px;
   margin: 0.5em;
-
 }
-.postJobForm input{
+.postJobForm input {
   margin: 0.5em;
-
 }
 
-
-.row1 input{
-        width:535px;
+.row1 input {
+  width: 535px;
 }
 
-
-
-.locationJobAd{
-  width:540px;
+.locationJobAd {
+  width: 540px;
 }
-.salaryJobAd, .salaryFreqJobAd{
-  width:250px;
+.salaryJobAd,
+.salaryFreqJobAd {
+  width: 250px;
 }
 
-.postJobForm button{
+.postJobForm button {
   display: inline-block;
   width: 200px;
   max-width: 200px;
   min-width: 200px;
   height: 75px;
-  min-height: 75px ;
+  min-height: 75px;
   margin: 1em;
 }
+/* LOGIN SECTION */
+.loginCont , .signupCont{
+  position: relative;
+  text-align: center;
+  background-color: white;
+  margin: 1vh;
+  min-height: 1000px;
+  display: grid;
+  grid-template-columns: 2fr 8fr 2fr;
+}
 
+.loginCont input, .signupCont input {
+  margin: 1vh;
+}
 
+.loginIcon {
+  width: 200px;
+  height: 200px;
+  margin: 40px;
+}
+
+.helper-text {
+  padding: 0;
+  margin: 0;
+  min-width: 1.2vh;
+  min-height: 1.2vh;
+  display: flex;
+  justify-content: center;
+}
+
+.loginSection input, .signupSection input,
+.passwordSection input {
+  margin-bottom: 10px;
+  height: 38px;
+  border-width: 2px;
+  border-style: none none solid none;
+  outline-style: none;
+  box-shadow: 0 10px 6px -6px rgb(135, 135, 135);
+  width: 400px;
+}
+
+.css-0 div {
+  background-color: #eaa060;
+  width: 6px;
+  height: 40px;
+}
+
+.submitLogin {
+  position: relative;
+  background-color: #e16b05;
+  color: white;
+  border: none;
+  font-weight: 600;
+  width: 130px;
+  height: 46px;
+  border-radius: 15%;
+  box-shadow: 0 10px 6px -6px rgb(135, 135, 135);
+  margin: 0;
+  margin-top: 16px;
+}
+
+button[type="submit"] :disabled {
+  background-color: #dddddd;
+}
+
+.spinner {
+  width: 100px;
+  height: 40px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.loginErrorsGeneral {
+  margin: 10px auto 0 auto;
+  height: 40px;
+  width: 600px;
+}
+.helper-text {
+  color: #e16b05;
+  font-weight: 650;
+}
+
+.signupCont{
+  height: 100%
+}

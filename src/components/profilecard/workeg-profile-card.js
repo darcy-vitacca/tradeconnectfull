@@ -10,7 +10,7 @@ function WorkegProfile() {
           <div className="bestWorkCont">
 
             <div className="bestWorkLeft">
-            <img className="bestWorkLeftImg" src={require("../images/1.png")}></img>
+            <img className="bestWorkLeftImg" src={require("../../images/1.png")} alt="Best work"></img>
             </div>
 
             <div className="bestWorkRight">
@@ -26,7 +26,7 @@ function WorkegProfile() {
         <div className="bestWorkCont">
 
             <div className="bestWorkLeft">
-            <img className="bestWorkLeftImg" src={require("../images/2.png")}></img>
+            <img className="bestWorkLeftImg" src={require("../../images/2.png")} alt="Best work"></img>
             </div>
 
             <div className="bestWorkRight">
@@ -42,7 +42,7 @@ function WorkegProfile() {
         <div className="bestWorkCont">
 
             <div className="bestWorkLeft">
-            <img className="bestWorkLeftImg" src={require("../images/3.jpg")}></img>
+            <img className="bestWorkLeftImg" src={require("../../images/3.jpg")} alt="Best work"></img>
             </div>
             
             <div className="bestWorkRight">
@@ -58,7 +58,7 @@ function WorkegProfile() {
         <div className="bestWorkCont">
 
             <div className="bestWorkLeft">
-            <img className="bestWorkLeftImg" src={require("../images/4.jpg")}></img>
+            <img className="bestWorkLeftImg" src={require("../../images/4.jpg")} alt="Best work"></img>
             </div>
             <div className="bestWorkRight">
             <h3>House 1</h3>

@@ -7,14 +7,14 @@ function AboutProfile() {
         <div className="head-profile-card-row1">
   
         <div>
-        <img className="iconProfile"src={require("../images/profilephoto.png")}></img>
+        <img className="iconProfile"src={require("../../images/profilephoto.png")} alt="profile"></img>
          <p>A Grade, Electrician</p>
         </div>
       
          <div>
          <h1>Darcy Vitacca</h1>
-            <img className="expIconProfile" src={require("../images/stowe.png")}></img>
-            <img className="expIconProfile" src={require("../images/swin.png")}></img>
+            <img className="expIconProfile" src={require("../../images/stowe.png")}alt="exp icon"></img>
+            <img className="expIconProfile" src={require("../../images/swin.png")}alt="exp icon"></img>
          </div>
         
         </div>

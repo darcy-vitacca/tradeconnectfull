@@ -4,6 +4,11 @@
   max-width: 1800px;
 }
 
+.jobIcon{
+  width: 120px;
+  height: 120px;
+}
+
 .jobSearchExpandBar {
   background-color: #e16b05;
   text-align: right;

@@ -1,8 +1,8 @@
 import React from "react";
-import SearchBarPeople from "./peoplesearch/people-searchbar-search-card";
-import JobSearchCardExp from "./peoplesearch/people-searchcard-closed-card";
-import JobSearchCardMin from "./peoplesearch/people-searchcard-expanded-card";
-import "./peoplesearch/people-search.css";
+import SearchBarPeople from "../components/peoplesearch/people-searchbar-search-card";
+import JobSearchCardExp from "../components/peoplesearch/people-searchcard-closed-card";
+import JobSearchCardMin from "../components/peoplesearch/people-searchcard-expanded-card";
+import "../components/peoplesearch/people-search.css";
 
 // import './profilecard/profile.css';
 

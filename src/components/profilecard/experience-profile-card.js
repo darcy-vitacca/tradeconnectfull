@@ -8,7 +8,7 @@ function ExperienceProfile() {
        <h1>Experience</h1>
        <div className="expCard">
             <div className="expIconLeft">
-              <img className="expIconProfile" src={require("../images/stowe.png")}></img>
+              <img className="expIconProfile" src={require("../../images/stowe.png")} alt="Exp icons"></img>
                 <p> May 1992- June 1994</p>
               </div> 
               <div className="expIconRight">
@@ -20,7 +20,7 @@ function ExperienceProfile() {
 
             <div className="expCard">
             <div className="expIconLeft">
-              <img className="expIconProfile" src={require("../images/stowe.png")}></img>
+              <img className="expIconProfile" src={require("../../images/stowe.png")} alt="Exp icon"></img>
                 <p> May 1992- June 1994</p>
               </div> 
               <div className="expIconRight">
@@ -31,7 +31,7 @@ function ExperienceProfile() {
 
             <div className="expCard">
             <div className="expIconLeft">
-              <img className="expIconProfile" src={require("../images/stowe.png")}></img>
+              <img className="expIconProfile" src={require("../../images/stowe.png")} alt="Exp icons"></img>
                 <p> May 1992- June 1994</p>
               </div> 
               <div className="expIconRight">
@@ -42,7 +42,7 @@ function ExperienceProfile() {
 
             <div className="expCard">
             <div className="expIconLeft">
-              <img className="expIconProfile" src={require("../images/stowe.png")}></img>
+              <img className="expIconProfile" src={require("../../images/stowe.png")} alt="Exp icons"></img>
                 <p> May 1992- June 1994</p>
               </div> 
               <div className="expIconRight">

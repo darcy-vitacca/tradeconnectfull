@@ -8,10 +8,9 @@ function ApprenticeCardMin() {
       </div>
       <div className="apprenticeSearchHead">
         <div className="jobSearchHeadLeft">
-          <img
-            src={require("../images/download.jpg")}
-            className="apprenticeSearchIcon"
-          ></img>
+          <img src={require("/Users/darcyvitacca/Desktop/VS/react/my-app-3/src/images/download.jpg")}className="apprenticeSearchIcon" alt="apprenticeSearch"></img>
+         
+
           <div className="apprenticeSearchHeadLeftMiddle">
             <h2>2nd Year Electrical Apprentice</h2>
             <h4 class="apprenticeSearchHeadLeftJob">Prodata Electrical</h4>

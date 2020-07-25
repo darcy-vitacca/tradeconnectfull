@@ -12,8 +12,8 @@ function Home() {
         <div className="homePageContainer">
           <div className="homePageImage">
             <img
-              src={require("./images/a.jpeg")}
-              className="homePagePhoto"
+              src={require("../images/a.jpeg")}
+              className="homePagePhoto" alt="Home"
             ></img>
           </div>
           <div className="homeCenter">

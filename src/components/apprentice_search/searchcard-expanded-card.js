@@ -9,8 +9,8 @@ function ApprenticeCardExp() {
       <div className="apprenticeSearchHead">
         <div className="apprenticeSearchHeadLeft">
           <img
-            src={require("../images/download.jpg")}
-            className="apprenticeSearchIcon"
+            src={require("../../images/download.jpg")}
+            className="apprenticeSearchIcon" alt="apprentice 1 search"
           ></img>
           <div className="apprenticeSearchHeadLeftMiddle">
             <h2>1st Year Electrical Apprentice</h2>

@@ -9,8 +9,8 @@ function SearchCardMin() {
       <div className="jobSearchHead">
         <div className="jobSearchHeadLeft">
           <img
-            src={require("../images/download.jpg")}
-            className="jobIcon"
+            src={require("../../images/download.jpg")}
+            className="jobIcon"alt="job icon"
           ></img>
           <div className="jobSearchHeadLeftMiddle">
             <h2>A Grade Electrician</h2>
