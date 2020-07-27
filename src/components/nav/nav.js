@@ -1,6 +1,6 @@
 import React from "react";
-// import NavSignedIn from './signedinnav';
-import NavSignedOut from './signedoutnav';
+import NavSignedIn from './signedinnav';
+// import NavSignedOut from './signedoutnav';
 // import { Link } from "react-router-dom";
 import "../../App.css";
 
@@ -8,8 +8,8 @@ import "../../App.css";
 function Nav() {
   return (
     <div>
-       {/* <NavSignedIn /> */}
-       <NavSignedOut />
+       <NavSignedIn />
+       {/* <NavSignedOut /> */}
       
 
     </div>

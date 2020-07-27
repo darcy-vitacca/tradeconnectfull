@@ -42,8 +42,3 @@ class JobSearch extends Component {
 }
 
 export default JobSearch;
-
-
-{/* <SearchCardMin />
-<SearchCardMin />
-<SearchCardMin /> */}

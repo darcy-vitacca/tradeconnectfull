@@ -1,26 +1,31 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+//Redux
+import { connect } from "react-redux";
+import { signupUser } from "../redux/actions/userActions";
 
 class Signup extends Component {
-
   constructor() {
     super();
     this.state = {
       email: "",
       password: "",
-      confirmPassword :"",
-      handle:"",
-      loading: false,
+      confirmPassword: "",
+      handle: "",
       errors: {},
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
   }
 
   handleSubmit = (event) => {
     console.log(event);
-  
+
     event.preventDefault();
     this.setState({
       loading: true,
@@ -29,26 +34,10 @@ class Signup extends Component {
     const newUserData = {
       email: this.state.email,
       password: this.state.password,
-      confirmPassword : this.state.confirmPassword,
-      handle : this.state.handle
+      confirmPassword: this.state.confirmPassword,
+      handle: this.state.handle,
     };
-    axios
-      .post("/signup", newUserData)
-      .then((res) => {
-        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-        console.log(res.data);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        this.setState({
-          errors: err.response.data,
-          loading: false,
-        });
-        
-      });
+    this.props.signupUser(newUserData, this.props.history);
   };
 
   handleChange = (event) => {
@@ -58,14 +47,13 @@ class Signup extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes , UI : {loading}} = this.props;
     //we get the errors and loading from the state
-    const { errors, loading } = this.state;
+    const { errors } = this.state;
     return (
       <div className="signupCont">
         <div className="row1"></div>
         <div className="row2">
-          
           <img
             src={require("../images/login.png")}
             className="loginIcon"
@@ -73,7 +61,6 @@ class Signup extends Component {
           ></img>
           <h1>Signup</h1>
           <form onSubmit={this.handleSubmit}>
-    
             <div className="signupSection">
               <input
                 placeholder="Email"
@@ -113,7 +100,7 @@ class Signup extends Component {
               ></input>
               <span className="helper-text">{errors.confirmPassword}</span>
             </div>
-           {/* Handle */}
+            {/* Handle */}
             <div className="passwordSection">
               <input
                 placeholder="Username"
@@ -139,18 +126,15 @@ class Signup extends Component {
                   </div>
                 ) : null}{" "}
               </div>
-              </div>
+            </div>
 
-              <div className="signupErrorsGeneral">
-                <span className="helper-text">{errors.general}</span>
-              </div>
-           
+            <div className="signupErrorsGeneral">
+              <span className="helper-text">{errors.general}</span>
+            </div>
           </form>
           <span>
             Already have an account? Login <Link to="/login">here</Link>
           </span>
-
-         
         </div>
         <div className="row2"></div>
       </div>
@@ -160,6 +144,18 @@ class Signup extends Component {
 
 Signup.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired,
 };
 
-export default Signup;
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  signupUser,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Signup);
