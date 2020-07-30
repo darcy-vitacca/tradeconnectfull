@@ -46,7 +46,7 @@ class Login extends Component {
     //the loading needs to be got from the props now because it's stored in the UI state
     const {
       classes,
-      UI: { loading }
+      UI: { loading },
     } = this.props;
     //we get the errors and loading from the state
     const { errors } = this.state;
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => ({
 });
 //This is where we say what actions we are going to use eg loginUser. All these need to be added to our proptypes because we are using them
 const mapActionsToProps = {
-  loginUser
+  loginUser,
 };
 
 //connect is a higher order component which takes 3 args mapStateToProps and mapActionToProps.

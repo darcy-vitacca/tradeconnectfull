@@ -177,7 +177,8 @@ nav ul {
   margin: 1em;
 }
 /* LOGIN SECTION */
-.loginCont , .signupCont{
+.loginCont,
+.signupCont {
   position: relative;
   text-align: center;
   background-color: white;
@@ -187,7 +188,8 @@ nav ul {
   grid-template-columns: 2fr 8fr 2fr;
 }
 
-.loginCont input, .signupCont input {
+.loginCont input,
+.signupCont input {
   margin: 1vh;
 }
 
@@ -206,7 +208,8 @@ nav ul {
   justify-content: center;
 }
 
-.loginSection input, .signupSection input,
+.loginSection input,
+.signupSection input,
 .passwordSection input {
   margin-bottom: 10px;
   height: 38px;
@@ -258,6 +261,39 @@ button[type="submit"] :disabled {
   font-weight: 650;
 }
 
-.signupCont{
-  height: 100%
+.signupCont {
+  height: 100%;
+}
+
+.expCard {
+  height: 500px;
+  width: 1400px;
+  display: flex;
+  flex-direction: column;
+
+}
+.expCardDesc {
+  font-family: "Helvetica", Arial, Lucida Grande, sans-serif;
+  margin: 0.6em;
+  width: 80%;
+  resize: none;
+  height: 350px;
+
+}
+
+.expBtnMinus, .expBtnPlus{
+  width: 60px;
+  height: 50px;
+  border-radius: 20%;
+  border: none;
+  font-weight: 600;
+}
+.expBtnPlus{
+  background-color: #e16b05;
+  color: white;
+}
+
+.expBtnMinus{
+  background-color: #AFB4B7;
+  color: white;
 }
