@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 
-const licenses = (props) => {
-  return props.licenses.map((val, idx) => {
-   
-    console.log(val)
+const references = (props) => {
+  return props.references.map((val, idx) => {
+    // console.log(val)
     return (
+
       <div  key={val.index}>
         <input
           type="text"
           className="arrSkills"
           data-id={idx}
-          placeholder="Add your licenses"
-          name="licenses"
-          label="licenses"
-          id="licenses"
+          placeholder="Add your references"
+          name="references"
+          label="references"
+          id="references"
           required
         ></input>
         
           {idx === 0 ? (
             <button
-              onClick={() => props.add()}
+              onClick={() => props.add(props)}
               type="button"
               className="licBtnPlus"
             >
@@ -36,5 +36,5 @@ const licenses = (props) => {
   });
 };
 
-export default licenses;
+export default references;
 

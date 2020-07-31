@@ -272,7 +272,7 @@ button[type="submit"] :disabled {
   flex-direction: column;
 
 }
-.expCardDesc {
+#expCardDesc, #bestWorkCardDesc {
   font-family: "Helvetica", Arial, Lucida Grande, sans-serif;
   margin: 0.6em;
   width: 80%;

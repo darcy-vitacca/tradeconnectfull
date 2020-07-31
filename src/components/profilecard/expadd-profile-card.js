@@ -13,6 +13,7 @@ const exp = (props) => {
             <input
               type="text"
               data-id={idx}
+              className="expCardSec"
               placeholder="Company"
               name="company"
               label="company"
@@ -20,8 +21,8 @@ const exp = (props) => {
               required
             ></input>
             <label>Period Worked</label>
-            <select name="date1" data-id={idx} required>
-              <option value="Jan">Jan</option>
+            <select name="date1"  data-id={idx}  className="expCardSec"required>
+              <option value="Jan" >Jan</option>
               <option value="Feb">Feb</option>
               <option value="Mar">Mar</option>
               <option value="Apr">Apr</option>
@@ -38,6 +39,7 @@ const exp = (props) => {
               type="number"
               name="date2"
               data-id={idx}
+              className="expCardSec"
               id="quantity"
               min="1940"
               max="2020"
@@ -45,7 +47,7 @@ const exp = (props) => {
               required
             ></input>
             <label>-</label>
-            <select name="date3" data-id={idx} required>
+            <select name="date3"  data-id={idx} required>
               <option value="Jan">Jan</option>
               <option value="Feb">Feb</option>
               <option value="Mar">Mar</option>
@@ -63,6 +65,7 @@ const exp = (props) => {
               type="number"
               data-id={idx}
               id="quantity"
+              className="expCardSec"
               name="date4"
               min="1940"
               max="2020"
@@ -72,7 +75,7 @@ const exp = (props) => {
             <div className="btnExpCont">
               {idx === 0 ? (
                 <button
-                  onClick={() => props.add()}
+                  onClick={() => props.add(props)}
                   type="button"
                   className="expBtnPlus"
                 >
@@ -95,7 +98,8 @@ const exp = (props) => {
               type="text"
               name="text"
               data-id={idx}
-              className="expCardDesc"
+              className="expCardSec"
+              id="expCardDesc"
               placeholder="A description of experience and work done by you as well as your role in the company...."
             ></textarea>
           </div>
