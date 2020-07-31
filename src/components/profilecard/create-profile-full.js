@@ -35,7 +35,11 @@ class CreateProfile extends Component {
           text: "",
         },
       ],
-      licenses: [{index : uuid() , }],
+      licenses: [{
+        index : uuid() ,
+        licenses : ""
+        }
+      ],
       education: [],
       refrences: [],
       bestwork: [{ header: "", date: "", imageUrl: "", desc: "" }],
@@ -43,15 +47,12 @@ class CreateProfile extends Component {
   }
 
   handleChange = (e) => {
+
+    
     if (e.target.name === "licenses") {
-      let lic = [...this.state.licenses];
-      console.log("here");
-      console.log(lic);
-      console.log(this.state.licenses);
-      console.log(e.target.value);
-      console.log([e.target.dataset.id]);
-      this.state.licenses[e.target.dataset.id] = e.target.value;
-      console.log(lic);
+      let license = [...this.state.licenses];
+      license[e.target.dataset.id][e.target.name] = e.target.value;
+      console.log(license)
     } else {
       if (
         ["index", "company", "date", "imageUrl", "text"].includes(e.target.name)
@@ -97,17 +98,20 @@ class CreateProfile extends Component {
   };
   //add new array
   addNewArray = (e) => {
-    let licensesArr = this.state.licenses;
-    licensesArr.push(uuid());
-    this.setState({
-      licenses: licensesArr,
-    });
+    this.setState((prevState) => ({
+      licenses: [
+        ...prevState.licenses,
+        {
+          index: uuid(),
+          licenses : ""
+        },
+      ],
+    }));
   };
 
   //delete experience section
   clickOnDelete(index) {
     console.log(index);
-    console.log(this.state.licenses);
     let expDelete = this.state.exp.filter((r) => r !== index);
     this.setState(
       {
@@ -121,13 +125,15 @@ class CreateProfile extends Component {
   clickOnDeleteArray = (index) => {
     console.log("here");
     console.log(index);
+    
+    let licDelete = this.state.licenses.filter((r) => r !== index);
+    this.setState(
+      {
+        licenses: licDelete,
+      },
+      () => console.log(this.state.exp)
+    );
     console.log(this.state.licenses);
-    this.state.licenses.splice(index, 1);
-    let deleteArr = this.state.licenses;
-    console.log(deleteArr)
-    this.setState({
-      licenses: deleteArr,
-    });
   };
 
   render() {
@@ -185,15 +191,29 @@ class CreateProfile extends Component {
             <h1>Skills</h1>
 
             <h2>Licenses</h2>
+            <div className="licCard">
             <ProfileArray
               add={this.addNewArray}
               delete={this.clickOnDeleteArray.bind(this)}
               licenses={licenses}
             />
 
+            </div>
+            
+
             <h2>Education</h2>
+            <ProfileArray
+              add={this.addNewArray}
+              delete={this.clickOnDeleteArray.bind(this)}
+              licenses={licenses}
+            />
 
             <h2>Refrences</h2>
+            <ProfileArray
+              add={this.addNewArray}
+              delete={this.clickOnDeleteArray.bind(this)}
+              licenses={licenses}
+            />
           </div>
           <div>
             <h1>Showcase Work</h1>

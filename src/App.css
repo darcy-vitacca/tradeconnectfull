@@ -297,3 +297,38 @@ button[type="submit"] :disabled {
   background-color: #AFB4B7;
   color: white;
 }
+
+.arrSkills{
+  width: 240px;
+  
+  
+}
+/* CREATE PROFILE ARRAY BUTTONS */
+.licBtnPlus, .licBtcMinus{
+   width: 44px;
+  height: 37px;
+  
+  border-radius: 20%;
+  border: none;
+  font-weight: 600;
+  margin: 0.4vh;
+}
+
+.licBtnPlus{
+  background-color: #e16b05;
+  color: white;
+}
+
+.licBtcMinus{
+  background-color: #AFB4B7;
+  color: white;
+}
+
+
+.btnArrCont input{
+  width: 80px;
+}
+.licCard{
+  display: flex;
+  flex-wrap: wrap;
+}
