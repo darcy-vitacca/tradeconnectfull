@@ -47,21 +47,21 @@ class Signup extends Component {
   };
 
   render() {
-    const { classes , UI : {loading}} = this.props;
+    const { UI : {loading}} = this.props;
+    console.log(loading)
     //we get the errors and loading from the state
     const { errors } = this.state;
     return (
       <div className="signupCont">
-        <div className="row1"></div>
-        <div className="row2">
-          <img
-            src={require("../images/login.png")}
-            className="loginIcon"
-            alt="Signup Icon"
-          ></img>
+        <img
+          className="logoLoginSignup"
+          src={require("../images/tradeconnect.png")}
+          alt="logo"
+        ></img>
           <h1>Signup</h1>
           <form onSubmit={this.handleSubmit}>
             <div className="signupSection">
+            <p className="loginSignupLabel">Email</p>
               <input
                 placeholder="Email"
                 className="emailSignup"
@@ -76,6 +76,7 @@ class Signup extends Component {
 
             {/* password */}
             <div className="passwordSection">
+            <p className="loginSignupLabel">Password (8 characters in length)</p>
               <input
                 placeholder="Password"
                 className="passwordSignup"
@@ -89,6 +90,7 @@ class Signup extends Component {
             </div>
             {/* confrim password */}
             <div className="passwordSection">
+            <p className="loginSignupLabel">Confirm Password</p>
               <input
                 placeholder="Confirm Password"
                 className="passwordSignup"
@@ -102,6 +104,7 @@ class Signup extends Component {
             </div>
             {/* Handle */}
             <div className="passwordSection">
+            <p className="loginSignupLabel">Username</p>
               <input
                 placeholder="Username"
                 className="handle"
@@ -136,8 +139,6 @@ class Signup extends Component {
             Already have an account? Login <Link to="/login">here</Link>
           </span>
         </div>
-        <div className="row2"></div>
-      </div>
     );
   }
 }

@@ -6,6 +6,8 @@ function SearchCardMin() {
       <div className="jobSearchExpandBar">
         <p>&#43;</p>
       </div>
+
+     
       <div className="jobSearchHead">
         <div className="jobSearchHeadLeft">
           <img

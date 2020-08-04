@@ -14,13 +14,15 @@
 .expIconProfile{
     width :80px;
     height: 60px;
+    
 
 }
 
 
 .iconProfile{
-    width : 18vh;
-    height: 18vh;
+    width : 16vh;
+    height: 16vh;
+    border-radius: 50%;
 }
 
 
@@ -81,3 +83,12 @@
 .bestWorkRight h3, p{
     margin-top :0;
 }
+
+.dot {
+    margin: 0.5em 0 0 1em;
+    height: 40px;
+    width: 40px;
+    background-color: rgb(42, 223, 129);
+    border-radius: 50%;
+    display: inline-block;
+  }

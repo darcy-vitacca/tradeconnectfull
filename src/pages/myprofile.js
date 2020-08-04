@@ -1,24 +1,84 @@
-import React from 'react';
-import AboutProfile from '../components/profilecard/about-profile-card';
-import ExperienceProfile from '../components/profilecard/experience-profile-card'
-import SkillsProfile from '../components/profilecard/skills-profile-card'
-import WorkegProfile from '../components/profilecard/workeg-profile-card'
-import CreateProfile from '../components/profilecard/create-profile-full'
-import '../components/profilecard/profile.css';
+import CreateProfile from "../components/profilecard/create-profile-full";
+import "../components/profilecard/profile.css";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import ViewProfile from "../components/profilecard/view-profile-card";
+
+class MyProfile extends Component {
+  //TODO: may need to get rid of this 
+  constructor() {
+    super();
+    this.state = {
+      errors: {},
+      fullName: "",
+      profileImageUrl: "",
+      recentEmp: "",
+      workStatus: "",
+      website: "",
+      trade: "",
+      location: "",
+      about: "",
+      exp: [
+        {
+          company: "",
+          date: ["", "", "", ""],
+          imageUrl: "",
+          text: "",
+        },
+      ],
+      licenses: [
+        {
+          licenses: "",
+        },
+      ],
+      education: [
+        {
+          education: "",
+        },
+      ],
+      references: [
+        {
+          references: "",
+        },
+      ],
+      bestWork: [
+        {
+          header: "",
+          imageUrl: "",
+          desc: "",
+        },
+      ],
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
+  }
 
 
-function MyProfile() {
-  return (
-    <div className="profileCard">
-      {/* <AboutProfile/>
-      <ExperienceProfile/>
-      <SkillsProfile/>
-      <WorkegProfile/> */}
-      <CreateProfile />
-
-  
-    </div>
-  );
+  render() {
+    let { profileCreated } = this.props.user.credentials;
+    return <div className="profileCard">
+      {
+          profileCreated === true ? <ViewProfile/> :
+          <CreateProfile history={this.props.history} />
+      }
+      </div>;
+  }
 }
 
-export default MyProfile;
+MyProfile.propTypes = {
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+// export default MyProfile;
+
+export default connect(mapStateToProps)(MyProfile);

@@ -1,19 +1,17 @@
 import React from "react";
-import NavSignedIn from './signedinnav';
-// import NavSignedOut from './signedoutnav';
-// import { Link } from "react-router-dom";
-import "../../App.css";
+// import NavSignedIn from './signedinnav';
+import NavSignedOut from "./signedoutnav";
 
+import "../../App.css";
 
 function Nav() {
   return (
     <div>
-       <NavSignedIn />
-       {/* <NavSignedOut /> */}
-      
-
+      <header>
+        {/* <NavSignedIn /> */}
+        <NavSignedOut />
+      </header>
     </div>
-  
   );
 }
 

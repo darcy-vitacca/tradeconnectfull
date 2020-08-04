@@ -29,4 +29,6 @@ const store = createStore(
 );
 
 
-export default store
+export default store;
+
+//this all contains our application state

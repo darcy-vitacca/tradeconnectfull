@@ -1,33 +1,29 @@
 import React, { Component } from "react";
-import ExpCard from "./expadd-profile-card";
-import BestWorkCard from "./bestworkadd-profile-card";
-import ProfileArray from "./array-licenses-profile-card";
-import EduArray from "./array-edu-profile-card";
-import RefArray from "./array-ref-profile-card";
-import axios from 'axios'
-
-//DELETE IF DOING NOTHING TODO:
-import exp from "./expadd-profile-card";
-import licenses from "./array-licenses-profile-card";
-import education from "./array-edu-profile-card";
-import references from "./array-ref-profile-card";
+import ExpCard from "./create-profile/expadd-profile-card";
+import BestWorkCard from "./create-profile/bestworkadd-profile-card";
+import ProfileArray from "./create-profile/array-licences-profile-card";
+import EduArray from "./create-profile/array-edu-profile-card";
+import RefArray from "./create-profile/array-ref-profile-card";
+import { ScaleLoader } from "react-spinners";
+import { connect } from "react-redux";
+import { createProfile } from "../../redux/actions/userActions";
+import PropTypes from "prop-types";
 import { uuid } from "uuidv4";
-import Axios from "axios";
+
 
 //rename everything so it's clear TODO:// got through every section
-// allow only a certain ammount of each thing to be dynamically added? TODO:
-//Do I  need to prop types?
-//workStatus TODO: X
-//website url TODO: X
-//location X TODO: ADD AUSTRALIAN SUBURBS? CHECK
-//CONCAT DATES TODO:
-//TOD0: JAN SELECTED ISSUE? IMAGE UPLOAD
+//TODO:// allow only a certain ammount of each thing to be dynamically added?
+//TODO: ADD AUSTRALIAN SUBURBS? CHECK
+//TODO: IMAGE UPLOAD
+//TODO: make a a check if profile exists or not to render create or actual profile
+//TODO://filter out this page if profile made is true and store in the user state
 
 class CreateProfile extends Component {
   //FORM STRUCUTRE
   constructor() {
     super();
     this.state = {
+      errors: {},
       fullName: "",
       profileImageUrl: "",
       recentEmp: "",
@@ -45,10 +41,10 @@ class CreateProfile extends Component {
           text: "",
         },
       ],
-      licenses: [
+      licences: [
         {
           index: uuid(),
-          licenses: "",
+          licences: "",
         },
       ],
       education: [
@@ -81,58 +77,81 @@ class CreateProfile extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state.exp.forEach);
-    this.state.exp.forEach((doc) => {
-      console.log(doc);
-      doc.date= `${doc.date[0]} ${doc.date[1]} - ${doc.date[2]} ${doc.date[3]}`
-      console.log(doc);
-    });
-    console.log(this.state.exp);
 
-    // const profileDetails = {
-    //   fullName: this.state.fullName,
-    //   profileImageUrl: this.state.profileImageUrl,
-    //   recentEmp: this.state.recentEmp,
-    //   workStatus: this.state.workStatus,
-    //   website: this.state.website,
-    //   trade: this.state.trade,
-    //   location: this.state.location,
-    //   about: this.state.about,
-    //   exp: this.state.exp,
-    //   licenses: this.state.licenses,
-    //   education: this.state.education,
-    //   references: this.state.references,
-    //   bestWork: this.state.bestWork,
-    // };
+    let licencesArr = [];
+    let educationArr = [];
+    let referencesArr = [];
+    //converts and object to not be a pointer and actually a clone
+    let expArr = JSON.parse(JSON.stringify(this.state.exp));
+    let bestWorkArr = JSON.parse(JSON.stringify(this.state.bestWork));
+
+    //indexes in exp and merge date range
+    expArr.forEach((doc) => {
+      // if (doc.index) {
+      //   delete doc.index;
+      // }
+      doc.date = `${doc.date[0]} ${doc.date[1]} - ${doc.date[2]} ${doc.date[3]}`;
+    });
+
+    //indexes in licences/education/refrences removal as well as array arrange
+    let indexItems = [
+      this.state.licences,
+      this.state.education,
+      this.state.references,
+    ];
+
+    indexItems.forEach((entry) => {
+      entry.forEach((doc) => {
+        if (doc.licences) {
+          // console.log(doc.licences);
+          licencesArr.push(doc.licences);
+          // console.log(licencesArr);
+        } else if (doc.education) {
+          // console.log(doc.education);
+          educationArr.push(doc.education);
+          // console.log(educationArr);
+        } else if (doc.references) {
+          // console.log(doc.references);
+          referencesArr.push(doc.references);
+          // console.log(referencesArr);
+        } else {
+          console.log("error");
+        }
+        // console.log(doc);
+      });
+    });
+
+    //bestwork index removal
+    // bestWorkArr.forEach((doc) => {
+    //   if (doc.index) {
+    //     delete doc.index;
+    //   }
+    // });
+
     const profileDetails = {
+      userId: this.props.user.credentials.userId,
+      about: this.state.about,
+      education: educationArr,
+      exp: expArr,
       fullName: this.state.fullName,
+      licences: licencesArr,
+      location: this.state.location,
       profileImageUrl: this.state.profileImageUrl,
       recentEmp: this.state.recentEmp,
       trade: this.state.trade,
-      location: this.state.location,
-      about: this.state.about,
-      exp: this.state.exp,
-      licenses: this.state.licenses,
-      education: this.state.education,
-      references: this.state.references,
-      bestWork: this.state.bestWork,
+      references: referencesArr,
+      bestWork: bestWorkArr,
+      workStatus: this.state.workStatus,
+      website: this.state.website,
     };
-
-    axios.post('/createprofile', profileDetails)
-    .then( res => {
-      console.log(res.data);
-      this.props.history.push('/')
-    })
-    .catch(err =>{
-      console.error(err)
-    })
-   
+    console.log(profileDetails);
+    this.props.createProfile(profileDetails, this.props.history);
   };
 
   //FORM CHANGE HANDLER
   handleChange = (e) => {
-    if (e.target.name === "licenses") {
-      let license = [...this.state.licenses];
+    if (e.target.name === "licences") {
+      let license = [...this.state.licences];
       license[e.target.dataset.id][e.target.name] = e.target.value;
       // console.log(license);
     } else if (e.target.name === "education") {
@@ -150,16 +169,16 @@ class CreateProfile extends Component {
         let exp = [...this.state.exp];
         if (e.target.name === "date1" || "date2" || "date3" || "date4") {
           if (e.target.name === "date1") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[0] = e.target.value;
           } else if (e.target.name === "date2") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[1] = e.target.value;
           } else if (e.target.name === "date3") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[2] = e.target.value;
           } else if (e.target.name === "date4") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[3] = e.target.value;
           } else {
             console.log("error");
@@ -174,21 +193,19 @@ class CreateProfile extends Component {
       if (e.target.name !== "file") {
         let bWork = [...this.state.bestWork];
         bWork[e.target.dataset.id][e.target.name] = e.target.value;
-        console.log(bWork);
+        // console.log(bWork);
       } else {
         console.log("image");
       }
     } else {
-      this.setState({ [e.target.name]: e.target.value }, () =>
-        console.log(this.state)
-      );
+      this.setState({ [e.target.name]: e.target.value });
     }
   };
 
   //ADD NEW CARD ROW BEST WORK/EXP
   addNewRow = (e) => {
-    console.log("here");
-    console.log(e);
+    // console.log("here");
+    // console.log(e);
     if (e.exp) {
       this.setState((prevState) => ({
         exp: [
@@ -219,18 +236,17 @@ class CreateProfile extends Component {
     }
   };
 
-  //ADD NEW ARRAY LICENSES EDUCATION REFERENCES
+  //ADD NEW ARRAY licences EDUCATION REFERENCES
   addNewArray = (e) => {
     // console.log("here");
-
-    if (e.licenses) {
-      // console.log(e.licenses);
+    if (e.licences) {
+      // console.log(e.licences);
       this.setState((prevState) => ({
-        licenses: [
-          ...prevState.licenses,
+        licences: [
+          ...prevState.licences,
           {
             index: uuid(),
-            licenses: "",
+            licences: "",
           },
         ],
       }));
@@ -262,52 +278,52 @@ class CreateProfile extends Component {
   };
 
   //DELETE CARD SECTION EXPERIENCE/ BEST WORK
-  // TODO: DELETE BEST WORK
   clickOnDelete(index) {
-    console.log("Delete card");
-    console.log(index.bestWork);
-    let expDelete = this.state.exp.filter((r) => r !== index);
-    this.setState(
-      {
+    if (index.company !== undefined) {
+      let expDelete = this.state.exp.filter((r) => r !== index);
+      this.setState({
         exp: expDelete,
-      },
-      () => console.log(this.state.exp)
-    );
+      });
+    } else if (index.header !== undefined) {
+      let bestWorkDelete = this.state.bestWork.filter((r) => r !== index);
+      this.setState({
+        bestWork: bestWorkDelete,
+      });
+    } else {
+      console.log("error");
+    }
   }
 
-  //DELETE ARRAY SECTION LICENSES/EDUCATION/REFRENCES
+  //DELETE ARRAY SECTION licences/EDUCATION/REFRENCES
   clickOnDeleteArray = (index) => {
     console.log("Delete array");
     console.log(index);
 
-    if (index.licenses !== undefined) {
-      let licensesUpd = this.state.licenses.filter((r) => r !== index);
+    if (index.licences !== undefined) {
+      let licencesUpd = this.state.licences.filter((r) => r !== index);
       this.setState({
-        licenses: licensesUpd,
+        licences: licencesUpd,
       });
-      // console.log("this.state.licenses");
-      // console.log(this.state.licenses);
     } else if (index.education !== undefined) {
       let educationUpd = this.state.education.filter((r) => r !== index);
       this.setState({
         education: educationUpd,
       });
-      // console.log("this.state.education");
-      // console.log(this.state.education);
     } else if (index.references !== undefined) {
       let refrenceUpd = this.state.references.filter((r) => r !== index);
       this.setState({
         references: refrenceUpd,
       });
-      // console.log("this.state.refrences");
-      // console.log(this.state.references);
     } else {
       console.log("error");
     }
   };
 
   render() {
-    let { exp, licenses, education, references, bestWork } = this.state;
+    let { exp, licences, education, references, bestWork, errors } = this.state;
+    let {
+      UI: { loading },
+    } = this.props;
     return (
       <div className="pageBody">
         <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
@@ -391,12 +407,12 @@ class CreateProfile extends Component {
           <div>
             <h1>Skills</h1>
 
-            <h2>Licenses</h2>
+            <h2>licences</h2>
             <div className="licCard">
               <ProfileArray
                 add={this.addNewArray}
                 delete={this.clickOnDeleteArray.bind(this)}
-                licenses={licenses}
+                licences={licences}
               />
             </div>
 
@@ -427,11 +443,40 @@ class CreateProfile extends Component {
             />
           </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={loading}>
+            Submit
+          </button>
+          <div className="submitSpinner">
+            <div className="spinner">
+              {loading === true ? (
+                <div>
+                  {" "}
+                  <ScaleLoader className="spinner" size={240} loading />{" "}
+                </div>
+              ) : null}{" "}
+            </div>
+          </div>
         </form>
       </div>
     );
   }
 }
 
-export default CreateProfile;
+//PROPTYPES FOR THE PAGE TO BRING IN FROM THE GLOBAL STATE
+TODO: CreateProfile.propTypes = {
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  createProfile: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  createProfile,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(CreateProfile);

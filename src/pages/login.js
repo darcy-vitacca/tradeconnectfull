@@ -33,6 +33,8 @@ class Login extends Component {
     };
     //the postman request that you have made retruns errors specific to the issue so we want to recieve those and display them if they are incorrect  or success if correct you get a token and an okay response which will redirect us to our home page. After routing to the login route with the user data it returns a promise which give a promise with a result
     //We use this to pass the userData and then history to redirect on success
+    console.log(this.props);
+    console.log(this.props.history);
     this.props.loginUser(userData, this.props.history);
   };
 
@@ -51,68 +53,67 @@ class Login extends Component {
     //we get the errors and loading from the state
     const { errors } = this.state;
     return (
-      <div className="loginCont">
-        <div className="row1"></div>
-        <div className="row2">
-          <img
-            src={require("../images/login.png")}
-            className="loginIcon"
-            alt="Login Icon"
-          ></img>
-          <h1>Login</h1>
-          <form onSubmit={this.handleSubmit}>
-            {/* login */}
-            <div className="loginSection">
-              <input
-                placeholder="Email"
-                className="emailLogin"
-                id="email"
-                name="email"
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              ></input>
-              <span className="helper-text">{errors.email}</span>
-            </div>
+      <div class="loginCont">
+        <img
+          className="logoLoginSignup"
+          src={require("../images/tradeconnect.png")}
+          alt="logo"
+        ></img>
+        <h1>Login</h1>
 
-            {/* password */}
-            <div className="passwordSection">
-              <input
-                placeholder="Password"
-                className="passwordLogin"
-                id="password"
-                name="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              ></input>
-              <span className="helper-text">{errors.password}</span>
-            </div>
+        <form onSubmit={this.handleSubmit}>
+          {/* login */}
+          <div className="loginSection">
+          <p className="loginSignupLabel">Email</p>
+            <input
+              placeholder="Email"
+              className="emailLogin"
+              id="email"
+              name="email"
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            ></input>
+            <span className="helper-text">{errors.email}</span>
+          </div>
 
-            <div className="submitSpinner">
-              <button type="submit" className="submitLogin" disabled={loading}>
-                Login
-              </button>
-              <div className="spinner">
-                {loading === true ? (
-                  <div>
-                    {" "}
-                    <ScaleLoader className="spinner" size={240} loading />{" "}
-                  </div>
-                ) : null}{" "}
-              </div>
-            </div>
+          {/* password */}
+          <div className="passwordSection">
+          <p className="loginSignupLabel">Email</p>
+            <input
+              placeholder="Password"
+              className="passwordLogin"
+              id="password"
+              name="password"
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            ></input>
+            <span className="helper-text">{errors.password}</span>
+          </div>
 
-            <div className="loginErrorsGeneral">
-              <span className="helper-text">{errors.general}</span>
+          <div className="submitSpinner">
+            <button type="submit" className="submitLogin" disabled={loading}>
+              Login
+            </button>
+            <div className="spinner">
+              {loading === true ? (
+                <div>
+                  {" "}
+                  <ScaleLoader className="spinner" size={240} loading />{" "}
+                </div>
+              ) : null}{" "}
             </div>
-          </form>
+          </div>
 
-          <span>
-            Don't have an account? Sign up <Link to="/signup">here</Link>
-          </span>
-        </div>
-        <div className="row2"></div>
+          <div className="loginErrorsGeneral">
+            <span className="helper-text">{errors.general}</span>
+          </div>
+        </form>
+
+        <span>
+          Don't have an account? Sign up <Link to="/signup">here</Link>
+        </span>
       </div>
     );
   }

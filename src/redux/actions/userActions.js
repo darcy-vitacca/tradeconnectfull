@@ -32,17 +32,15 @@ export const loginUser = (userData, history) => (dispatch) => {
     });
 };
 
-
 //LOGOUT USER
-export const logoutUser = () => (dispatch) =>{
-    //THIS REMOVES THE TOKEN FROM THE STORAGE
-    localStorage.removeItem(`FBIdToken`);
-    //THIS REMOVED THE AUTH HEADER WHICH HAS BEEN SET
-    delete axios.defaults.headers.common['Authorization'];
-    //THIS CHANGES AUTHENTICATED TO FALSE AND DISPATCHES IT
-    dispatch({type : SET_UNAUTHENTICATED});
-}
-
+export const logoutUser = () => (dispatch) => {
+  //THIS REMOVES THE TOKEN FROM THE STORAGE
+  localStorage.removeItem(`FBIdToken`);
+  //THIS REMOVED THE AUTH HEADER WHICH HAS BEEN SET
+  delete axios.defaults.headers.common["Authorization"];
+  //THIS CHANGES AUTHENTICATED TO FALSE AND DISPATCHES IT
+  dispatch({ type: SET_UNAUTHENTICATED });
+};
 
 //we login and when we get the data back we want to fetch the user it doesn't take an argument becuause we get the token back. This sends a get request to /user to get user data and if we get a result we need to dispatch an action which is the SET_USER and this action gives a payload which is data we send to the reducer and the reducer does something with it.
 //HELPER - GET USER DATA
@@ -80,6 +78,28 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     });
 };
 
+//CREATE USER PROFILE TODO:
+export const createProfile = (profileDetails, history) => (dispatch) => {
+  console.log(profileDetails);
+  console.log(history);
+  dispatch({ type: LOADING_UI });
+  axios
+    .post("/createprofile", profileDetails)
+    .then((res) => {
+      console.log(res.data);
+      dispatch(getUserData());
+      dispatch({ type: CLEAR_ERRORS });
+      //redirect to user page
+      history.push(`/myprofile`);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
 
 //HELPER - SET AUTHORIZATION HEADER
 const setAuthorizationHeader = (token) => {

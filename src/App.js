@@ -40,13 +40,13 @@ if (token) {
     store.dispatch(getUserData());
   }
 }
-//The provider gives us access to anything in the store to use in the state so everything needs to be within it to have access to the store
 
+//The provider gives us access to anything in the store to use in the state so everything needs to be within it to have access to the store
 function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="App">
+        <div className="container">
           <Nav />
           <div className="AppBody">
             <Switch>

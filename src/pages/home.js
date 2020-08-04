@@ -1,47 +1,140 @@
-import React from "react";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-function Home() {
-  return (
-    <div>
-      <h1>TradeConnect</h1>
-      <h3>
-        Connecting all aspects of trade from employee/ employer/ client (put
-        this in a circle like recycling symbol)
-      </h3>
-      <div>
-        <div className="homePageContainer">
-          <div className="homePageImage">
-            <img
-              src={require("../images/a.jpeg")}
-              className="homePagePhoto" alt="Home"
-            ></img>
+class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      searchState: true,
+    };
+  }
+
+  ToggleButton() {
+    this.setState((prevState) => ({
+      searchState: !prevState.searchState,
+    }));
+  }
+
+  searchStateInput() {
+    if (this.state.searchState === false) {
+      return (
+        <div className="searchInput">
+          <h4 className="searchTypeHome">Employee Search</h4>
+
+          <div className="searchHomeLabels">
+            <label>Name</label>
+            <input
+              type="search"
+              placeholder="Name"
+              className="searchPeopleName"
+            ></input>
           </div>
-          <div className="homeCenter">
-            <div className="homeSearchText">
-              <ul>
-                <li>Jobs</li>
-                <li>People</li>
-                <li>Apprenticeships</li>
-              </ul>
-            </div>
-
-            <div className="searchInput">
-              <input
-                type="search"
-                placeholder="Enter a Name"
-                className="searchPeopleName"
-              ></input>
-              <input
-                type="search"
-                placeholder="Trade"
-                className="searchPeopleTrade"
-              ></input>
-            </div>
+          <div className="searchHomeLabels">
+            <label>Trade</label>
+            <input
+              type="search"
+              placeholder="Trade"
+              className="searchPeopleName"
+              required
+            ></input>
+          </div>
+          <div className="searchHomeLabels">
+            <label>Location</label>
+            <input
+              type="search"
+              placeholder="Location"
+              className="searchPeopleName"
+              required
+            ></input>
           </div>
         </div>
+      );
+    } else {
+      return (
+        <div className="searchInput">
+        <h4 className="searchTypeHome">Jobs Search</h4>
+
+        <div className="searchHomeLabels">
+          <label>Trade</label>
+          <input
+            type="search"
+            placeholder="Trade"
+            className="searchPeopleName"
+            required
+          ></input>
+        </div>
+        <div className="searchHomeLabels">
+          <label>Location</label>
+          <input
+            type="search"
+            placeholder="Location"
+            className="searchPeopleName"
+            required
+          ></input>
+        </div>
+        </div>
+        
+
+      );
+    }
+  }
+
+  render() {
+    let { searchState } = this.state;
+    return (
+      <div>
+        <section className="homePageSec">
+          <h1>TradeConnect</h1>
+          <p className="homeSubhead">
+            Connecting all aspects of trade from employee to employer to client.
+            Allowing all parties to communicate easier.
+          </p>
+          <img
+            src={require("../images/team.png")}
+            className="homePageIcon"
+            alt="Home"
+          ></img>
+          <img
+            src={require("../images/a.jpeg")}
+            className="homePagePhoto"
+            alt="Home"
+          ></img>
+
+          <div>
+            <div className="homePageContainer">
+              <div className="homePageImage"></div>
+              <div className="homeCenter">
+                <div className="homeSearchButtons">
+                  <button
+                    onClick={() => this.ToggleButton()}
+                    disabled={searchState}
+                    className="homeToggleButton"
+                  >
+                    Job Search
+                  </button>
+                  <button
+                    onClick={() => this.ToggleButton()}
+                    disabled={searchState !== true}
+                    className="homeToggleButton"
+                  >
+                    Employee Search
+                  </button>
+                </div>
+                <div>{this.searchStateInput()}</div>
+                <button type="submit" className="homeToggleButton">
+                  Submit
+                </button>
+              </div>
+            </div>
+            <div className="loginSignupHome">
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Signup</Link>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Home;

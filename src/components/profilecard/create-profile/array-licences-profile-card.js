@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
-const licenses = (props) => {
+const SkillsProfile = (props) => {
   // console.log(props)
-  return props.licenses.map((val, idx) => {
+  return props.licences.map((val, idx) => {
     // console.log(val)
     return (
       <div  key={val.index}>
@@ -10,10 +10,10 @@ const licenses = (props) => {
           type="text"
           className="arrSkills"
           data-id={idx}
-          placeholder="Add your licenses"
-          name="licenses"
-          label="licenses"
-          id="licenses"
+          placeholder="Add your licences"
+          name="licences"
+          label="licences"
+          id="licences"
           required
         ></input>
         
@@ -36,5 +36,5 @@ const licenses = (props) => {
   });
 };
 
-export default licenses;
+export default SkillsProfile;
 

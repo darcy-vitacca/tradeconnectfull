@@ -1,71 +1,99 @@
-html,
-body,
-#root {
-  height: 100%;
-  background-color: #dbd5d5;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
 }
-h1 {
-  font-size: 40px;
+p {
+  font-size: 0.9em;
+  line-height: 1.2em;
 }
-
-* {
-  font-size: 26px;
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
-
+.logoNav {
+  width: 80px;
+  margin: 0 0 0 0.5em;
+  border: none;
+}
 nav {
+  background-color: #e16b05;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  min-height: 10vh;
-  background: #e16b05;
-  color: white;
-  min-width: 800px;
+  justify-content: space-between;
 }
-
-nav ul {
-  display: flex;
-  justify-content: space-around;
-  width: 50%;
-  align-items: center;
-  background: #e16b05;
-  list-style: none;
-  color: white;
+.logo {
+  width: 130px;
 }
-
-/* HOME PAGE */
-.homePageContainer {
-  position: relative;
-  text-align: center;
+.hide-mobile {
+  display: none;
+}
+.menu {
+  text-decoration: none;
+}
+.menu span {
+  font-size: 28px;
+  text-decoration: none;
+  margin: 55% 0.4em 0 0;
   color: white;
 }
 
+
+/* home page */
 .homePagePhoto {
   width: 100%;
 }
-
-.homeSearchText li {
-  color: white;
-  font-size: 40px;
-  background: #525252;
-  width: 380px;
+.homePageSec {
   text-align: center;
-  height: 50px;
-  border-radius: 50px 0px 50px 0px;
 }
-
-.homeCenter {
-  width: 60%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.homeSearchText ul {
+.loginSignupHome {
   display: flex;
-  justify-content: space-between;
-  list-style: none;
+  padding: 2em 3em 0 3em;
+  justify-content: space-around;
 }
+.homeToggleButton {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
+}
+:disabled {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #f2d2b6 5%, #f5b578 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #f5dcc5;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
+}
+.homePageIcon {
+  width: 20%;
+  color: white;
+  padding: 0;
+}
+.homeSubhead {
+  margin-bottom: 0.5em;
+}
+.searchTypeHome {
+  margin: 0.4em;
+}
+.searchPeopleName {
+  width: 80%;
+  margin: 0 auto 0 auto;
+}
+.searchHomeLabels {
+  display: flex;
+  flex-direction: column;
+}
+
+/*  */
 
 /* contact form */
 .contactFormCont {
@@ -177,15 +205,23 @@ nav ul {
   margin: 1em;
 }
 /* LOGIN SECTION */
+.loginSignupLabel{
+   margin: 0 0 0 1vh;
+  text-align: left;
+
+}
+.logoLoginSignup {
+  border-radius: 10px;
+  width: 80%;
+  margin: 2em auto 0em auto;
+}
+
 .loginCont,
 .signupCont {
   position: relative;
   text-align: center;
-  background-color: white;
-  margin: 1vh;
-  min-height: 1000px;
-  display: grid;
-  grid-template-columns: 2fr 8fr 2fr;
+  width: 80%;
+  margin: 0 auto 0 auto;
 }
 
 .loginCont input,
@@ -194,6 +230,7 @@ nav ul {
 }
 
 .loginIcon {
+  
   width: 200px;
   height: 200px;
   margin: 40px;
@@ -212,12 +249,12 @@ nav ul {
 .signupSection input,
 .passwordSection input {
   margin-bottom: 10px;
-  height: 38px;
+  height: 36px;
   border-width: 2px;
   border-style: none none solid none;
   outline-style: none;
   box-shadow: 0 10px 6px -6px rgb(135, 135, 135);
-  width: 400px;
+  width: 300px;
 }
 
 .css-0 div {
@@ -226,23 +263,29 @@ nav ul {
   height: 40px;
 }
 
-.submitLogin {
-  position: relative;
+.submitLogin, .submitSignup{
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
   background-color: #e16b05;
-  color: white;
-  border: none;
-  font-weight: 600;
-  width: 130px;
-  height: 46px;
-  border-radius: 15%;
-  box-shadow: 0 10px 6px -6px rgb(135, 135, 135);
-  margin: 0;
-  margin-top: 16px;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
+}
+:disabled {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #f2d2b6 5%, #f5b578 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #f5dcc5;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
 }
 
-button[type="submit"] :disabled {
-  background-color: #dddddd;
-}
 
 .spinner {
   width: 100px;
@@ -252,9 +295,8 @@ button[type="submit"] :disabled {
 }
 
 .loginErrorsGeneral {
-  margin: 10px auto 0 auto;
+  margin: 1em auto 0 auto;
   height: 40px;
-  width: 600px;
 }
 .helper-text {
   color: #e16b05;
@@ -270,65 +312,63 @@ button[type="submit"] :disabled {
   width: 1400px;
   display: flex;
   flex-direction: column;
-
 }
-#expCardDesc, #bestWorkCardDesc {
+#expCardDesc,
+#bestWorkCardDesc {
   font-family: "Helvetica", Arial, Lucida Grande, sans-serif;
   margin: 0.6em;
   width: 80%;
   resize: none;
   height: 350px;
-
 }
 
-.expBtnMinus, .expBtnPlus{
+.expBtnMinus,
+.expBtnPlus {
   width: 60px;
   height: 50px;
   border-radius: 20%;
   border: none;
   font-weight: 600;
 }
-.expBtnPlus{
+.expBtnPlus {
   background-color: #e16b05;
   color: white;
 }
 
-.expBtnMinus{
-  background-color: #AFB4B7;
+.expBtnMinus {
+  background-color: #afb4b7;
   color: white;
 }
 
-.arrSkills{
+.arrSkills {
   width: 240px;
-  
-  
 }
 /* CREATE PROFILE ARRAY BUTTONS */
-.licBtnPlus, .licBtcMinus{
-   width: 44px;
+.licBtnPlus,
+.licBtcMinus {
+  width: 44px;
   height: 37px;
-  
+
   border-radius: 20%;
   border: none;
   font-weight: 600;
   margin: 0.4vh;
 }
 
-.licBtnPlus{
+.licBtnPlus {
   background-color: #e16b05;
   color: white;
 }
 
-.licBtcMinus{
-  background-color: #AFB4B7;
+.licBtcMinus {
+  background-color: #afb4b7;
   color: white;
 }
 
-
-.btnArrCont input{
+.btnArrCont input {
   width: 80px;
 }
-.licCard{
+.licCard {
   display: flex;
   flex-wrap: wrap;
 }
