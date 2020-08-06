@@ -48,7 +48,6 @@ class Signup extends Component {
 
   render() {
     const { UI : {loading}} = this.props;
-    console.log(loading)
     //we get the errors and loading from the state
     const { errors } = this.state;
     return (

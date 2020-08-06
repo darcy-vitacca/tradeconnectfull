@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 const exp = (props) => {
   return props.exp.map((val, idx) => {

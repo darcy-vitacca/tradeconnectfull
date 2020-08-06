@@ -35,6 +35,9 @@ function JobSearchCardMin() {
           the time. Learnt from blah blah over the time.
         </p>
       </div>
+      <div className="applyNowBtn">
+            <button id="applyJobButton">Apply</button>
+          </div>
     </div>
   );
 }

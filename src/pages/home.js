@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Home extends Component {
+  
   constructor() {
     super();
     this.state = {
@@ -14,7 +15,7 @@ class Home extends Component {
       searchState: !prevState.searchState,
     }));
   }
-
+// TODO: when logged in handle clicking on loggin links or don't show them on the home page
   searchStateInput() {
     if (this.state.searchState === false) {
       return (
@@ -52,34 +53,33 @@ class Home extends Component {
     } else {
       return (
         <div className="searchInput">
-        <h4 className="searchTypeHome">Jobs Search</h4>
+          <h4 className="searchTypeHome">Job Search</h4>
 
-        <div className="searchHomeLabels">
-          <label>Trade</label>
-          <input
-            type="search"
-            placeholder="Trade"
-            className="searchPeopleName"
-            required
-          ></input>
+          <div className="searchHomeLabels">
+            <label>Trade</label>
+            <input
+              type="search"
+              placeholder="Trade"
+              className="searchPeopleName"
+              required
+            ></input>
+          </div>
+          <div className="searchHomeLabels">
+            <label>Location</label>
+            <input
+              type="search"
+              placeholder="Location"
+              className="searchPeopleName"
+              required
+            ></input>
+          </div>
         </div>
-        <div className="searchHomeLabels">
-          <label>Location</label>
-          <input
-            type="search"
-            placeholder="Location"
-            className="searchPeopleName"
-            required
-          ></input>
-        </div>
-        </div>
-        
-
       );
     }
   }
 
   render() {
+
     let { searchState } = this.state;
     return (
       <div>
@@ -94,11 +94,12 @@ class Home extends Component {
             className="homePageIcon"
             alt="Home"
           ></img>
-          <img
+          {/* TODO: maybe add back in? */}
+          {/* <img
             src={require("../images/a.jpeg")}
             className="homePagePhoto"
             alt="Home"
-          ></img>
+          ></img> */}
 
           <div>
             <div className="homePageContainer">

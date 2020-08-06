@@ -7,6 +7,8 @@ import {
 } from "../reducers/types";
 import axios from "axios";
 
+
+
 //this is taken from the login page and we need to user dispatch because we have asynchronous code. We can set the login from the  action itself here we use dispatch to set the type whcih is loading UI. We dispatch the type then catch it from the user. We need to redirect by passing in history from the login component to the action then the action will use it
 //LOGIN USER
 export const loginUser = (userData, history) => (dispatch) => {
@@ -20,7 +22,7 @@ export const loginUser = (userData, history) => (dispatch) => {
       dispatch({ type: CLEAR_ERRORS });
       //this is a method we use to push a path to go to it this will redirect
       //TODO: this should go to create a profile or profile if they have a profile
-      history.push("/");
+      history.push("/myprofile");
     })
     .catch((err) => {
       console.log(err);
@@ -33,13 +35,14 @@ export const loginUser = (userData, history) => (dispatch) => {
 };
 
 //LOGOUT USER
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = (history) => (dispatch) => {
   //THIS REMOVES THE TOKEN FROM THE STORAGE
   localStorage.removeItem(`FBIdToken`);
   //THIS REMOVED THE AUTH HEADER WHICH HAS BEEN SET
   delete axios.defaults.headers.common["Authorization"];
   //THIS CHANGES AUTHENTICATED TO FALSE AND DISPATCHES IT
   dispatch({ type: SET_UNAUTHENTICATED });
+  history.push('/login')
 };
 
 //we login and when we get the data back we want to fetch the user it doesn't take an argument becuause we get the token back. This sends a get request to /user to get user data and if we get a result we need to dispatch an action which is the SET_USER and this action gives a payload which is data we send to the reducer and the reducer does something with it.
@@ -78,15 +81,15 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     });
 };
 
-//CREATE USER PROFILE TODO:
+
 export const createProfile = (profileDetails, history) => (dispatch) => {
-  console.log(profileDetails);
-  console.log(history);
+  // console.log(profileDetails);
+  // console.log(history);
   dispatch({ type: LOADING_UI });
   axios
     .post("/createprofile", profileDetails)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
       //redirect to user page

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 const AboutProfile = (props) => {
   //TODO:recentEmployment 
@@ -7,7 +7,7 @@ const AboutProfile = (props) => {
     fullName,
     location,
     profileImageUrl,
-    recentEmp,
+    // recentEmp,
     trade,
     workStatus,
     website,

@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-
+import React from "react";
 const references = (props) => {
   return props.references.map((val, idx) => {
     // console.log(val)

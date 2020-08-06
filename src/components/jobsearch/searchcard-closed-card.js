@@ -15,11 +15,7 @@ function SearchCardMin() {
             className="jobIcon"alt="job icon"
           ></img>
           <div className="jobSearchHeadLeftMiddle">
-            <h2>A Grade Electrician</h2>
-            <h4 class="jobSearchHeadLeftJob">Prodata Electrical</h4>
-            <h4 class="jobSearchHeadLeftLocation">
-              Melbourne,Victoria
-            </h4>
+            
           </div>
         </div>
 

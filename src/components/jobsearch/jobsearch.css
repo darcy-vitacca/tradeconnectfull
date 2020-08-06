@@ -1,3 +1,18 @@
+.search{
+  max-width: 850px;
+  margin: 0 auto;
+}
+.jobSearchHeader {
+  text-align: center;
+  margin: 0.3em 0.3em 0 0.3em;
+  padding: 0.3em;
+}
+.searchTradeJobs,
+.searchLocationJobs {
+  width: 80%;
+  max-width: 340px;
+}
+
 .jobSearchBody {
   background: #e5e5e5;
   margin: 1vh;
@@ -5,8 +20,16 @@
   height: 100%;
 }
 
-.jobSearchBar {
-  margin: 1vh;
+.jobSearchTrade,
+.jobSearchLocation {
+  display: flex;
+  flex-direction: column;
+}
+
+.jobSearchTrade input,
+.jobSearchLocation input {
+  margin: 0 auto 0 auto;
+  max-width: 340px;
 }
 
 .searchBarForm {
@@ -19,18 +42,31 @@
 }
 
 /* Job search boxes */
-.searchKeywordJobs {
-  width: 40%;
-  min-width: 300px;
-  max-width: 0px;
-}
-.searchLocationJobs {
-  width: 40%;
-  min-width: 300px;
-  max-width: 480px;
-}
 .searchButtonJobs {
   width: 100px;
+}
+
+.jobToggleButton {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
+}
+:disabled {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #f2d2b6 5%, #f5b578 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #f5dcc5;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
 }
 /**/
 
@@ -38,13 +74,14 @@
   background-color: #e16b05;
   text-align: right;
   color: white;
-  font-weight: bold;
+ 
   max-height: 35px;
   padding: 0;
 }
 
 .jobSearchExpandBar p {
   padding-right: 0.6em;
+   font-weight: bold;
 }
 
 .jobSearchCard {
@@ -54,17 +91,19 @@
   box-sizing: border-box;
   width: 96%;
   border: 2px solid #cecece;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .jobIcon {
   width: 80px;
   height: 80px;
+  margin: 0.4em;
 }
 
 .jobSearchHead {
   display: flex;
   justify-content: space-between;
-  margin: 1vh;
+  margin: 1em;
 }
 .jobSearchHeadLeft {
   padding: 0;
@@ -78,12 +117,6 @@
   height: 100px;
 }
 
-.jobSearchHeadLeftMiddle h2,
-h4 {
-  padding: 0;
-  margin: 0;
-}
-
 .jobSearchHeadRight {
   text-align: right;
   padding: 0;
@@ -92,23 +125,17 @@ h4 {
 
 .jobSearchHeadLeftJob,
 .jobSearchHeadLeftLocation {
-  
   font-weight: normal;
 }
 
 .jobSearchWage,
 .jobSearchListed {
-
   font-weight: normal;
 }
 
-
-
 .jobSearchExpandedBody {
-  padding: 2.4vh;
-  padding-top: 0em;
+  margin: 1em;
 }
-
 
 .applyRow {
   display: flex;
@@ -117,18 +144,81 @@ h4 {
 
 #applyJobButton {
   box-shadow: 3px 4px 0px 0px #f3a764;
-	background:linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
-	background-color: #e16b05;
-  border-radius:18px;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
   font-weight: 700;
-	border:1px solid #e16b05;
-	color:#ffffff;
-  padding:7px 25px;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
   margin: 0 auto 0 auto;
 }
 
-.applyNowBtn{
+.applyNowBtn {
   display: flex;
   justify-content: center;
   margin: 0 auto 0 auto;
+}
+
+@media only screen and (min-width: 650px) {
+  .jobSearchInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .jobSearchTrade input,
+  .jobSearchLocation input {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .jobSearchTrade label,
+  .jobSearchLocation label {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .searchTradeJobs,
+  .searchLocationJobs {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .jobSearchTrade,
+  .jobSearchLocation {
+    width: 80%;
+    max-width: 340px;
+  }
+
+  .jobSearchLocation {
+    width: 80%;
+    max-width: 340px;
+    margin-right: 2em;
+  }
+  .jobSearchTrade {
+    width: 80%;
+    max-width: 340px;
+    margin-right: 2em;
+    margin-left: 2em;
+  }
+  .jobToggleButton {
+    max-width: 180px;
+    font-size: 0.9em;
+  }
+  .searchBarForm {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .searchBarForm {
+    margin: 1em;
+  }
+  .jobToggleButton{
+    margin-right: 3em;
+  }
+}
+
+@media screen and (min-width: 1024px) {
 }

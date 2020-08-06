@@ -320,7 +320,7 @@ class CreateProfile extends Component {
   };
 
   render() {
-    let { exp, licences, education, references, bestWork, errors } = this.state;
+    let { exp, licences, education, references, bestWork } = this.state;
     let {
       UI: { loading },
     } = this.props;
@@ -462,8 +462,8 @@ class CreateProfile extends Component {
   }
 }
 
-//PROPTYPES FOR THE PAGE TO BRING IN FROM THE GLOBAL STATE
-TODO: CreateProfile.propTypes = {
+//TODO: PROPTYPES FOR THE PAGE TO BRING IN FROM THE GLOBAL STATE
+CreateProfile.propTypes = {
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
