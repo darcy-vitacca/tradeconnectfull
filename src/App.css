@@ -78,7 +78,7 @@ nav ul a:hover {
 /*           */
 
 /* HOME PAGE */ /* HOME PAGE */ /* HOME PAGE */ /* HOME PAGE */ /* HOME PAGE */ /* HOME PAGE */
-/ .homePagePhoto {
+.homePagePhoto {
   width: 100%;
 }
 .homePageSec {
@@ -202,19 +202,16 @@ nav ul a:hover {
 /*          */
 
 /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */
-.postJobFormCont {
+ .postJobFormCont {
   width: 80%;
   margin: 2em auto 0 auto;
   max-width: 700px;
 }
+
 .postJobFormCont h1 {
   text-align: center;
 }
 
-.postJobForm {
-  display: flex;
-  justify-content: center;
-}
 
 .postJobFormCont h3 {
   padding: 0;
@@ -227,9 +224,9 @@ nav ul a:hover {
   width: 90%;
   font-family: "Montserrat", sans-serif;
   min-width: 300px;
-  /* max-width: 300px; */
   margin: 0.5em;
 }
+
 .postJobForm textarea {
   width: 90%;
   font-family: "Montserrat", sans-serif;
@@ -268,7 +265,7 @@ nav ul a:hover {
 .jobSubmitButtonDiv {
   display: flex;
   justify-content: center;
-}
+} 
 /*        */
 
 /* LOGIN SECTION */ /* LOGIN SECTION */ /* LOGIN SECTION */ /* LOGIN SECTION */ /* LOGIN SECTION */
@@ -472,6 +469,7 @@ nav ul a:hover {
     padding: 0;
     font-size: 22px;
   }
+  /* LOGIN*/
   .loginSignupHome a {
     font-size: 1.4em;
     max-width: 460px;
