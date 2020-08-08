@@ -1,7 +1,11 @@
+/* HEADER AND SEARCH BAR  BODY*/
 .peopleSearchHeader {
   text-align: center;
   margin: 0.3em 0.3em 0 0.3em;
-  padding:0.3em;
+  padding: 0.3em;
+}
+.peopleSearchExpandBar p {
+  margin-top: -2px;
 }
 
 .peopleToggleButton {
@@ -16,45 +20,27 @@
   margin: 1em;
 }
 
+.peopleSearchTrade {
+  display: flex;
+  flex-direction: column;
+}
+
+.peopleSearchTrade input {
+  margin: 0 auto 0 auto;
+  max-width: 340px;
+}
+
 .peopleSearchExpandBar {
   background-color: #e16b05;
   text-align: right;
   color: white;
-  font-weight: bold;
   max-height: 35px;
   padding: 0;
 }
 
 .peopleSearchExpandBar p {
   padding-right: 0.6em;
-}
-
-.peopleSearchBody {
-  background: #e5e5e5;
-  margin: 1vh;
-  text-align: none;
-}
-
-.peopleSearchBar {
-  margin: 1vh;
-}
-
-.peopleSearchBarForm {
-  width: 100%;
-  text-align: center;
-}
-.peopleSearchCard {
-  width: 100%;
-  max-width: 1800px;
-}
-
-.searchPeopleTrade {
-  width: 40%;
-  min-width: 300px;
-  max-width: 480px;
-}
-.searchButtonPeople {
-  width: 100px;
+  font-weight: bold;
 }
 
 .peopleSearchCard {
@@ -64,15 +50,21 @@
   box-sizing: border-box;
   width: 96%;
   border: 2px solid #cecece;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.peopleSearchIcon {
+  width: 100px;
+  height: 100px;
+  margin: 0.4em;
+  border-radius: 50%;
 }
 
 .peopleSearchHead {
   display: flex;
   justify-content: space-between;
-  margin: 1vh;
+  margin: 1em;
 }
-
 
 .peopleSearchHeadLeft {
   padding: 0;
@@ -81,43 +73,58 @@
   margin: 0;
 }
 
-
 /* RIGHT SIDE CARD */
-.peopleSearchHeadRight h1, h2,
-h4 {
-  padding: 0;
-  margin: 0;
-}
 
 .peopleSearchHeadRight {
   text-align: right;
   padding: 0;
   margin: 0;
 }
+.peopleSearchHeadRight h2,
+.peopleSearchHeadRight h4 {
+  padding: 0;
+  margin: 0;
+}
 
 .peopleSearchHeadRightJob,
-.peopleSearchHeadRightLocation {
+.peopleSearchHeadRightLocation , .peopleSearchHeadRightWebiste{
   font-size: 18px;
   font-weight: normal;
 }
 
+.peopleSearchBody {
+  background: #e5e5e5;
+  margin: 1vh;
+  text-align: none;
+  height: 100%;
+}
 
-/* EXPANDED SECTION */
 .peopleSearchExpandedBody {
-  padding: 2.4vh;
-  padding-top: 0em;
+  margin: 1em;
 }
 .peopleSearchExpandedBody p {
-  font-size: 20px;
+  margin: 0 0 1em 0;
+}
+/* .peopleSearchExpandedBody h4 {
+  margin: 2em 0 0 0;
+  padding: 0;
+} */
+.peopleSearchBar {
+  margin: 1vh;
 }
 
-.peopleSearchIcon{
-  width: 100px;
-  height: 100px;
-  margin: 0.4em;
+.peopleSearchBarForm {
+  width: 100%;
+  text-align: center;
 }
 
-#applyJobButton {
+.contactPersonBtn {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 0 auto;
+}
+
+#contactPersonButton {
   box-shadow: 3px 4px 0px 0px #f3a764;
   background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
   background-color: #e16b05;
@@ -127,4 +134,62 @@ h4 {
   color: #ffffff;
   padding: 7px 25px;
   margin: 0 auto 0 auto;
+}
+@media only screen and (max-width: 450px) {
+  .peopleSearchHead {
+    display: flex;
+    justify-content: center;
+    margin: 1em;
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (min-width: 650px) {
+  .peopleSearchInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .peopleSearchTrade input,
+  .peopleSearchLocation input {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .peopleSearchTrade label,
+  .peopleSearchLocation label {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .peopleSearchTop {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .peopleSearchBottom {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .peopleSearchTrade,
+  .peopleSearchLocation {
+    width: 80%;
+    max-width: 340px;
+  }
+
+  .peopleSearchLocation {
+    width: 80%;
+    max-width: 340px;
+    margin-right: 2em;
+  }
+  .peopleSearchTrade {
+    width: 80%;
+    max-width: 340px;
+    margin-right: 0.2em;
+    margin-left: 0.2em;
+  }
+  .applyNowBtn {
+    justify-content: flex-end;
+  }
 }

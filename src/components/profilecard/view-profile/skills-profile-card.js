@@ -2,7 +2,7 @@ import React from "react";
 import { uuid } from "uuidv4";
 
 const SkillsProfile = (props) => {
-  console.log(props);
+  // console.log(props);
   let arrayRender = [];
   if (props.licenses) {
     arrayRender = props.licenses;
@@ -14,7 +14,7 @@ const SkillsProfile = (props) => {
     return console.log("error");
   }
   return arrayRender.map((val) => {
-    console.log(val);
+    // console.log(val);
     return <li key={uuid()}>{val}</li>;
   });
 };

@@ -5,7 +5,7 @@ const SkillsProfile = (props) => {
   return props.licences.map((val, idx) => {
     // console.log(val)
     return (
-      <div  key={val.index}>
+      <div  key={val.index} className="licenseArr">
         <input
           type="text"
           className="arrSkills"

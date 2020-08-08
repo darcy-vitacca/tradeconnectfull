@@ -7,54 +7,50 @@ const AboutProfile = (props) => {
     fullName,
     location,
     profileImageUrl,
-    // recentEmp,
+    recentEmp,
     trade,
     workStatus,
     website,
   } = props.profile
-  console.log(props.profile)
+  
   //TODO: IMAGE OF RECENT EMPLOYERS
   return(
     
-    <div className="pageBody" >
-        <div className="head-profile-card-row1">
-          <div>
+    <div >
+     
+        <div className="peopleSearchHead">
+          <div className="peopleSearchHeadLeft">
             <img
-              className="iconProfile"
+              className="peopleSearchIcon"
               src={profileImageUrl}
               alt="profile"
             ></img>
-          
-            <p>{trade}</p>
-            <p>{location}</p>
-            <p>{website}</p>
+            
+              
           </div>
 
-          <div>
-            <h1>{fullName}<span class="dot"></span></h1>
-            
-            <p>{workStatus}</p>
-            
-            <img
-              className="expIconProfile"
-              src={require("../../../images/stowe.png")}
-              alt="exp icon"
-            ></img>
-             
-            <img
-              className="expIconProfile"
-              src={require("../../../images/swin.png")}
-              alt="exp icon"
-            ></img>
+          <div className="peopleSearchHeadRight">
+            <h2>{fullName}</h2>
+            <h2>{trade}</h2>
+            <h4 class="peopleSearchHeadRightLocation">{location}</h4>
+            <h4 class="peopleSearchHeadRightWebiste">{website}</h4>
+            <h4 class="peopleSearchHeadRightJob">{recentEmp}</h4>
+           
+            <h4 class="peopleSearchHeadRightLocation">{workStatus}</h4>
+            <span class="dot"></span>
           </div>
         </div>
+       
 
-        <div className="head-profile-card-row2">
-          <h1>About</h1>
+        <div className="peopleSearchExpandedBody">
+          <h4>About</h4>
           <p>
-           {about}
+          {about}
           </p>
+          
         </div>
+
+       
       </div>
   )
   

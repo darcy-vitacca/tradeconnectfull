@@ -16,8 +16,6 @@ class NavFull extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    console.log("here");
-    console.log(nextProps);
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }

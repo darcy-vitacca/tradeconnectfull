@@ -10,7 +10,6 @@ import { createProfile } from "../../redux/actions/userActions";
 import PropTypes from "prop-types";
 import { uuid } from "uuidv4";
 
-
 //rename everything so it's clear TODO:// got through every section
 //TODO:// allow only a certain ammount of each thing to be dynamically added?
 //TODO: ADD AUSTRALIAN SUBURBS? CHECK
@@ -120,13 +119,6 @@ class CreateProfile extends Component {
         // console.log(doc);
       });
     });
-
-    //bestwork index removal
-    // bestWorkArr.forEach((doc) => {
-    //   if (doc.index) {
-    //     delete doc.index;
-    //   }
-    // });
 
     const profileDetails = {
       userId: this.props.user.credentials.userId,
@@ -325,79 +317,88 @@ class CreateProfile extends Component {
       UI: { loading },
     } = this.props;
     return (
-      <div className="pageBody">
+      <div className="createProfileCont">
         <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
-          <h1>Personal Details</h1>
-          <div>
-            <input
-              type="text"
-              placeholder="Full Name"
-              name="fullName"
-              required
-            ></input>
-          </div>
-          <div>
-            <label>Profile Photo</label>
+          <h1 className="createProfileHeader">Create A Profile</h1>
+          <div className="createProfileUpper">
             <div>
+              <h4>Name *</h4>
+              <input
+                type="text"
+                placeholder="Enter Your Name"
+                name="fullName"
+                required
+              ></input>
+            </div>
+            <div>
+              <h4>Profile Photo</h4>
+
               <input
                 type="file"
                 placeholder="Profile Photo"
                 id="profileImageUrl"
               ></input>
             </div>
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Trade Qualificaiton"
-              name="trade"
-              required
-            ></input>
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Location"
-              name="location"
-              required
-            ></input>
-          </div>
-          {/* TODO: add to backend */}
-          <div>
-            <input
-              type="url"
-              id="url"
-              name="url"
-              placeholder="Website"
-              name="website"
-            ></input>
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Current/ most recent employer"
-              name="recentEmp"
-            ></input>
-          </div>
 
-          <div>
-            <input
-              type="text"
-              placeholder="Work Status"
-              name="workStatus"
-            ></input>
+            <div>
+              <h4>Trade Qualificaiton *</h4>
+              <input
+                type="text"
+                placeholder="Trade Qualificaiton"
+                name="trade"
+                required
+              ></input>
+            </div>
+            <div>
+              <h4>Location *</h4>
+              <input
+                type="text"
+                placeholder="Location"
+                name="location"
+                required
+              ></input>
+            </div>
+
+            <div>
+              <h4>Website</h4>
+              <input
+                type="url"
+                id="url"
+                name="url"
+                placeholder="Website if applicable"
+                name="website"
+              ></input>
+            </div>
+
+            <div>
+              <h4>Current/ Recent Employer</h4>
+              <input
+                type="text"
+                placeholder="Current/ most recent employer"
+                name="recentEmp"
+              ></input>
+            </div>
+
+            <div>
+              <h4>Work Status *</h4>
+              <input
+                type="text"
+                placeholder="Work Status"
+                name="workStatus"
+              ></input>
+            </div>
           </div>
+          <div className="createProfileLower">
+          <h4>About Me *</h4>
           {/* TODO: text area */}
-          <div>
-            <input
-              type="text"
-              placeholder="About me"
-              name="about"
-              required
-            ></input>
-          </div>
 
-          <h1>Experience</h1>
+          <textarea
+            className="createProfileTextAreas"
+            placeholder="Enter a bit about yourself to let people know who you are to entice future employment..."
+            required
+          ></textarea>
+
+          <h4>Experience *</h4>
 
           <ExpCard
             add={this.addNewRow}
@@ -405,9 +406,9 @@ class CreateProfile extends Component {
             exp={exp}
           />
           <div>
-            <h1>Skills</h1>
+            <h4>Skills</h4>
 
-            <h2>licences</h2>
+            <h4>Licenses/ Tickets</h4>
             <div className="licCard">
               <ProfileArray
                 add={this.addNewArray}
@@ -416,7 +417,7 @@ class CreateProfile extends Component {
               />
             </div>
 
-            <h2>Education</h2>
+            <h4>Education</h4>
             <div className="licCard">
               <EduArray
                 add={this.addNewArray}
@@ -425,7 +426,7 @@ class CreateProfile extends Component {
               />
             </div>
 
-            <h2>References</h2>
+            <h4>References</h4>
             <div className="licCard">
               <RefArray
                 add={this.addNewArray}
@@ -435,7 +436,7 @@ class CreateProfile extends Component {
             </div>
           </div>
           <div>
-            <h1>Showcase Work</h1>
+            <h4>Best Work</h4>
             <BestWorkCard
               add={this.addNewRow}
               delete={this.clickOnDelete.bind(this)}
@@ -443,7 +444,11 @@ class CreateProfile extends Component {
             />
           </div>
 
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            className="createProfileSubmit"
+            disabled={loading}
+          >
             Submit
           </button>
           <div className="submitSpinner">
@@ -455,6 +460,7 @@ class CreateProfile extends Component {
                 </div>
               ) : null}{" "}
             </div>
+          </div>
           </div>
         </form>
       </div>

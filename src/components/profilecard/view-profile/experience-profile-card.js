@@ -6,9 +6,10 @@ const ExperienceProfile = (props) => {
   return props.exp.map((val) => {
     console.log(val);
     return (
-      <div key={val.index}>
-        <div className="expCard">
-          <div className="expIconLeft">
+     
+        <div className="expDiv"  key={val.index} >
+          <div className="expLeft">
+            {/* TODO:Need to make images actually plug in here */}
             <img
               className="expIconProfile"
               src={require("../../../images/stowe.png")}
@@ -16,14 +17,16 @@ const ExperienceProfile = (props) => {
             ></img>
             <p>{val.date}</p>
           </div>
-          <div className="expIconRight">
+
+
+          <div className="expRight">
             <h4>{val.company}</h4>
             <p>
              {val.text}
             </p>
           </div>
         </div>
-      </div>
+  
     );
   });
 };

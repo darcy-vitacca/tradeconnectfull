@@ -35,12 +35,12 @@ class ViewProfile extends Component {
   renderMarkup() {
     let { profile } = this.state;
     return (
-      <div>
+      <div className="myProfileCont">
         <AboutProfile profile={profile} />
         <div className="exp-profile-card-row">
-          <h1>Experience</h1>
+          <h4>Experience</h4>
           <ExperienceProfile exp={profile.exp} />
-          <h1>Licences/Certifications</h1>
+          <h4>Licences/Certifications</h4>
           <div>
             <div className="expCard">
               <ul>
@@ -48,7 +48,7 @@ class ViewProfile extends Component {
               </ul>
             </div>
           </div>
-          <h1>Education</h1>
+          <h4>Education</h4>
           <div>
             <div className="expCard">
               <ul>
@@ -56,7 +56,7 @@ class ViewProfile extends Component {
               </ul>
             </div>
           </div>
-          <h1>References</h1>
+          <h4>References</h4>
           <div>
             <div className="expCard">
               <ul>
@@ -65,7 +65,7 @@ class ViewProfile extends Component {
             </div>
           </div>
         </div>
-        <h1>"Some of me best work"</h1>
+        <h4>Best Work</h4>
         <BestWorkProfile bestWork={profile.bestWork}/>
       </div>
     );

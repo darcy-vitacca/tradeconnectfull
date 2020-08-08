@@ -1,3 +1,4 @@
+/* HEADER AND SEARCH BAR BODY*/
 .search{
   max-width: 850px;
   margin: 0 auto;
@@ -31,7 +32,7 @@
   margin: 0 auto 0 auto;
   max-width: 340px;
 }
-
+/*      */
 .searchBarForm {
   width: 100%;
   text-align: center;
@@ -41,7 +42,7 @@
   max-width: 1800px;
 }
 
-/* Job search boxes */
+/* JOB SEARCH BOXES */
 .searchButtonJobs {
   width: 100px;
 }
@@ -74,12 +75,12 @@
   background-color: #e16b05;
   text-align: right;
   color: white;
- 
   max-height: 35px;
   padding: 0;
 }
 
 .jobSearchExpandBar p {
+  margin-top: -1px;
   padding-right: 0.6em;
    font-weight: bold;
 }
@@ -112,16 +113,20 @@
   margin: 0;
 }
 
-.jobSearchIcon {
-  width: 100px;
-  height: 100px;
-}
 
 .jobSearchHeadRight {
   text-align: right;
   padding: 0;
   margin: 0;
 }
+
+.jobSearchHeadRight h2,
+  .jobSearchHeadRight h4{
+  
+  padding: 0;
+  margin: 0;
+}
+
 
 .jobSearchHeadLeftJob,
 .jobSearchHeadLeftLocation {
@@ -136,10 +141,13 @@
 .jobSearchExpandedBody {
   margin: 1em;
 }
-
-.applyRow {
+/* TODO: took of may need back on */
+/* .applyRow {
   display: flex;
   justify-content: center;
+} */
+.applyNow{
+  min-height: inherit;
 }
 
 #applyJobButton {

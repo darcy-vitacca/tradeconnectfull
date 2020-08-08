@@ -9,7 +9,7 @@ const bestwork = (props) => {
       <div className={cardIdBestWork} key={val.index}>
         <div className="expCardrow1">
           <div>
-            <label>Best work header</label>
+            <h5>Best work header</h5>
             <input
               type="text"
               data-id={idx}
@@ -20,29 +20,34 @@ const bestwork = (props) => {
               id="header"
               required
             ></input>
-             <input
+
+            <h5>Best Work Image</h5>
+            <div className="bestWorkBtnSec">
+              <input
                 type="file"
                 className="bestWorkSec"
                 placeholder="Best Work photo"
                 id="bestWorkImageUrl"
               ></input>
-            <div className="btnExpCont">
-              {idx === 0 ? (
-                <button
-                  onClick={() => props.add(props)}
-                  type="button"
-                  className="expBtnPlus"
-                >
-                  +
-                </button>
-              ) : (
-                <button
-                  className="expBtnMinus"
-                  onClick={() => props.delete(val)}
-                >
-                  -
-                </button>
-              )}
+
+              <div className="btnExpCont">
+                {idx === 0 ? (
+                  <button
+                    onClick={() => props.add(props)}
+                    type="button"
+                    className="expBtnPlus"
+                  >
+                    +
+                  </button>
+                ) : (
+                  <button
+                    className="expBtnMinus"
+                    onClick={() => props.delete(val)}
+                  >
+                    -
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -52,7 +57,7 @@ const bestwork = (props) => {
               type="text"
               name="desc"
               data-id={idx}
-              id ="bestWorkCardDesc"
+              id="bestWorkCardDesc"
               className="bestWorkSec"
               placeholder="A description of your best work project as well as any other details that might interest people."
             ></textarea>
@@ -64,8 +69,6 @@ const bestwork = (props) => {
 };
 
 export default bestwork;
-
-
 
 // if (["date1", "date2", "date3", "date4"].includes(e.target.name)) {
 //   let exp = [...this.state.exp];
@@ -84,45 +87,45 @@ export default bestwork;
 //     }
 //   }
 
-  //FORM CHANGE HANDLER
-  // handleChange = (e) => {
-    // console.log(e.target.name)
-    // if (e.target.name === "licenses") {
-    //   let license = [...this.state.licenses];
-    //   license[e.target.dataset.id][e.target.name] = e.target.value;
-    //   // console.log(license);
-    // } else if (e.target.name === "education") {
-    //   let education = [...this.state.education];
-    //   education[e.target.dataset.id][e.target.name] = e.target.value;
-    //   // console.log(education);
-    // } else if (e.target.name === "references") {
-    //   let reference = [...this.state.references];
-    //   reference[e.target.dataset.id][e.target.name] = e.target.value;
-    //   // console.log(reference);
-    // } else {
-    //   if (
-    //     ["index", "company", "date", "imageUrl", "text"].includes(e.target.name)
-    //   ) {
-    //     let exp = [...this.state.exp];
-    //     exp[e.target.dataset.id][e.target.name] = e.target.value;
-    //   } else if (["date1", "date2", "date3", "date4"].includes(e.target.name)) {
-    //     let exp = [...this.state.exp];
-    //     if (e.target.name === "date1" || "date2" || "date3" || "date4") {
-    //       if (e.target.name === "date1") {
-    //         exp[e.target.dataset.id].date[0] = e.target.value;
-    //       } else if (e.target.name === "date2") {
-    //         exp[e.target.dataset.id].date[1] = e.target.value;
-    //       } else if (e.target.name === "date3") {
-    //         exp[e.target.dataset.id].date[2] = e.target.value;
-    //       } else if (e.target.name === "date4") {
-    //         exp[e.target.dataset.id].date[3] = e.target.value;
-    //       } else {
-    //         console.log("error");
-    //       }
-    //     }
-    //   } else {
-    //     console.log("Here");
-    //     this.setState({ [e.target.name]: e.target.value });
-    //   }
-  //   }
-  // };
+//FORM CHANGE HANDLER
+// handleChange = (e) => {
+// console.log(e.target.name)
+// if (e.target.name === "licenses") {
+//   let license = [...this.state.licenses];
+//   license[e.target.dataset.id][e.target.name] = e.target.value;
+//   // console.log(license);
+// } else if (e.target.name === "education") {
+//   let education = [...this.state.education];
+//   education[e.target.dataset.id][e.target.name] = e.target.value;
+//   // console.log(education);
+// } else if (e.target.name === "references") {
+//   let reference = [...this.state.references];
+//   reference[e.target.dataset.id][e.target.name] = e.target.value;
+//   // console.log(reference);
+// } else {
+//   if (
+//     ["index", "company", "date", "imageUrl", "text"].includes(e.target.name)
+//   ) {
+//     let exp = [...this.state.exp];
+//     exp[e.target.dataset.id][e.target.name] = e.target.value;
+//   } else if (["date1", "date2", "date3", "date4"].includes(e.target.name)) {
+//     let exp = [...this.state.exp];
+//     if (e.target.name === "date1" || "date2" || "date3" || "date4") {
+//       if (e.target.name === "date1") {
+//         exp[e.target.dataset.id].date[0] = e.target.value;
+//       } else if (e.target.name === "date2") {
+//         exp[e.target.dataset.id].date[1] = e.target.value;
+//       } else if (e.target.name === "date3") {
+//         exp[e.target.dataset.id].date[2] = e.target.value;
+//       } else if (e.target.name === "date4") {
+//         exp[e.target.dataset.id].date[3] = e.target.value;
+//       } else {
+//         console.log("error");
+//       }
+//     }
+//   } else {
+//     console.log("Here");
+//     this.setState({ [e.target.name]: e.target.value });
+//   }
+//   }
+// };

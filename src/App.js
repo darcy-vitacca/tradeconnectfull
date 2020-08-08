@@ -43,7 +43,6 @@ if (token) {
 
 //The provider gives us access to anything in the store to use in the state so everything needs to be within it to have access to the store
 function App() {
-  console.log(this)
   return (
     <Provider store={store}>
       <Router>

@@ -5,7 +5,7 @@ const education = (props) => {
   return props.education.map((val, idx) => {
     // console.log(val)
     return (
-      <div  key={val.index}>
+      <div  key={val.index} className="educationArr">
         <input
           type="text"
           className="arrSkills"

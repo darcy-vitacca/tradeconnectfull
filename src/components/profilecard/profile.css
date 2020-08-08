@@ -1,94 +1,326 @@
-.profileCard{
-    background: white;
-    margin :1vh;
-    text-align:none;
+.profileCard {
+  background: white;
+  margin: 1vh;
+  text-align: none;
 }
 
-
-.head-profile-card-row1{
-    display:flex;
-    justify-content: space-between;
-    padding: 2vh 4vh 2vh 4vh;
+/* EXP CARD */
+.expIconProfile {
+  width: 80px;
 }
 
-.expIconProfile{
-    width :80px;
-    height: 60px;
-    
-
+.expDiv {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-
-.iconProfile{
-    width : 16vh;
-    height: 16vh;
-    border-radius: 50%;
+.expLeft {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-
-.head-profile-card-row2{
-    padding: 2vh 4vh 2vh 4vh;
+.expLeft p {
+  margin: 0;
 }
-
-.exp-profile-card-row{
-    padding: 2vh 4vh 2vh 4vh;
-}
-
-
-.expCard{
-    display: flex;
-    padding-top:0;
-}
-
-.expIconLeft p{
-    font-size: 15px;
-    
-
-
-}
-
-.expIconRight p{
-   margin-top: 0;
-   margin-left: 4vh;
-}
-
-
-
-.bestWorkLeftImg{
-    width:500px;
-    height:340px;
-    padding: 0vh 0vh 2vh 0vh;
-}
-
-.skills-profile-card-row{
-    padding: 2vh 4vh 2vh 4vh;
-}
-.bestWork-profile-card-row{
-    padding: 2vh 4vh 2vh 4vh;
-    
-
-}
-
-.bestWorkCont{
-    display: flex;
-    justify-content: space-between;
-}
-
-
-.bestWorkRight {
-    padding: 0vh 4vh 2vh 4vh;
-    margin :0;
-}
-
-.bestWorkRight h3, p{
-    margin-top :0;
+.expRight {
+  width: 100%;
 }
 
 .dot {
-    margin: 0.5em 0 0 1em;
-    height: 40px;
-    width: 40px;
-    background-color: rgb(42, 223, 129);
-    border-radius: 50%;
-    display: inline-block;
+  margin: 0.5em 0 0 1em;
+  height: 20px;
+  width: 20px;
+  background-color: rgb(42, 223, 129);
+  border-radius: 50%;
+  display: inline-block;
+}
+.skillsCard {
+  padding: 1em 0 0 0;
+}
+.skillsCardList {
+  padding: 0;
+  margin: 0.5em;
+}
+.skillsCardList li {
+  list-style-position: inside;
+}
+
+.bestWorkLeftImg {
+  min-width: 250px;
+  /* width:80%; */
+  padding-top: 0.5em;
+  max-width: 280px;
+}
+
+.bestWorkRight h5 {
+  padding: 0;
+  margin: 0.5em 0;
+}
+
+.bestWorkDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.bestWorkDivImageOnly {
+  display: flex;
+
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+.bestWorkLeftImgOnly {
+  /* width:80%; */
+  padding: 0.8em;
+  width: 40%;
+}
+
+/* CREATE PROFILE */
+/* CREATE PROFILE ARRAY BUTTONS */ /* CREATE PROFILE ARRAY BUTTONS */ /* CREATE PROFILE ARRAY BUTTONS */
+
+.createProfileCont {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 900px;
+}
+.createProfileUpper, .createProfileLower{
+  margin: 1em;
+
+}
+
+.createProfileHeader{
+  text-align: center;
+}
+.createProfileCont input {
+  width: 90%;
+  margin: 0.5em 0;
+  max-width: 360px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.licBtnPlus,
+.licBtcMinus {
+  width: 21px;
+  height: 21px;
+  border-radius: 20%;
+  border: none;
+  font-weight: 600;
+  margin: 0.4vh;
+}
+.createProfileTextAreas {
+  min-height: 200px;
+  width: 90%;
+  font-family: "Montserrat", sans-serif;
+  resize: vertical;
+  margin: 0.5em 0;
+}
+.periodWorked {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
+.periodWorkedMon {
+  height: 21px;
+}
+.periodWorked input {
+  max-width: 50px;
+}
+.licBtnPlus {
+  background-color: #e16b05;
+  color: white;
+}
+
+.licBtcMinus {
+  background-color: #afb4b7;
+  color: white;
+}
+
+.btnArrCont input {
+  width: 80px;
+}
+.licCard {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.expBtnMinus,
+.expBtnPlus {
+  width: 45px;
+  height: 40px;
+  border-radius: 20%;
+  border: none;
+  font-weight: 600;
+  margin-top: -2em;
+}
+
+.expCardrow1 h5 {
+  margin: 0.2em 0;
+}
+.periodWorkedBtn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.periodWorkedArea {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0;
+}
+
+#bestWorkCardDesc {
+  font-family: "Montserrat", sans-serif;
+  margin: 0.6em 0 0 0;
+  resize: none;
+  min-height: 250px;
+}
+.licenseArr {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  max-width: 250px;
+}
+
+.expBtnPlus {
+  background-color: #e16b05;
+  color: white;
+}
+
+.expBtnMinus {
+  background-color: #afb4b7;
+  color: white;
+}
+
+.arrSkills {
+  width: 240px;
+}
+.educationArr {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  max-width: 220px;
+}
+
+.referencesArr {
+  min-height: 140px;
+  width: 90%;
+  font-family: "Montserrat", sans-serif;
+  resize: vertical;
+  margin: 0.5em 0;
+}
+.referencesArr input {
+  width: 90%;
+}
+.referencesArr button {
+  margin: 0;
+}
+.referencesInput {
+  min-height: 120px;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  resize: vertical;
+  margin: 0;
+}
+.bestWorkBtnSec {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+.bestWorkSec {
+  width: 90%;
+}
+/* .createProfileUpper {
+  display: flex;
+  flex-wrap: wrap;
+} */
+.bestWorkBtnSec input {
+  width: 90%;
+  font-family: "Montserrat", sans-serif;
+  resize: vertical;
+  margin: 0.5em 0;
+}
+
+.createProfileSubmit {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em auto 1em auto;
+  display: flex;
+}
+
+/* MY PROFILE */
+/* MY PROFILE ARRAY BUTTONS */ /* MY PROFILE ARRAY BUTTONS */ /* MY PROFILE ARRAY BUTTONS */
+
+.myProfileCont{
+  width: 90%;
+  margin: 0 auto;
+  min-width: 280px;
+  max-width: 900px;
+}
+
+/* */
+@media only screen and (min-width: 660px) {
+  .expDiv {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 0 1em;
   }
+  .bestWorkDivImageOnly {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+  }
+
+  .expLeft {
+    width: 10%;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .expRight {
+    width: 90%;
+    margin: 1em 2em;
+  }
+  .bestWorkDiv {
+    display: flex;
+    flex-direction: row;
+  }
+  .bestWorkRight {
+    padding-left: 1em;
+  }
+  .bestWorkLeft {
+    display: flex;
+    align-items: center;
+  }
+  .bestWorkLeftImgOnly {
+    width: 28%;
+    /* width:80%; */
+    padding: 0.8em;
+    min-width: 160px;
+  }
+
+  .createProfileUpper input {
+    width: 90%;
+    margin: 0.5em 0;
+    max-width: 360px;
+    min-width: 360px;
+    font-family: "Montserrat", sans-serif;
+    margin-right: 1.8em;
+    
+  }
+
+  .createProfileUpper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
