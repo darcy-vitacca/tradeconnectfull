@@ -1,21 +1,24 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { uuid } from "uuidv4";
+import { ScaleLoader } from "react-spinners";
+import Autocomplete from "react-google-autocomplete";
+import { createProfile } from "../../redux/actions/userActions";
+
+//PAGE COMPONENTS
 import ExpCard from "./create-profile/expadd-profile-card";
 import BestWorkCard from "./create-profile/bestworkadd-profile-card";
 import ProfileArray from "./create-profile/array-licences-profile-card";
 import EduArray from "./create-profile/array-edu-profile-card";
 import RefArray from "./create-profile/array-ref-profile-card";
-import { ScaleLoader } from "react-spinners";
-import { connect } from "react-redux";
-import { createProfile } from "../../redux/actions/userActions";
-import PropTypes from "prop-types";
-import { uuid } from "uuidv4";
 
-//rename everything so it's clear TODO:// got through every section
-//TODO:// allow only a certain ammount of each thing to be dynamically added?
-//TODO: ADD AUSTRALIAN SUBURBS? CHECK
-//TODO: IMAGE UPLOAD
-//TODO: make a a check if profile exists or not to render create or actual profile
-//TODO://filter out this page if profile made is true and store in the user state
+
+
+// TODO: go through every section rename everything so it's clear 
+// TODO: allow only a certain ammount of each thing to be dynamically added?
+// TODO: IMAGE UPLOAD
+
 
 class CreateProfile extends Component {
   //FORM STRUCUTRE
@@ -317,12 +320,16 @@ class CreateProfile extends Component {
       UI: { loading },
     } = this.props;
     return (
+      <div>
+         <h1 className="createProfileHeader">Create Your Profile</h1>
+ 
       <div className="createProfileCont">
+        
         <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
-          <h1 className="createProfileHeader">Create A Profile</h1>
+         
           <div className="createProfileUpper">
             <div>
-              <h4>Name *</h4>
+              <h3>Name *</h3>
               <input
                 type="text"
                 placeholder="Enter Your Name"
@@ -330,18 +337,9 @@ class CreateProfile extends Component {
                 required
               ></input>
             </div>
-            <div>
-              <h4>Profile Photo</h4>
-
-              <input
-                type="file"
-                placeholder="Profile Photo"
-                id="profileImageUrl"
-              ></input>
-            </div>
 
             <div>
-              <h4>Trade Qualificaiton *</h4>
+              <h3>Trade Qualification *</h3>
               <input
                 type="text"
                 placeholder="Trade Qualificaiton"
@@ -350,17 +348,20 @@ class CreateProfile extends Component {
               ></input>
             </div>
             <div>
-              <h4>Location *</h4>
-              <input
-                type="text"
-                placeholder="Location"
-                name="location"
-                required
-              ></input>
+              <h3>Location *</h3>
+              <Autocomplete
+               name="location"
+                onPlaceSelected={(place) => {
+                  this.setState({location : place.formatted_address});
+                  console.log(this.state)
+                }}
+                types={["(regions)"]}
+                componentRestrictions={{ country: "au" }}
+              />
             </div>
 
             <div>
-              <h4>Website</h4>
+              <h3>Website</h3>
               <input
                 type="url"
                 id="url"
@@ -371,7 +372,7 @@ class CreateProfile extends Component {
             </div>
 
             <div>
-              <h4>Current/ Recent Employer</h4>
+              <h3>Current/ Recent Employer</h3>
               <input
                 type="text"
                 placeholder="Current/ most recent employer"
@@ -380,89 +381,100 @@ class CreateProfile extends Component {
             </div>
 
             <div>
-              <h4>Work Status *</h4>
+              <h3>Work Status *</h3>
               <input
                 type="text"
                 placeholder="Work Status"
                 name="workStatus"
               ></input>
             </div>
+            <div>
+              <h3>Profile Photo</h3>
+
+              <input
+                type="file"
+                placeholder="Profile Photo"
+                id="profileImageUrl"
+              ></input>
+            </div>
           </div>
+
           <div className="createProfileLower">
-          <h4>About Me *</h4>
-          {/* TODO: text area */}
+            <h3>About Me *</h3>
+  
 
-          <textarea
-            className="createProfileTextAreas"
-            placeholder="Enter a bit about yourself to let people know who you are to entice future employment..."
-            required
-          ></textarea>
+            <textarea
+              className="createProfileTextAreas"
+              placeholder="Enter a bit about yourself to let people know who you are to entice future employment..."
+              required
+            ></textarea>
 
-          <h4>Experience *</h4>
+            <h3>Experience *</h3>
 
-          <ExpCard
-            add={this.addNewRow}
-            delete={this.clickOnDelete.bind(this)}
-            exp={exp}
-          />
-          <div>
-            <h4>Skills</h4>
-
-            <h4>Licenses/ Tickets</h4>
-            <div className="licCard">
-              <ProfileArray
-                add={this.addNewArray}
-                delete={this.clickOnDeleteArray.bind(this)}
-                licences={licences}
-              />
-            </div>
-
-            <h4>Education</h4>
-            <div className="licCard">
-              <EduArray
-                add={this.addNewArray}
-                delete={this.clickOnDeleteArray.bind(this)}
-                education={education}
-              />
-            </div>
-
-            <h4>References</h4>
-            <div className="licCard">
-              <RefArray
-                add={this.addNewArray}
-                delete={this.clickOnDeleteArray.bind(this)}
-                references={references}
-              />
-            </div>
-          </div>
-          <div>
-            <h4>Best Work</h4>
-            <BestWorkCard
+            <ExpCard
               add={this.addNewRow}
               delete={this.clickOnDelete.bind(this)}
-              bestWork={bestWork}
+              exp={exp}
             />
-          </div>
+            <div>
+              <h3>Skills</h3>
 
-          <button
-            type="submit"
-            className="createProfileSubmit"
-            disabled={loading}
-          >
-            Submit
-          </button>
-          <div className="submitSpinner">
-            <div className="spinner">
-              {loading === true ? (
-                <div>
-                  {" "}
-                  <ScaleLoader className="spinner" size={240} loading />{" "}
-                </div>
-              ) : null}{" "}
+              <h3>Licenses/ Tickets</h3>
+              <div className="licCard">
+                <ProfileArray
+                  add={this.addNewArray}
+                  delete={this.clickOnDeleteArray.bind(this)}
+                  licences={licences}
+                />
+              </div>
+
+              <h3>Education</h3>
+              <div className="licCard">
+                <EduArray
+                  add={this.addNewArray}
+                  delete={this.clickOnDeleteArray.bind(this)}
+                  education={education}
+                />
+              </div>
+
+              <h3>References</h3>
+              <div className="licCard">
+                <RefArray
+                  add={this.addNewArray}
+                  delete={this.clickOnDeleteArray.bind(this)}
+                  references={references}
+                />
+              </div>
             </div>
-          </div>
+            <div>
+              <h3>Best Work</h3>
+              <BestWorkCard
+                add={this.addNewRow}
+                delete={this.clickOnDelete.bind(this)}
+                bestWork={bestWork}
+              />
+            </div>
+            <div className="submitSpinner">
+              <div className="spinner">
+                {loading === true ? (
+                  <div>
+                    {" "}
+                    <ScaleLoader className="spinner" size={240} loading />{" "}
+                  </div>
+                ) : null}{" "}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="createProfileSubmit"
+              disabled={loading}
+            >
+              Submit
+            </button>
           </div>
         </form>
+      </div>
       </div>
     );
   }

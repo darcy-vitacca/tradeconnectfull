@@ -12,6 +12,7 @@ header {
   background-color: #e16b05;
 }
 
+
 .nav-links {
   list-style-type: none;
   margin: 0;
@@ -202,9 +203,39 @@ nav ul a:hover {
 /*          */
 
 /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */
+
+.postJobHeader{
+  text-align: center;
+    margin: 0 0 0.5em 0;
+    padding: 0 0.3em;
+    background-color: #e16b05;
+    color: white;
+
+}
+.postJobBody{
+  background: #e5e5e5;
+  margin: 1vh;
+  text-align: none;
+  height: 100%;
+  padding-top: 0.5em;
+  
+  
+}
+.postJobCard{
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  max-width: 840px;
+  
+
+}
  .postJobFormCont {
   width: 80%;
-  margin: 2em auto 0 auto;
+  margin: 0 auto 0 auto;
   max-width: 700px;
 }
 
@@ -215,23 +246,24 @@ nav ul a:hover {
 
 .postJobFormCont h3 {
   padding: 0;
-  margin: 0.2em;
+  margin: 0.2em 0.2em 0.2em 0em;
   font-weight: 600;
-  max-width: 300px;
+  max-width: 320px;
 }
 
 .postJobForm input {
-  width: 90%;
+  width: 100%;
   font-family: "Montserrat", sans-serif;
   min-width: 300px;
-  margin: 0.5em;
+  max-width:340px;
+  margin: 0.5em 0.5em 0.5em 0;
 }
 
 .postJobForm textarea {
-  width: 90%;
+  width: 100%;
   font-family: "Montserrat", sans-serif;
   min-width: 300px;
-  margin: 0.5em;
+  margin: 0.5em 0 0.5em 0;
 }
 
 .aboutBusiness,
@@ -401,7 +433,7 @@ nav ul a:hover {
   }
   .searchPeopleName {
     width: 60%;
-    height: 1em;
+
     padding: 0;
     font-size: 22px;
   }
@@ -484,11 +516,16 @@ nav ul a:hover {
     display: flex;
   }
   /* POST JOB */
-  .postJobForm input {
+
+ 
+  .upperPostJobForm input {
     max-width: 300px;
   }
   .upperPostJobForm {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 }
+
+

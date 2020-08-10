@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Home extends Component {
-  
   constructor() {
     super();
     this.state = {
@@ -15,7 +14,7 @@ class Home extends Component {
       searchState: !prevState.searchState,
     }));
   }
-// TODO: when logged in handle clicking on loggin links or don't show them on the home page
+  // TODO: when logged in handle clicking on loggin links or don't show them on the home page
   searchStateInput() {
     if (this.state.searchState === false) {
       return (
@@ -41,12 +40,19 @@ class Home extends Component {
           </div>
           <div className="searchHomeLabels">
             <label>Location</label>
-            <input
-              type="search"
-              placeholder="Location"
-              className="searchPeopleName"
-              required
-            ></input>
+            <select name="state"   className="searchPeopleName" required>
+              <option value="" disabled selected hidden>
+                State
+              </option>
+              <option>ACT</option>
+              <option>New South Wales</option>
+              <option>Northern Territory</option>
+              <option>Queensland</option>
+              <option>Tasmania</option>
+              <option>Victoria</option>
+              <option>Western Australia</option>
+            </select>
+
           </div>
         </div>
       );
@@ -66,12 +72,18 @@ class Home extends Component {
           </div>
           <div className="searchHomeLabels">
             <label>Location</label>
-            <input
-              type="search"
-              placeholder="Location"
-              className="searchPeopleName"
-              required
-            ></input>
+            <select name="state"   className="searchPeopleName" required>
+              <option value="" disabled selected hidden>
+                State
+              </option>
+              <option>ACT</option>
+              <option>New South Wales</option>
+              <option>Northern Territory</option>
+              <option>Queensland</option>
+              <option>Tasmania</option>
+              <option>Victoria</option>
+              <option>Western Australia</option>
+            </select>
           </div>
         </div>
       );
@@ -79,7 +91,6 @@ class Home extends Component {
   }
 
   render() {
-
     let { searchState } = this.state;
     return (
       <div>

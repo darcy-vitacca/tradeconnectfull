@@ -1,17 +1,32 @@
 /* HEADER AND SEARCH BAR BODY*/
-.search{
+.search {
   max-width: 850px;
   margin: 0 auto;
+  padding-top: 0.5em;
+}
+.jobSearchBarSection {
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 .jobSearchHeader {
   text-align: center;
-  margin: 0.3em 0.3em 0 0.3em;
-  padding: 0.3em;
+  margin: 0;
+  padding: 0 0.3em;
+  background-color: #e16b05;
+  color: white;
 }
 .searchTradeJobs,
 .searchLocationJobs {
   width: 80%;
   max-width: 340px;
+  margin: 0 auto 0 auto;
 }
 
 .jobSearchBody {
@@ -82,7 +97,7 @@
 .jobSearchExpandBar p {
   margin-top: -1px;
   padding-right: 0.6em;
-   font-weight: bold;
+  font-weight: bold;
 }
 
 .jobSearchCard {
@@ -92,7 +107,7 @@
   box-sizing: border-box;
   width: 96%;
   border: 2px solid #cecece;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .jobIcon {
@@ -113,7 +128,6 @@
   margin: 0;
 }
 
-
 .jobSearchHeadRight {
   text-align: right;
   padding: 0;
@@ -121,12 +135,10 @@
 }
 
 .jobSearchHeadRight h2,
-  .jobSearchHeadRight h4{
-  
+.jobSearchHeadRight h4 {
   padding: 0;
   margin: 0;
 }
-
 
 .jobSearchHeadLeftJob,
 .jobSearchHeadLeftLocation {
@@ -146,7 +158,7 @@
   display: flex;
   justify-content: center;
 } */
-.applyNow{
+.applyNow {
   min-height: inherit;
 }
 
@@ -223,7 +235,7 @@
   .searchBarForm {
     margin: 1em;
   }
-  .jobToggleButton{
+  .jobToggleButton {
     margin-right: 3em;
   }
 }

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import ViewProfile from "../components/profilecard/view-profile-card";
 
 class MyProfile extends Component {
-  //TODO: may need to get rid of this 
+  //TODO: may need to get rid of this
   constructor() {
     super();
     this.state = {
@@ -57,15 +57,19 @@ class MyProfile extends Component {
     }
   }
 
-
   render() {
     let { profileCreated } = this.props.user.credentials;
-    return <div className="profileCard">
-      {
-          profileCreated === true ? <ViewProfile/> :
+    return(
+    <div className="profileBody">
+      <div className="profileCard">
+        {profileCreated === true ? (
+          <ViewProfile />
+        ) : (
           <CreateProfile history={this.props.history} />
-      }
-      </div>;
+        )}
+      </div>
+    </div>
+    );
   }
 }
 

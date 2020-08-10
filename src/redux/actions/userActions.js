@@ -81,7 +81,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     });
 };
 
-
+//CREATE A PROFILE
 export const createProfile = (profileDetails, history) => (dispatch) => {
   // console.log(profileDetails);
   // console.log(history);
@@ -94,6 +94,28 @@ export const createProfile = (profileDetails, history) => (dispatch) => {
       dispatch({ type: CLEAR_ERRORS });
       //redirect to user page
       history.push(`/myprofile`);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//CREATE A JOB
+export const createJob = (newJob, history) => (dispatch) => {
+  console.log(newJob);
+  console.log(history);
+  dispatch({ type: LOADING_UI });
+  axios
+    .post("/createjob", newJob)
+    .then((res) => {
+      // console.log(res.data);
+      // dispatch(getUserData());
+      dispatch({ type: CLEAR_ERRORS });
+      //redirect to user page
+      history.push(`/jobsearch`);
     })
     .catch((err) => {
       console.log(err);

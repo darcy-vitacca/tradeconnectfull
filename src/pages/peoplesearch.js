@@ -32,7 +32,7 @@ class JobSearch extends Component {
     return (
       <div className="peopleSearchBody">
         <div className="search">
-          <div>
+          <div className="peopleSearchBarSection">
             <h1 className="peopleSearchHeader">People Search</h1>
             <div className="peopleSearchBar">
               <form className="peopleSearchBarForm">
@@ -56,11 +56,18 @@ class JobSearch extends Component {
                   </div>
                   <div className="peopleSearchTrade">
                     <label>Location</label>
-                    <input
-                      type="search"
-                      placeholder="Location"
-                      className="searchTradeJobs"
-                    ></input>
+                    <select name="state"   className="searchTradeJobs" required>
+              <option value="" disabled selected hidden>
+                State
+              </option>
+              <option>ACT</option>
+              <option>New South Wales</option>
+              <option>Northern Territory</option>
+              <option>Queensland</option>
+              <option>Tasmania</option>
+              <option>Victoria</option>
+              <option>Western Australia</option>
+            </select>
                   </div>
                 </div>
 

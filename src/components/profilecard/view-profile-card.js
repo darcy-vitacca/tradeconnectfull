@@ -35,38 +35,43 @@ class ViewProfile extends Component {
   renderMarkup() {
     let { profile } = this.state;
     return (
-      <div className="myProfileCont">
-        <AboutProfile profile={profile} />
-        <div className="exp-profile-card-row">
-          <h4>Experience</h4>
-          <ExperienceProfile exp={profile.exp} />
-          <h4>Licences/Certifications</h4>
-          <div>
-            <div className="expCard">
-              <ul>
-                <SkillsProfile licenses={profile.licences} />
-              </ul>
+      <div>
+        <h1 className="myProfileHeader">Your Profile</h1>
+        <div className="myProfileCont">
+          <AboutProfile profile={profile} />
+          <div className="expProfileBody">
+            <h4>Experience</h4>
+            <ExperienceProfile exp={profile.exp} />
+            <h4>Licences/Certifications</h4>
+            <div>
+              <div className="expCard">
+                <ul>
+                  <SkillsProfile licenses={profile.licences} />
+                </ul>
+              </div>
+            </div>
+            <h4>Education</h4>
+            <div>
+              <div className="expCard">
+                <ul>
+                  <SkillsProfile education={profile.education} />
+                </ul>
+              </div>
+            </div>
+            <h4>References</h4>
+            <div>
+              <div className="expCard">
+                <ul>
+                  <SkillsProfile references={profile.references} />
+                </ul>
+              </div>
             </div>
           </div>
-          <h4>Education</h4>
-          <div>
-            <div className="expCard">
-              <ul>
-              <SkillsProfile education={profile.education} />
-              </ul>
-            </div>
-          </div>
-          <h4>References</h4>
-          <div>
-            <div className="expCard">
-              <ul>
-              <SkillsProfile references={profile.references} />
-              </ul>
-            </div>
+          <div className="bestWorkCont">
+            <h4>Best Work</h4>
+            <BestWorkProfile bestWork={profile.bestWork} />
           </div>
         </div>
-        <h4>Best Work</h4>
-        <BestWorkProfile bestWork={profile.bestWork}/>
       </div>
     );
   }
