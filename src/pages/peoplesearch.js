@@ -13,7 +13,7 @@ class JobSearch extends Component {
     axios
       .get("/getprofiles")
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         this.setState({
           profiles: res.data,
         });
@@ -56,18 +56,19 @@ class JobSearch extends Component {
                   </div>
                   <div className="peopleSearchTrade">
                     <label>Location</label>
-                    <select name="state"   className="searchTradeJobs" required>
-              <option value="" disabled selected hidden>
-                State
-              </option>
-              <option>ACT</option>
-              <option>New South Wales</option>
-              <option>Northern Territory</option>
-              <option>Queensland</option>
-              <option>Tasmania</option>
-              <option>Victoria</option>
-              <option>Western Australia</option>
-            </select>
+                    <select name="state" className="searchTradeJobs" required>
+                      <option value="" disabled selected hidden>
+                        State
+                      </option>
+                      <option>ACT</option>
+                      <option>NSW</option>
+                      <option>NT</option>
+                      <option>QLD</option>
+                      <option>TAS</option>
+                      <option>SA</option>
+                      <option>VIC</option>
+                      <option>WA</option>
+                    </select>
                   </div>
                 </div>
 

@@ -12,7 +12,7 @@ const relativeTime = require("dayjs/plugin/relativeTime");
  
   render(){
     dayjs.extend(relativeTime);
-    const {
+    let {
       profile: {
       about,
       bestWork,
@@ -30,7 +30,7 @@ const relativeTime = require("dayjs/plugin/relativeTime");
       },
     } = this.props;
     console.log(this.props)
-
+    fullName= fullName.join(' ')
   return (
    
     

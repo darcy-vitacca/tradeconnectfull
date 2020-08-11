@@ -469,7 +469,7 @@ nav ul a:hover {
     max-width: 160px;
   }
 }
-/* TODO: change from 800? any issues? */
+
 @media screen and (min-width: 1024px) {
   /* HOME PAGE */
   nav {

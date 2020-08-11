@@ -126,6 +126,39 @@ export const createJob = (newJob, history) => (dispatch) => {
     });
 };
 
+
+//SEARCH JOBS
+export const searchJobs = (searchReq, history) => (dispatch) => {
+  console.log("here")
+  axios
+    .get("/searchjobs")
+    .then((res) => {
+      console.log(res);
+      dispatch({
+        type: SET_USER,
+        payload: res.data,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+//SEARCH PEOPLE
+export const searchEmployee = (searchReq, history) => (dispatch) => {
+  // let searchReqJson = JSON.stringify(searchReq)
+  console.log(history)
+  console.log(searchReq)
+  dispatch({ type: LOADING_UI });
+  axios
+    .post("/searchemployee", searchReq)
+    .then((res) => {
+      console.log(res.data);
+      // dispatch({
+      //   type: SET_USER,
+      //   payload: res.data,
+      // });
+    })
+    .catch((err) => console.log(err));
+};
 //HELPER - SET AUTHORIZATION HEADER
 const setAuthorizationHeader = (token) => {
   //the promise returned will through an error if not successful and if we are will be redirected to the home page using history.push loading is changed back becuase we have the result

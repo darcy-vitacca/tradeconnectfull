@@ -40,7 +40,7 @@ if (token) {
     store.dispatch(getUserData());
   }
 }
-
+//TODO: the way to make money could be search functionallity for the ideal candidate and give % matches
 //The provider gives us access to anything in the store to use in the state so everything needs to be within it to have access to the store
 function App() {
   return (

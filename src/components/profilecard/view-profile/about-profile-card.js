@@ -12,7 +12,7 @@ const AboutProfile = (props) => {
     workStatus,
     website,
   } = props.profile
-  
+  fullName= fullName.join(' ')
   //TODO: IMAGE OF RECENT EMPLOYERS
   return(
     

@@ -27,12 +27,13 @@ function Contact() {
             State
           </option>
           <option>ACT</option>
-          <option>New South Wales</option>
-          <option>Northern Territory</option>
-          <option>Queensland</option>
-          <option>Tasmania</option>
-          <option>Victoria</option>
-          <option>Western Australia</option>
+          <option>NSW</option>
+          <option>NT</option>
+          <option>QLD</option>
+          <option>TAS</option>
+          <option>SA</option>
+          <option>VIC</option>
+          <option>WA</option>
         </select>
 
         <h3>Current Employer</h3>
