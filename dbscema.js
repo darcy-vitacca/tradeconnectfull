@@ -185,3 +185,84 @@ bestWork{
 //     }
 
 // }
+
+
+// {
+// "profileImageUrl": "",
+// "fullName": "Darcy Vitacca",
+// "location": "Melbourne, Victoria",
+// "recentEmp": "Stowe Electrical",
+// "trade": "A Grade Electrician",
+// "about": "Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe. The major jobs we did were and it was mainly filled between with x and y.Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe",
+// "exp": [
+//     {   
+//         "company": "Stowe",
+//         "imageUrl": "",
+//         "date": "",
+//         "text": "Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe. The major jobs we did were and it was mainly filled between with x and y.Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe"
+//     },
+//     {   
+//         "company": "NECA",
+//         "imageUrl": "",
+//         "date": "jan-april 2020",
+//         "text": "Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe. The major jobs we did were and it was mainly filled between with x and y.Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe"
+//     },
+//      {
+//         "company": "DESA",
+//         "imageUrl": "",
+//         "date": "oct-december 2019",
+//         "text": ""
+//     },
+//      {
+//         "company": "Downer",
+//         "imageUrl": "",
+//         "date": "jan-september 2019",
+//         "text": "Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe. The major jobs we did were and it was mainly filled between with x and y.Learnt from blah blah over the time I did these jobs worked with this person and was a high achiever in tafe"
+//     }
+
+// ],
+// "bestWork": [
+//     {  
+//         "header": "text",
+//         "desc": "text",
+//         "imageUrl": "",
+//         "date" : "text"
+//     },
+//     {
+//         "header": "text",
+//         "desc": "text",
+//         "imageUrl": "",
+//         "date" : "text"
+//     },
+//     {
+//         "header": "text",  
+//         "desc": "text",
+//         "imageUrl": "",
+//         "date" : "text"
+//     },
+//     {
+//         "header": "text",
+//         "desc": "text",
+//         "imageUrl": "",
+//         "date" : "text"
+//     }
+// ],
+// "licences" : ["A Grade", "Titab", "Comfined Spaces"],
+// "education" : ["Titab", "Comfined Spaces","A Grade"],
+// "references" : [ "Comfined Spaces", "A Grade", "Titab"]
+// }
+ 
+
+    //    fullName: this.state.fullName,
+    //   profileImageUrl: this.state.profileImageUrl,
+    //   recentEmp: this.state.recentEmp,
+    //   workStatus: this.state.workStatus,
+    //   website: this.state.website,
+    //   trade: this.state.trade,
+    //   location: this.state.location,
+    //   about: this.state.about,
+    //   exp: this.state.exp,
+    //   licenses: this.state.licenses,
+    //   education: this.state.education,
+    //   references: this.state.references,
+    //   bestWork: this.state.bestWork

@@ -11,6 +11,7 @@ const {
 } = require("../util/validators");
 const { request } = require("http");
 const { profile } = require("console");
+const { json } = require("express");
 firebase.initializeApp(config);
 
 //SIGN UP USER
@@ -54,6 +55,7 @@ exports.signup = (request, response) => {
         createdAt: new Date().toISOString(),
         imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
         userId: userId,
+        profileCreated: false,
       };
       return db.doc(`users/${newUser.handle}`).set(userCredentials);
     })
@@ -66,7 +68,9 @@ exports.signup = (request, response) => {
       if (err.code === "auth/email-already-in-use") {
         return response.status(400).json({ email: "Email is already in use." });
       } else {
-        return response.status(500).json({ general : "Something went wrong please try again." });
+        return response
+          .status(500)
+          .json({ general: "Something went wrong please try again." });
       }
     });
 };
@@ -92,43 +96,100 @@ exports.login = (request, response) => {
     })
     .catch((err) => {
       console.error(err);
-      if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
-        return response
-          .status(403)
-          .json({ general: "Wrong credentials please try again." });
+      if (
+        err.code === "auth/user-not-found" ||
+        err.code === "auth/wrong-password"
+      ) {
+        return (
+          response
+            //TODO: NOT DISPLAYING IN THE CONSOLE
+            .status(403)
+            .json({ general: "Wrong credentials please try again." })
+        );
       }
       return response.status(500).json({ error: err.code });
     });
 };
+// SEARCH PROFILES 
+exports.searchEmployees = (request,response) =>{
 
-
-//GET ALL PROFILES
-exports.getAllProfiles = (request, response) =>{
-  //only return maybe a portion instead of requesting the full amount. you could change this to recieve search variables 
-  db.collection("profiles")
+  const searchReq = {
+    fullName: request.body.fullName,
+    trade: request.body.trade,
+    location: request.body.location,
+  }
+  // console.log(searchReq)
+  // console.log(searchReq.fullName)
+  // console.log(searchReq.trade)
+  // console.log(searchReq.location)
+  db.collection("profiles").where("fullName", "array-contains-any", searchReq.fullName)
   .orderBy("createdAt", "desc")
   .get()
   .then((data) =>{
-    let profilesAll = [];
-    data.forEach((doc) =>{
-      profilesAll.push({
-        userId : doc.data().userId,
-        fullName : doc.data().fullName,
-        trade : doc.data().trade,
-        recentEmp : doc.data().recentEmp,
-        createdAt : doc.data().createdAt,
-        about : doc.data().about,
-        exp : doc.data().exp,
-        education : doc.data().education,
-        licences : doc.data().licences,
-        refrences : doc.data().refrences,
-        bestWork : doc.data().bestWork
-      })
+    console.log(data)
+    let employeesAll = [];
+    data.forEach((doc) => {
+      employeesAll.push({
+        about: doc.data().about,
+        bestWork: doc.data().bestWork,
+        createdAt: doc.data().createdAt,
+        education: doc.data().education,
+        exp: doc.data().exp,
+        fullName: doc.data().fullName,
+        handle: doc.data().handle,
+        licences: doc.data().licences,
+        location: doc.data().location,
+        profileImageUrl: doc.data().profileImageUrl,
+        recentEmp: doc.data().recentEmp,
+        references: doc.data().references,
+        trade: doc.data().trade,
+        userId: doc.data().userId,
+        website: doc.data().website,
+        workStatus: doc.data().workStatus,
+      });
     });
-    return response.json(profilesAll);
+    return response.json(employeesAll);
   })
-  .catch((err) => console.error(err));
+  .catch(err =>{
+    console.error(err)
+    return response.status(500).json({error : err.code})
+  })
+  
+  
+
 }
+//GET ALL PROFILES
+exports.getAllProfiles = (request, response) => {
+  //only return maybe a portion instead of requesting the full amount. you could change this to recieve search variables
+  db.collection("profiles")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then((data) => {
+      let profilesAll = [];
+      data.forEach((doc) => {
+        profilesAll.push({
+          about: doc.data().about,
+          bestWork: doc.data().bestWork,
+          createdAt: doc.data().createdAt,
+          education: doc.data().education,
+          exp: doc.data().exp,
+          fullName: doc.data().fullName,
+          handle: doc.data().handle,
+          licences: doc.data().licences,
+          location: doc.data().location,
+          profileImageUrl: doc.data().profileImageUrl,
+          recentEmp: doc.data().recentEmp,
+          references: doc.data().references,
+          trade: doc.data().trade,
+          userId: doc.data().userId,
+          website: doc.data().website,
+          workStatus: doc.data().workStatus,
+        });
+      });
+      return response.json(profilesAll);
+    })
+    .catch((err) => console.error(err));
+};
 
 //ADD USER DETAILS// MAY GET DELETED OR CHANGED INTO UPDATE USER DETAILS
 exports.addUserDetails = (request, response) => {
@@ -147,6 +208,8 @@ exports.addUserDetails = (request, response) => {
 
 //ADD FULL PROFILE
 exports.addProfile = (request, response) => {
+  console.log("here");
+  // console.log(request)
   let profileDetails = reduceProfileDetails(request.body);
   profileDetails.userId = request.user.uid;
   profileDetails.handle = request.user.handle;
@@ -155,7 +218,15 @@ exports.addProfile = (request, response) => {
   db.doc(`/profiles/${request.user.uid}`)
     .set(profileDetails)
     .then(() => {
-      return response.json({ message: "Details added succsessfully" });
+      db.doc(`/users/${request.user.handle}`)
+        .update({ profileCreated: true })
+        .then(() => {
+          return response.json({ message: "Details added succsessfully" });
+        })
+        .catch((err) => {
+          console.error(err);
+          return response.status(500).json({ error: err.code });
+        });
     })
     .catch((err) => {
       console.error(err);
@@ -172,10 +243,15 @@ exports.getAuthenticatedUser = (request, response) => {
     .then((doc) => {
       if (doc.exists) {
         userData.credentials = doc.data();
+        console.log(userData);
+        return response.json(userData);
       }
+    })
+    .catch((err) => {
+      console.error(err);
+      return response.status(500).json({ error: err.code });
     });
 };
-
 
 //TODO:
 //check for duplicate images
@@ -195,10 +271,10 @@ exports.uploadImage = (request, response) => {
 
   let generatedToken;
   let imageFileName;
-  let imageToBeUploaded = {}; 
+  let imageToBeUploaded = {};
   let imagesToBeUploaded = [];
   let imageUrl;
-  let imageUrls =[];
+  let imageUrls = [];
 
   //this allows busboy to upload a file that handler take a fieldname, file, filename, mimetype all handlers need to be called in the name to work even if you don't use them
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
@@ -217,75 +293,73 @@ exports.uploadImage = (request, response) => {
     // now we have an object created we can use the filesystem library to create the image
     imageToBeUploaded = { filepath, mimetype };
     file.pipe(fs.createWriteStream(filepath));
-    imagesToBeUploaded.push(imageToBeUploaded)
+    imagesToBeUploaded.push(imageToBeUploaded);
     imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media&token=${generatedToken}`;
-    imageUrls.push(imageUrl)
+    imageUrls.push(imageUrl);
     // console.log(imagesToBeUploaded)
   });
   //this is the finish event once the file has been created
   busboy.on("finish", () => {
-    let  promises = [];
-    imagesToBeUploaded.forEach((doc, index)=>{
+    let promises = [];
+    imagesToBeUploaded.forEach((doc, index) => {
       promises.push(
         admin
-        .storage()
-        .bucket(`${config.storageBucket}`)
-        .upload(doc.filepath, {
-          resumable: false,
-          metadata: {
+          .storage()
+          .bucket(`${config.storageBucket}`)
+          .upload(doc.filepath, {
+            resumable: false,
             metadata: {
-              contentType: doc.mimetype,
-              //Generate token to be appended to imageUrl
-              firebaseStorageDownloadTokens: generatedToken,
+              metadata: {
+                contentType: doc.mimetype,
+                //Generate token to be appended to imageUrl
+                firebaseStorageDownloadTokens: generatedToken,
+              },
             },
-          },
-        })
+          })
       );
     });
-      Promise.allSettled(promises)// .then((results) => results.forEach((result) => console.log(result.status)))
+    Promise.allSettled(promises) // .then((results) => results.forEach((result) => console.log(result.status)))
       .then(() => {
-        console.log(imageUrls)
+        console.log(imageUrls);
         return response.json({ message: "image/s uploaded successfully" });
       })
       .catch((err) => {
         console.error(err);
         return response.status(500).json({ error: err.code });
       });
-      // //construct an image url to add to our users
-      // .then(() => {
-      //   // alt media allows it to be shown in the broswer without it it gets downloaded and not shown
-      //   const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media&token=${generatedToken}`;
+    // //construct an image url to add to our users
+    // .then(() => {
+    //   // alt media allows it to be shown in the broswer without it it gets downloaded and not shown
+    //   const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media&token=${generatedToken}`;
 
-      //   //we need to add the image to our user document so because we use FBAuth we can get access to the user document becuase they have already been authenticated and logged in and can then retrun the users section to add the image to. Because imageURL doesn't exsist it wil create it so you use the firebasfunction update which will take a key value to update
-      //   return db
-      //     .doc(`/users/${request.user.handle}`)
-      //     .update({ imageUrl: imageUrl });
-      // })
-   
+    //   //we need to add the image to our user document so because we use FBAuth we can get access to the user document becuase they have already been authenticated and logged in and can then retrun the users section to add the image to. Because imageURL doesn't exsist it wil create it so you use the firebasfunction update which will take a key value to update
+    //   return db
+    //     .doc(`/users/${request.user.handle}`)
+    //     .update({ imageUrl: imageUrl });
+    // })
   });
   busboy.end(request.rawBody);
 };
 
 //DELETE PROFILE
-exports.deleteProfile = (request,response) =>{
-
+exports.deleteProfile = (request, response) => {
   const document = db.doc(`/profiles/${request.params.profileId}`);
-  document.get()
-    .then(doc =>{
-        if(!doc.exists){
-          return response.status(404).json({error : "Profile not found"});
-        }
-        if(doc.data().handle !== request.user.handle){
-          return response.status(403).json({error : "Unauthorized"});
-        }else {
-          document.delete();
-          return response.json({message : 'Profile deleted successfully'});
-        }
+  document
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return response.status(404).json({ error: "Profile not found" });
+      }
+
+      if (doc.data().handle !== request.user.handle) {
+        return response.status(403).json({ error: "Unauthorized" });
+      } else {
+        document.delete();
+        return response.json({ message: "Profile deleted successfully" });
+      }
     })
-    .catch(err =>{
+    .catch((err) => {
       console.error(err);
-      response.status(500).json({error : err.code})
-    })
-}
-
-
+      response.status(500).json({ error: err.code });
+    });
+};

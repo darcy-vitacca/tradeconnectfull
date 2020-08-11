@@ -13,7 +13,7 @@ const isEmail = (email) => {
 
 //checks signUpData
 exports.validateSignUpData = (data) => {
-  console.log("here")
+  console.log("here");
   console.log(data);
   //This section checks for errors in the sign up and if they have it it will add and error to the object which will it turn be check and if any errors come up it will be shown
   let errors = {};
@@ -101,6 +101,7 @@ exports.reduceProfileDetails = (data) => {
   let workArr = [];
   let bestWorkEntry;
   //default images
+  console.log(data);
   const noImgComp = "no-imgcomp.jpg";
   const noImg = "no-img.png";
   //
@@ -109,9 +110,19 @@ exports.reduceProfileDetails = (data) => {
   } else {
     profileDetails.profileImageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`;
   }
+  //fullName Check
+  if (data.fullName) {
+    if (!isEmpty(data.fullName[0])) {
+      profileDetails.fullName = data.fullName;
+    } else {
+      profileDetails.fullName = data.fullName;
+    }
+  }
 
-  if (!isEmpty(data.fullName.trim())) profileDetails.fullName = data.fullName;
-  if (!isEmpty(data.location.trim())) profileDetails.locaiton = data.location;
+  if (!isEmpty(data.website.trim())) profileDetails.website = data.website;
+  if (!isEmpty(data.workStatus.trim()))
+    profileDetails.workStatus = data.workStatus;
+  if (!isEmpty(data.location.trim())) profileDetails.location = data.location;
   if (!isEmpty(data.recentEmp.trim()))
     profileDetails.recentEmp = data.recentEmp;
   if (!isEmpty(data.trade.trim())) profileDetails.trade = data.trade;
@@ -133,7 +144,6 @@ exports.reduceProfileDetails = (data) => {
             if (entry[0] === "imageUrl" && entry[1] === "") {
               entry[1] = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`;
             } else {
-              entry[1] = "Please Enter Text";
               entry[1] = "Please Enter Text";
             }
           }
@@ -162,14 +172,14 @@ exports.reduceProfileDetails = (data) => {
       profileDetails.education = data.education;
     }
   }
-  if (data.refrences) {
-    if (!isEmpty(data.refrences[0])) {
-      profileDetails.refrences = data.refrences;
+  if (data.references) {
+    if (!isEmpty(data.references[0])) {
+      profileDetails.references = data.references;
     } else {
-      profileDetails.refrences = data.refrences;
+      profileDetails.references = data.references;
     }
   }
-
+  //best work
   if (data.bestWork) {
     data.bestWork.forEach((doc) => {
       bestWorkEntry = Object.entries(doc);
