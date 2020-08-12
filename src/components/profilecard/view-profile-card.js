@@ -3,6 +3,7 @@ import AboutProfile from "./view-profile/about-profile-card";
 import ExperienceProfile from "./view-profile/experience-profile-card";
 import SkillsProfile from "./view-profile/skills-profile-card";
 import BestWorkProfile from "./view-profile/bestwork-profile-card";
+import PropTypes from 'prop-types'
 
 import axios from "axios";
 import { connect } from "react-redux";
@@ -86,9 +87,16 @@ class ViewProfile extends Component {
   }
 }
 
+ViewProfile.propTypes = {
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
 
 export default connect(mapStateToProps)(ViewProfile);

@@ -8,17 +8,18 @@ class JobSearch extends Component {
   state = {
     jobs: null,
   };
+  
   componentDidMount() {
-    axios
-      .get("/getjobs")
-      .then((res) => {
-        // console.log(res.data)
-        this.setState({
-          jobs: res.data,
-        });
-        console.log(this.state.jobs);
-      })
-      .catch((err) => console.log(err));
+    // axios
+    //   .get("/getjobs")
+    //   .then((res) => {
+    //     // console.log(res.data)
+    //     this.setState({
+    //       jobs: res.data,
+    //     });
+    //     console.log(this.state.jobs);
+    //   })
+    //   .catch((err) => console.log(err));
   }
   render() {
     let recentJobsMarkup = this.state.jobs ? (

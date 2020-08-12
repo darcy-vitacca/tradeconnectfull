@@ -72,17 +72,17 @@ class MyProfile extends Component {
     );
   }
 }
-
 MyProfile.propTypes = {
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
 
-// export default MyProfile;
 
 export default connect(mapStateToProps)(MyProfile);

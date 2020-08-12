@@ -132,11 +132,13 @@ class NavFull extends Component {
 NavFull.propTypes = {
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
 const mapActionsToProps = {
   logoutUser,

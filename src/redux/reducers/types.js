@@ -12,3 +12,6 @@ export const LOADING_UI = 'LOADING_UI';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
 
 //DATA REDUCER TYPES
+export const SEARCH_EMPLOYEE = 'SEARCH_EMPLOYEE';
+export const SEARCH_JOBS = 'SEARCH_JOBS';
+export const LOADING_DATA = 'LOADING_DATA';

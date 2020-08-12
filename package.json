@@ -11,9 +11,9 @@
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-google-autocomplete": "^1.2.6",
+    "react-google-autocomplete": "git+https://github.com/darcy-vitacca/react-google-autocomplete.git",
     "react-redux": "^7.2.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.2",
     "react-spinners": "^0.9.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
@@ -41,5 +41,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://australia-southeast1-tradeconnect-ab140.cloudfunctions.net/api"
+  "proxy": "http://localhost:5000/tradeconnect-ab140/australia-southeast1/api"
 }

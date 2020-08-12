@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Autocomplete from "react-google-autocomplete";
 import { createJob } from "../redux/actions/userActions";
+import PropTypes from 'prop-types';
 
 class PostJob extends Component {
   constructor() {
@@ -165,9 +166,15 @@ class PostJob extends Component {
     );
   }
 }
+PostJob.propTypes = {
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+};
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
 const mapActionsToProps = {
   createJob,

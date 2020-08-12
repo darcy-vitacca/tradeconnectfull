@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { searchEmployee, searchJobs } from "../redux/actions/userActions";
 import { ScaleLoader } from "react-spinners";
+import PropTypes from 'prop-types'
 
 class Home extends Component {
   constructor() {
@@ -75,6 +76,7 @@ class Home extends Component {
   //maybe make a click required only for the location to filter out bad data.
 
   handleChange = (e) => {
+
     if (this.state.searchState === false) {
       let peopleSearchInputState = [...this.state.peopleSearchInput];
       peopleSearchInputState[e.target.dataset.id][e.target.name] =
@@ -89,23 +91,36 @@ class Home extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-  
+
+    //handle employee search
     let fullNameArr;
     if (this.state.searchState === false) {
-      fullNameArr = this.state.peopleSearchInput[0].name
-        .split(" ")
-        .reduce((acc, cv) => {
-          return acc + " " + cv[0].toUpperCase() + cv.slice(1);
-        }, "")
-        .trim();
-      fullNameArr = fullNameArr.split(" ");
-      const searchReq = {
-        fullName: fullNameArr,
-        trade: this.state.peopleSearchInput[0].trade,
-        location: this.state.peopleSearchInput[0].location,
-      };
-      console.log(searchReq);
-      this.props.searchEmployee(searchReq, this.props.history);
+      if (this.state.peopleSearchInput[0].name != "") {
+        fullNameArr = this.state.peopleSearchInput[0].name
+          .split(" ")
+          .reduce((acc, cv) => {
+            return acc + " " + cv[0].toUpperCase() + cv.slice(1);
+          }, "")
+          .trim();
+        fullNameArr = fullNameArr.split(" ");
+        console.log("here");
+        const searchReq = {
+          fullName: fullNameArr,
+          trade: this.state.peopleSearchInput[0].trade,
+          state: this.state.peopleSearchInput[0].state,
+        };
+        console.log(searchReq);
+        this.props.searchEmployee(searchReq, this.props.history);
+      } else {
+        const searchReq = {
+          trade: this.state.peopleSearchInput[0].trade,
+          state: this.state.peopleSearchInput[0].state,
+        };
+        console.log(searchReq);
+        this.props.searchEmployee(searchReq, this.props.history);
+      }
+
+      //handle job searchTODO:
     } else if (this.state.searchState === true) {
       const searchReq = {
         trade: this.state.jobSearchInput[0].trade,
@@ -120,6 +135,7 @@ class Home extends Component {
   //Alternating Search Btn Render
   searchStateInput() {
     if (this.state.searchState === false) {
+      //EMPLOYEE SEARCH
       return (
         <div className="searchInput">
           <h4 className="searchTypeHome">Employee Search</h4>
@@ -148,7 +164,7 @@ class Home extends Component {
           <div className="searchHomeLabels">
             <label>Location *</label>
             <select
-              name="location"
+              name="state"
               className="searchPeopleName"
               data-id="0"
               required
@@ -169,6 +185,7 @@ class Home extends Component {
         </div>
       );
     } else {
+      //JOBSEARCH
       return (
         <div className="searchInput">
           <h4 className="searchTypeHome">Job Search</h4>
@@ -187,7 +204,7 @@ class Home extends Component {
           <div className="searchHomeLabels">
             <label>Location *</label>
             <select
-              name="location"
+              name="state"
               className="searchPeopleName"
               data-id="0"
               required
@@ -275,13 +292,20 @@ class Home extends Component {
   }
 }
 
+Home.propTypes = {
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
 
 const mapActionsToProps = {
-  searchEmployee
+  searchEmployee,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Home);

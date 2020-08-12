@@ -6,6 +6,7 @@ import { ScaleLoader } from "react-spinners";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 
+
 class Login extends Component {
   //controlled components use the state to handle forms it's good to use this because we can use the react dev tools. We set the state using the constructor below and loading is used to show a spinner. In cloud functiosn the first excecution is acutally slow so a spinner is good for responsiveness. we use onChange to set the value of it's input to the target value on it's state. If it's the email input .name will be email or if it's a password it will be password and the value will be the value of what is being typed in through the value attribute.
 
@@ -47,7 +48,7 @@ class Login extends Component {
   render() {
     //the loading needs to be got from the props now because it's stored in the UI state
     const {
-      classes,
+     
       UI: { loading },
     } = this.props;
     //we get the errors and loading from the state
@@ -119,20 +120,24 @@ class Login extends Component {
   }
 }
 
-//
+
+
 Login.propTypes = {
-  classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
 };
+
 
 //It's a function that takes our global state and we take what we need from the reducers in this state we only need user and ui. This allows user and UI to get mapped from a global props and brought to be mapped into our component props. That why we can use this.props.loginUser above
 
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
+
 //This is where we say what actions we are going to use eg loginUser. All these need to be added to our proptypes because we are using them
 const mapActionsToProps = {
   loginUser,

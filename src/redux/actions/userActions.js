@@ -4,6 +4,9 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   SET_UNAUTHENTICATED,
+  SEARCH_EMPLOYEE,
+  SEARCH_JOBS,
+  LOADING_DATA
 } from "../reducers/types";
 import axios from "axios";
 
@@ -112,7 +115,7 @@ export const createJob = (newJob, history) => (dispatch) => {
     .post("/createjob", newJob)
     .then((res) => {
       // console.log(res.data);
-      // dispatch(getUserData());
+      // dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS });
       //redirect to user page
       history.push(`/jobsearch`);
@@ -129,27 +132,12 @@ export const createJob = (newJob, history) => (dispatch) => {
 
 //SEARCH JOBS
 export const searchJobs = (searchReq, history) => (dispatch) => {
-  console.log("here")
-  axios
-    .get("/searchjobs")
-    .then((res) => {
-      console.log(res);
-      dispatch({
-        type: SET_USER,
-        payload: res.data,
-      });
-    })
-    .catch((err) => console.log(err));
-};
-
-//SEARCH PEOPLE
-export const searchEmployee = (searchReq, history) => (dispatch) => {
   // let searchReqJson = JSON.stringify(searchReq)
   console.log(history)
   console.log(searchReq)
   dispatch({ type: LOADING_UI });
   axios
-    .post("/searchemployee", searchReq)
+    .post("/searchjobs", searchReq)
     .then((res) => {
       console.log(res.data);
       // dispatch({
@@ -158,6 +146,31 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
       // });
     })
     .catch((err) => console.log(err));
+};
+
+//SEARCH PEOPLE
+export const searchEmployee = (searchReq, history) => (dispatch) => {
+  // console.log(history)
+  // console.log(searchReq)
+  dispatch({ type: LOADING_DATA });
+  axios
+    .post("/searchemployee", searchReq)
+    .then((res) => {
+      console.log(res.data);
+      dispatch({
+        type: SEARCH_EMPLOYEE,
+        payload: res.data,
+      });
+      history.push(`/peoplesearch`);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+      history.push(`/peoplesearch`);
+    });
 };
 //HELPER - SET AUTHORIZATION HEADER
 const setAuthorizationHeader = (token) => {

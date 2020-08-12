@@ -81,6 +81,8 @@ class CreateProfile extends Component {
     let educationArr = [];
     let referencesArr = [];
     let fullNameArr = [];
+    let locationArr = [];
+    let stateLocation ;
     //converts and object to not be a pointer and actually a clone
     let expArr = JSON.parse(JSON.stringify(this.state.exp));
     let bestWorkArr = JSON.parse(JSON.stringify(this.state.bestWork));
@@ -100,14 +102,35 @@ class CreateProfile extends Component {
       this.state.references,
     ];
 
+    //fullName split
     fullNameArr = this.state.fullName
       .split(" ")
       .reduce((acc, cv) => {
         return acc + " " + cv[0].toUpperCase() + cv.slice(1);
       }, "")
       .trim();
-
     fullNameArr = fullNameArr.split(" ");
+
+    //address split
+    locationArr = this.state.location.split(",");
+
+    locationArr = locationArr[0]
+      .trim()
+      .split(" ")
+      .reduce((acc, cv) => {
+        return acc + " " + cv[0].toUpperCase() + cv.slice(1);
+      }, "")
+      .trim();
+    locationArr = locationArr.split(" ");
+    
+    //Get state function
+    locationArr.forEach((entry ) =>{
+      console.log(entry)
+      if(['ACT','NSW', 'NT', 'QLD', 'TAS', 'SA', 'VIC', 'WA'].includes(entry)){
+        stateLocation = entry;
+        console.log(stateLocation)
+      }
+    })
 
     indexItems.forEach((entry) => {
       entry.forEach((doc) => {
@@ -137,7 +160,8 @@ class CreateProfile extends Component {
       exp: expArr,
       fullName: fullNameArr,
       licences: licencesArr,
-      location: this.state.location,
+      location: locationArr,
+      state: stateLocation,
       profileImageUrl: this.state.profileImageUrl,
       recentEmp: this.state.recentEmp,
       trade: this.state.trade,
@@ -155,32 +179,35 @@ class CreateProfile extends Component {
     if (e.target.name === "licences") {
       let license = [...this.state.licences];
       license[e.target.dataset.id][e.target.name] = e.target.value;
-      // console.log(license);
+      console.log(license);
     } else if (e.target.name === "education") {
       let education = [...this.state.education];
       education[e.target.dataset.id][e.target.name] = e.target.value;
-      // console.log(education);
+      console.log(education);
     } else if (e.target.name === "references") {
       let reference = [...this.state.references];
       reference[e.target.dataset.id][e.target.name] = e.target.value;
-      // console.log(reference);
+      console.log(reference);
 
       //exp handler
-    } else if (e.target.className.includes("expCardSec")) {
+    } else if (
+      e.target.className.includes("periodWorkedYear") ||
+      e.target.className.includes("periodWorkedMon")
+    ) {
       if (["date1", "date2", "date3", "date4"].includes(e.target.name)) {
         let exp = [...this.state.exp];
         if (e.target.name === "date1" || "date2" || "date3" || "date4") {
           if (e.target.name === "date1") {
-            // console.log(exp[e.target.dataset.id]);
+            console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[0] = e.target.value;
           } else if (e.target.name === "date2") {
-            // console.log(exp[e.target.dataset.id]);
+            console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[1] = e.target.value;
           } else if (e.target.name === "date3") {
-            // console.log(exp[e.target.dataset.id]);
+            console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[2] = e.target.value;
           } else if (e.target.name === "date4") {
-            // console.log(exp[e.target.dataset.id]);
+            console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[3] = e.target.value;
           } else {
             console.log("error");
@@ -238,7 +265,7 @@ class CreateProfile extends Component {
     }
   };
 
-  //ADD NEW ARRAY licences EDUCATION REFERENCES
+  //ADD NEW ARRAY LICENCES EDUCATION REFERENCES
   addNewArray = (e) => {
     // console.log("here");
     if (e.licences) {
@@ -296,7 +323,7 @@ class CreateProfile extends Component {
     }
   }
 
-  //DELETE ARRAY SECTION licences/EDUCATION/REFRENCES
+  //DELETE ARRAY SECTION LICENCES/EDUCATION/REFRENCES
   clickOnDeleteArray = (index) => {
     console.log("Delete array");
     console.log(index);
@@ -320,6 +347,12 @@ class CreateProfile extends Component {
       console.log("error");
     }
   };
+  //HANDLES AUTO-FILL CHROME BUG
+  onFocus = (event) => {
+    if (event.target.autocomplete) {
+      event.target.autocomplete = "";
+    }
+  };
 
   render() {
     let { exp, licences, education, references, bestWork } = this.state;
@@ -331,7 +364,17 @@ class CreateProfile extends Component {
         <h1 className="createProfileHeader">Create Your Profile</h1>
 
         <div className="createProfileCont">
-          <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+          <form
+            onSubmit={this.handleSubmit}
+            onChange={this.handleChange}
+            autocomplete="off"
+          >
+            <input
+              className="hiddenInput"
+              autocomplete="false"
+              name="hidden"
+              type="text"
+            ></input>
             <div className="createProfileUpper">
               <div>
                 <h3>Name *</h3>
@@ -357,11 +400,13 @@ class CreateProfile extends Component {
                 <Autocomplete
                   name="location"
                   onPlaceSelected={(place) => {
+                    console.log(place);
                     this.setState({ location: place.formatted_address });
                     console.log(this.state);
                   }}
                   types={["(regions)"]}
                   componentRestrictions={{ country: "au" }}
+                  onFocus={this.onFocus}
                 />
               </div>
 
@@ -492,13 +537,13 @@ class CreateProfile extends Component {
 CreateProfile.propTypes = {
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  createProfile: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
 
 const mapActionsToProps = {

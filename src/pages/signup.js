@@ -143,16 +143,21 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
-  classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
   signupUser: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
 };
+
+
+//It's a function that takes our global state and we take what we need from the reducers in this state we only need user and ui. This allows user and UI to get mapped from a global props and brought to be mapped into our component props. That why we can use this.props.loginUser above
 
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
+  data: state.data,
 });
+
 
 const mapActionsToProps = {
   signupUser,
