@@ -110,54 +110,97 @@ exports.login = (request, response) => {
       return response.status(500).json({ error: err.code });
     });
 };
-// SEARCH PROFILES 
-exports.searchEmployees = (request,response) =>{
+// SEARCH PROFILES
+exports.searchEmployees = (request, response) => {
+  console.log
+  if (request.body.fullName) {
+    const searchReq = {
+      fullName: request.body.fullName,
+      trade: request.body.trade,
+      state: request.body.state,
+    };
+    console.log(searchReq)
+    db.collection("profiles")
+      .where("fullName", "array-contains-any", searchReq.fullName)
+      .where("state", "==", searchReq.state)
+      .where("trade", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        if (data.size > 0) {
+          let employeesAll = [];
+          data.forEach((doc) => {
+            employeesAll.push({
+              about: doc.data().about,
+              bestWork: doc.data().bestWork,
+              createdAt: doc.data().createdAt,
+              education: doc.data().education,
+              exp: doc.data().exp,
+              fullName: doc.data().fullName,
+              handle: doc.data().handle,
+              licences: doc.data().licences,
+              location: doc.data().location,
+              profileImageUrl: doc.data().profileImageUrl,
+              recentEmp: doc.data().recentEmp,
+              references: doc.data().references,
+              trade: doc.data().trade,
+              userId: doc.data().userId,
+              website: doc.data().website,
+              workStatus: doc.data().workStatus,
+            });
 
-  const searchReq = {
-    fullName: request.body.fullName,
-    trade: request.body.trade,
-    location: request.body.location,
-  }
-  // console.log(searchReq)
-  // console.log(searchReq.fullName)
-  // console.log(searchReq.trade)
-  // console.log(searchReq.location)
-  db.collection("profiles").where("fullName", "array-contains-any", searchReq.fullName)
-  .orderBy("createdAt", "desc")
-  .get()
-  .then((data) =>{
-    console.log(data)
-    let employeesAll = [];
-    data.forEach((doc) => {
-      employeesAll.push({
-        about: doc.data().about,
-        bestWork: doc.data().bestWork,
-        createdAt: doc.data().createdAt,
-        education: doc.data().education,
-        exp: doc.data().exp,
-        fullName: doc.data().fullName,
-        handle: doc.data().handle,
-        licences: doc.data().licences,
-        location: doc.data().location,
-        profileImageUrl: doc.data().profileImageUrl,
-        recentEmp: doc.data().recentEmp,
-        references: doc.data().references,
-        trade: doc.data().trade,
-        userId: doc.data().userId,
-        website: doc.data().website,
-        workStatus: doc.data().workStatus,
+            return response.json(employeesAll);
+          });
+        } else {
+          return response.status(404).json({ error: "No Employees Found" });
+        }
       });
-    });
-    return response.json(employeesAll);
-  })
-  .catch(err =>{
-    console.error(err)
-    return response.status(500).json({error : err.code})
-  })
-  
-  
+  } else {
+    const searchReq = {
+      trade: request.body.trade,
+      state: request.body.state,
+    };
+    console.log(searchReq)
+    db.collection("profiles")
+      .where("state", "==", searchReq.state)
+      .where("trade", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        if (data.size > 0) {
+          let employeesAll = [];
+          data.forEach((doc) => {
+            employeesAll.push({
+              about: doc.data().about,
+              bestWork: doc.data().bestWork,
+              createdAt: doc.data().createdAt,
+              education: doc.data().education,
+              exp: doc.data().exp,
+              fullName: doc.data().fullName,
+              handle: doc.data().handle,
+              licences: doc.data().licences,
+              location: doc.data().location,
+              profileImageUrl: doc.data().profileImageUrl,
+              recentEmp: doc.data().recentEmp,
+              references: doc.data().references,
+              trade: doc.data().trade,
+              userId: doc.data().userId,
+              website: doc.data().website,
+              workStatus: doc.data().workStatus,
+            });
 
-}
+            return response.json(employeesAll);
+          });
+        } else {
+          return response.status(404).json({ error: "No Employees Found" });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+};
 //GET ALL PROFILES
 exports.getAllProfiles = (request, response) => {
   //only return maybe a portion instead of requesting the full amount. you could change this to recieve search variables

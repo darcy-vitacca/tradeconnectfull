@@ -118,11 +118,18 @@ exports.reduceProfileDetails = (data) => {
       profileDetails.fullName = data.fullName;
     }
   }
+   //location Check
+  if (data.location) {
+    if (!isEmpty(data.location[0])) {
+      profileDetails.location = data.location;
+    } else {
+      profileDetails.location = data.location;
+    }
+  }
 
   if (!isEmpty(data.website.trim())) profileDetails.website = data.website;
   if (!isEmpty(data.workStatus.trim()))
     profileDetails.workStatus = data.workStatus;
-  if (!isEmpty(data.location.trim())) profileDetails.location = data.location;
   if (!isEmpty(data.recentEmp.trim()))
     profileDetails.recentEmp = data.recentEmp;
   if (!isEmpty(data.trade.trim())) profileDetails.trade = data.trade;
