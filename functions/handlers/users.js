@@ -110,107 +110,15 @@ exports.login = (request, response) => {
       return response.status(500).json({ error: err.code });
     });
 };
-// SEARCH PROFILES
+// SEARCH PROFILES// SEARCH PROFILES// SEARCH PROFILES// SEARCH PROFILES
 exports.searchEmployees = (request, response) => {
-  console.log
-  if (request.body.fullName) {
-    const searchReq = {
-      fullName: request.body.fullName,
-      trade: request.body.trade,
-      state: request.body.state,
-    };
-    console.log(searchReq)
-    db.collection("profiles")
-      .where("fullName", "array-contains-any", searchReq.fullName)
-      .where("state", "==", searchReq.state)
-      .where("trade", "==", searchReq.trade)
-      .orderBy("createdAt", "desc")
-      .get()
-      .then((data) => {
-        if (data.size > 0) {
-          let employeesAll = [];
-          data.forEach((doc) => {
-            employeesAll.push({
-              about: doc.data().about,
-              bestWork: doc.data().bestWork,
-              createdAt: doc.data().createdAt,
-              education: doc.data().education,
-              exp: doc.data().exp,
-              fullName: doc.data().fullName,
-              handle: doc.data().handle,
-              licences: doc.data().licences,
-              location: doc.data().location,
-              profileImageUrl: doc.data().profileImageUrl,
-              recentEmp: doc.data().recentEmp,
-              references: doc.data().references,
-              trade: doc.data().trade,
-              userId: doc.data().userId,
-              website: doc.data().website,
-              workStatus: doc.data().workStatus,
-            });
-
-            return response.json(employeesAll);
-          });
-        } else {
-          return response.status(404).json({ error: "No Employees Found" });
-        }
-      });
-  } else {
-    const searchReq = {
-      trade: request.body.trade,
-      state: request.body.state,
-    };
-    console.log(searchReq)
-    db.collection("profiles")
-      .where("state", "==", searchReq.state)
-      .where("trade", "==", searchReq.trade)
-      .orderBy("createdAt", "desc")
-      .get()
-      .then((data) => {
-        if (data.size > 0) {
-          let employeesAll = [];
-          data.forEach((doc) => {
-            employeesAll.push({
-              about: doc.data().about,
-              bestWork: doc.data().bestWork,
-              createdAt: doc.data().createdAt,
-              education: doc.data().education,
-              exp: doc.data().exp,
-              fullName: doc.data().fullName,
-              handle: doc.data().handle,
-              licences: doc.data().licences,
-              location: doc.data().location,
-              profileImageUrl: doc.data().profileImageUrl,
-              recentEmp: doc.data().recentEmp,
-              references: doc.data().references,
-              trade: doc.data().trade,
-              userId: doc.data().userId,
-              website: doc.data().website,
-              workStatus: doc.data().workStatus,
-            });
-
-            return response.json(employeesAll);
-          });
-        } else {
-          return response.status(404).json({ error: "No Employees Found" });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        return response.status(500).json({ error: err.code });
-      });
-  }
-};
-//GET ALL PROFILES
-exports.getAllProfiles = (request, response) => {
-  //only return maybe a portion instead of requesting the full amount. you could change this to recieve search variables
-  db.collection("profiles")
-    .orderBy("createdAt", "desc")
-    .get()
-    .then((data) => {
-      let profilesAll = [];
+  console.log(request.body);
+  let employeesAll = [];
+  //employee search func
+  employeeSearch = (data) => {
+    if (data.size > 0) {
       data.forEach((doc) => {
-        profilesAll.push({
+        employeesAll.push({
           about: doc.data().about,
           bestWork: doc.data().bestWork,
           createdAt: doc.data().createdAt,
@@ -223,15 +131,212 @@ exports.getAllProfiles = (request, response) => {
           profileImageUrl: doc.data().profileImageUrl,
           recentEmp: doc.data().recentEmp,
           references: doc.data().references,
+          state: doc.data().state,
           trade: doc.data().trade,
           userId: doc.data().userId,
           website: doc.data().website,
           workStatus: doc.data().workStatus,
         });
       });
-      return response.json(profilesAll);
-    })
-    .catch((err) => console.error(err));
+    }
+  };
+
+  //checks for search results
+  resultsCheck = () => {
+    if (employeesAll === undefined || employeesAll.length == 0) {
+      return response.status(404).json({ error: "No Employees Found" });
+    } else {
+      return response.json(employeesAll);
+    }
+  };
+  //full Search
+  if (
+    (request.body.fullName && request.body.trade && request.body.state) != ""
+  ) {
+    console.log("here1");
+    const searchReq = {
+      fullName: request.body.fullName,
+      trade: request.body.trade,
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("profiles")
+      .where("fullName", "array-contains-any", searchReq.fullName)
+      .where("state", "==", searchReq.state)
+      .where("trade", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+   
+
+    //TWO FIELDS SEARCHES
+    //trade + state  no name search
+  } else if (
+    (request.body.trade && request.body.state) != "" &&
+    request.body.fullName === ""
+  ) {
+    console.log("here2");
+    const searchReq = {
+      trade: request.body.trade,
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("profiles")
+      .where("state", "==", searchReq.state)
+      .where("trade", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+    //name, state no trade
+  } else if (
+    (request.body.fullName && request.body.state) != "" &&
+    request.body.trade === ""
+  ) {
+    console.log("here2");
+    const searchReq = {
+      name: request.body.fullName,
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("profiles")
+      .where("fullName", "array-contains-any", searchReq.name)
+      .where("state", "==", searchReq.state)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+
+    //trade, name, no state
+  } else if (
+    (request.body.trade && request.body.fullName) != "" &&
+    request.body.state === ""
+  ) {
+    console.log("here2");
+    const searchReq = {
+      trade: request.body.trade,
+      name: request.body.fullName,
+    };
+    console.log(searchReq);
+    db.collection("profiles")
+      .where("fullName", "==", searchReq.name)
+      .where("trade", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+
+    //SINGLE SEARCHES
+    //trade, no name + no state search
+  } else if (
+    request.body.trade != "" &&
+    (request.body.fullName && request.body.state) === ""
+  ) {
+    console.log("here3");
+    const searchReq = {
+      trade: request.body.trade,
+    };
+    console.log(searchReq);
+    db.collection("profiles")
+      .where("trade", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+  // name  no trade + no state search
+  else if (
+    request.body.fullName != "" &&
+    (request.body.trade && request.body.state) === ""
+  ) {
+    console.log("here3");
+    const searchReq = {
+      name: request.body.fullName,
+    };
+    console.log(searchReq);
+    db.collection("profiles")
+      .where("fullName", "array-contains-any", searchReq.name)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+  // state  no trade + no name search
+  else if (
+    request.body.state != "" &&
+    (request.body.trade && request.body.fullName) === ""
+  ) {
+    console.log("here4");
+    const searchReq = {
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("profiles")
+      .where("state", "==", searchReq.state)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        console.log(data);
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+
+    //full empty search
+  } else {
+    console.log("else");
+    db.collection("profiles")
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        employeeSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
 };
 
 //ADD USER DETAILS// MAY GET DELETED OR CHANGED INTO UPDATE USER DETAILS
@@ -251,8 +356,6 @@ exports.addUserDetails = (request, response) => {
 
 //ADD FULL PROFILE
 exports.addProfile = (request, response) => {
-  console.log("here");
-  // console.log(request)
   let profileDetails = reduceProfileDetails(request.body);
   profileDetails.userId = request.user.uid;
   profileDetails.handle = request.user.handle;
@@ -405,4 +508,38 @@ exports.deleteProfile = (request, response) => {
       console.error(err);
       response.status(500).json({ error: err.code });
     });
+};
+
+//  TODO: maybe not necessary
+//GET ALL PROFILES
+exports.getAllProfiles = (request, response) => {
+  //only return maybe a portion instead of requesting the full amount. you could change this to recieve search variables
+  db.collection("profiles")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then((data) => {
+      let profilesAll = [];
+      data.forEach((doc) => {
+        profilesAll.push({
+          about: doc.data().about,
+          bestWork: doc.data().bestWork,
+          createdAt: doc.data().createdAt,
+          education: doc.data().education,
+          exp: doc.data().exp,
+          fullName: doc.data().fullName,
+          handle: doc.data().handle,
+          licences: doc.data().licences,
+          location: doc.data().location,
+          profileImageUrl: doc.data().profileImageUrl,
+          recentEmp: doc.data().recentEmp,
+          references: doc.data().references,
+          trade: doc.data().trade,
+          userId: doc.data().userId,
+          website: doc.data().website,
+          workStatus: doc.data().workStatus,
+        });
+      });
+      return response.json(profilesAll);
+    })
+    .catch((err) => console.error(err));
 };

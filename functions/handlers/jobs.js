@@ -12,7 +12,7 @@ exports.getJob = (request, response) => {
       }
       jobData = doc.data();
       console.log(jobData);
-      return response.json({ message: "Job retrived" , jobData : jobData});
+      return response.json({ message: "Job retrived", jobData: jobData });
     })
     .catch((err) => {
       console.error(err);
@@ -20,15 +20,16 @@ exports.getJob = (request, response) => {
     });
 };
 
-//GET ALL JOBS
-exports.getAllJobs = (request, response) => {
-  db.collection("job")
-    .orderBy("createdAt", "desc")
-    .get()
-    .then((data) => {
-      let jobs = [];
+//SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS
+exports.searchJobs = (request, response) => {
+  console.log("here");
+  console.log(request.body);
+  let jobsAll = [];
+  //jobs search func
+  jobSearch = (data) => {
+    if (data.size > 0) {
       data.forEach((doc) => {
-        jobs.push({
+        jobsAll.push({
           jobId: doc.id,
           job: doc.data().job,
           company: doc.data().company,
@@ -45,15 +46,99 @@ exports.getAllJobs = (request, response) => {
           imageUrl: doc.data().imageUrl,
         });
       });
-      return response.json(jobs);
-    })
-    .catch((err) => console.error(err));
+    }
+  };
+
+  //checks for search results
+  resultsCheck = () => {
+    if (jobsAll === undefined || jobsAll.length == 0) {
+      return response.status(404).json({ error: "No Employees Found" });
+    } else {
+      return response.json(jobsAll);
+    }
+  };
+
+  //full Search
+  if ((request.body.trade && request.body.state) != "") {
+    console.log("here2");
+    const searchReq = {
+      trade: request.body.trade,
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("job")
+      .where("state", "==", searchReq.state)
+      .where("job", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+  //SINGLE SEARCHES
+  //trade only
+  else if (request.body.trade != "" && request.body.state === "") {
+    console.log("here3");
+    const searchReq = {
+      trade: request.body.trade,
+    };
+    console.log(searchReq);
+    db.collection("job")
+      .where("job", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+
+  // state  only
+  else if (request.body.state != "") {
+    console.log("here4");
+    const searchReq = {
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("job")
+      .where("state", "==", searchReq.state)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        console.log(data);
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+
+    //full empty search
+  } else {
+    console.log("else");
+    db.collection("job")
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
 };
-
-exports.searchJobs = (request,response) =>{
-
-  
-}
 
 exports.createNewJob = (request, response) => {
   //because of FBAuth we don't have to name the user handle as we have already got it from this previous function
@@ -64,6 +149,7 @@ exports.createNewJob = (request, response) => {
     location: request.body.location,
     salary: request.body.salary,
     salaryFreq: request.body.salaryFreq,
+    state: request.body.state,
     aboutBusiness: request.body.aboutBusiness,
     role: request.body.role,
     skillsExp: request.body.skillsExp,
@@ -114,3 +200,34 @@ exports.deleteJob = (request, response) => {
       return response.status(500).json({ error: err.code });
     });
 };
+
+//TODO://
+//GET ALL JOBS
+// exports.getAllJobs = (request, response) => {
+//   db.collection("job")
+//     .orderBy("createdAt", "desc")
+//     .get()
+//     .then((data) => {
+//       let jobs = [];
+//       data.forEach((doc) => {
+//         jobs.push({
+//           jobId: doc.id,
+//           job: doc.data().job,
+//           company: doc.data().company,
+//           location: doc.data().location,
+//           salary: doc.data().salary,
+//           salaryFreq: doc.data().salaryFreq,
+//           createdAt: doc.data().createdAt,
+//           aboutBusiness: doc.data().aboutBusiness,
+//           role: doc.data().role,
+//           skillsExp: doc.data().skillsExp,
+//           applyNow: doc.data().applyNow,
+//           contactDetails: doc.data().contactDetails,
+//           handle: doc.data().handle,
+//           imageUrl: doc.data().imageUrl,
+//         });
+//       });
+//       return response.json(jobs);
+//     })
+//     .catch((err) => console.error(err));
+// };

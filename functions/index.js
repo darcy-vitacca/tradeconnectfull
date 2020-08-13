@@ -8,7 +8,6 @@ const FBAuth = require("./util/fbAuth");
 
 const {
   getJob,
-  getAllJobs,
   createNewJob,
   deleteJob,
   searchJobs,
@@ -28,7 +27,7 @@ const { getProfile } = require("./handlers/profile");
 //IF YOU ARE GOING TO ADD NOTIFACTIONS AND HCAT ETC. WATCH VIDEO 12 + 13 again
 //JOB ROUTES
 app.get("/getjob/:jobId", getJob); //get one job - with full details
-app.get("/getjobs", getAllJobs); //get all jobs
+// app.get("/getjobs", getAllJobs); //get all jobs
 app.post("/createjob", FBAuth, createNewJob); //create new job
 app.delete("/deletejob/:jobId", FBAuth, deleteJob); //remove job
 // TODO:
