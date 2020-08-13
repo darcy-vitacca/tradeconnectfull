@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import axios from "axios";
 import PeopleSearchCard from "../components/peoplesearch/people-searchcard-closed-card";
 import PeopleSearchCard1 from "../components/peoplesearch/people-searchcard-closed-card1";
 import { searchEmployee } from "../redux/actions/userActions";
 import "../components/peoplesearch/people-search.css";
+import { employeeSearch } from '../components/peoplesearch/employeeSearchFunc'
 
 // import './profilecard/profile.css';
-class JobSearch extends Component {
+class EmployeeSearch extends Component {
   state = {
     errors: [],
     peopleSearchInput: [
       {
         name: "",
         trade: "",
-        location: "",
+        state: "",
       },
     ],
   };
@@ -27,39 +27,132 @@ class JobSearch extends Component {
 
   handleChange = (e) => {
     let peopleSearchInputState = [...this.state.peopleSearchInput];
-
     peopleSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
+    //TODO:SAVE THIS OLD SEARCH SOMEWHERE
+    employeeSearch(this.state, this.props)
+    // let fullNameArr;
+    // let searchInput = this.state.peopleSearchInput[0]
+    // //name validator
+    // let nameCaps = () => {
+    //   fullNameArr = searchInput.name
+    //     .split(" ")
+    //     .reduce((acc, cv) => {
+    //       return acc + " " + cv[0].toUpperCase() + cv.slice(1);
+    //     }, "")
+    //     .trim();
+    //   fullNameArr = fullNameArr.split(" ");
+    //   return fullNameArr;
+    // };
 
-    let fullNameArr;
-    //full search
-    if (this.state.peopleSearchInput[0].name != "") {
-      fullNameArr = this.state.peopleSearchInput[0].name
-        .split(" ")
-        .reduce((acc, cv) => {
-          return acc + " " + cv[0].toUpperCase() + cv.slice(1);
-        }, "")
-        .trim();
-      fullNameArr = fullNameArr.split(" ");
-      const searchReq = {
-        fullName: fullNameArr,
-        trade: this.state.peopleSearchInput[0].trade,
-        state: this.state.peopleSearchInput[0].state,
-      };
-      console.log(searchReq);
-      this.props.searchEmployee(searchReq, this.props.history);
-      //no name search
-    } else {
-      const searchReq = {
-        trade: this.state.peopleSearchInput[0].trade,
-        state: this.state.peopleSearchInput[0].state,
-      };
-      console.log(searchReq);
-      this.props.searchEmployee(searchReq, this.props.history);
-    }
+    // //name, state, people search
+    // if (
+    //   (searchInput.name &&
+    //     searchInput.trade &&
+    //     searchInput.state) !== ""
+    // ) {
+    //   console.log("here1");
+
+    //   const searchReq = {
+    //     fullName: nameCaps(),
+    //     trade: searchInput.trade,
+    //     state: searchInput.state,
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    //   //trade, state, no name search
+    // } else if (
+    //   (searchInput.trade &&
+    //     searchInput.state) !== ""
+    // ) {
+    //   console.log("here2");
+    //   const searchReq = {
+    //     fullName: "",
+    //     trade: searchInput.trade,
+    //     state: searchInput.state,
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    // }
+    // //name, state, no trade search
+    // else if (
+    //   (searchInput.name &&
+    //     searchInput.state) !== ""
+    // ) {
+    //   console.log("here3");
+    //   const searchReq = {
+    //     fullName: nameCaps(),
+    //     trade: "",
+    //     state: searchInput.state,
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    // }
+    // //trade, name , no start search
+    // else if (
+    //   (searchInput.trade &&
+    //     searchInput.name) !== ""
+    // ) {
+    //   console.log("here4");
+    //   const searchReq = {
+    //     fullName: nameCaps(),
+    //     trade: searchInput.trade,
+    //     state: "",
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    // }
+
+    // //name onle search
+    // else if (searchInput.name !== "") {
+    //   console.log("here6");
+    //   console.log(searchInput.state);
+    //   const searchReq = {
+    //     fullName: nameCaps(),
+    //     trade: "",
+    //     state: "",
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    // }
+    // //trade only search
+    // else if (searchInput.trade !== "") {
+    //   console.log("here5");
+    //   console.log(searchInput.trade);
+    //   const searchReq = {
+    //     fullName: "",
+    //     trade: searchInput.trade,
+    //     state: "",
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    // }
+
+    // // state only search
+    // else if (searchInput.state !== "") {
+    //   console.log("here7");
+    //   console.log(searchInput.state);
+    //   const searchReq = {
+    //     fullName: "",
+    //     trade: "",
+    //     state: searchInput.state,
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    // //empty search
+    // } else {
+    //   console.log("here8");
+    //   const searchReq = {
+    //     fullName: "",
+    //     trade: "",
+    //     state: "",
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchEmployee(searchReq, this.props.history);
+    // }
   };
 
   render() {
@@ -71,16 +164,15 @@ class JobSearch extends Component {
       <p>Loading...</p>
     );
     const {
-      UI: { loading }
+      UI: { loading ,errors},
     } = this.props;
-    const { errors } = this.state;
+
     return (
       <div className="peopleSearchBody">
         <div className="search">
           <div className="peopleSearchBarSection">
             <h1 className="peopleSearchHeader">People Search</h1>
             <div className="peopleSearchBar">
-              {<p>{errors.error}</p>}
               <form
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
@@ -114,7 +206,6 @@ class JobSearch extends Component {
                       name="state"
                       data-id="0"
                       className="searchTradeJobs"
-                      required
                     >
                       <option value="" disabled selected hidden>
                         State
@@ -130,7 +221,7 @@ class JobSearch extends Component {
                     </select>
                   </div>
                 </div>
-
+                {errors !== null ? <div className="errorsMessage">{errors.error}</div> : null}
                 <div className="peopleSearchBottom"></div>
                 <div className="applyNowBtn">
                   <button className="peopleToggleButton">Search</button>
@@ -156,4 +247,4 @@ const mapActionsToProps = {
   searchEmployee,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(JobSearch);
+export default connect(mapStateToProps, mapActionsToProps)(EmployeeSearch);

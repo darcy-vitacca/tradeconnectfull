@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Autocomplete from "react-google-autocomplete";
 import { createJob } from "../redux/actions/userActions";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 class PostJob extends Component {
   constructor() {
@@ -36,10 +36,40 @@ class PostJob extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
+  
+    let locationArr =[];
+    let stateLocation = []
+
+    
+
+    //address split
+    locationArr = this.state.location.split(",");
+
+    locationArr = locationArr[0]
+      .trim()
+      .split(" ")
+      .reduce((acc, cv) => {
+        return acc + " " + cv[0].toUpperCase() + cv.slice(1);
+      }, "")
+      .trim();
+    locationArr = locationArr.split(" ");
+
+    //Get state function
+    locationArr.forEach((entry) => {
+      console.log(entry);
+      if (
+        ["ACT", "NSW", "NT", "QLD", "TAS", "SA", "VIC", "WA"].includes(entry)
+      ) {
+        stateLocation = entry;
+        console.log(stateLocation);
+      }
+    });
+
     const newJob = {
       job: this.state.job,
       company: this.state.company,
-      location: this.state.location,
+      location: locationArr,
+      state: stateLocation,
       salary: this.state.salary,
       salaryFreq: this.state.salaryFreq,
       aboutBusiness: this.state.aboutBusiness,
@@ -53,18 +83,32 @@ class PostJob extends Component {
     this.props.createJob(newJob, this.props.history);
   };
 
+    //HANDLES AUTO-FILL CHROME BUG
+    onFocus = (event) => {
+      if (event.target.autocomplete) {
+        event.target.autocomplete = "";
+      }
+    };
+  
+
   render() {
     return (
       <div className="postJobBody">
         <div className="postJobCard">
-        <h1 className="postJobHeader">Post a Job Ad</h1>
+          <h1 className="postJobHeader">Post a Job Ad</h1>
           <div className="postJobFormCont">
-          
             <form
               className="postJobForm"
               onSubmit={this.handleSubmit}
               onChange={this.handleChange}
+              autocomplete="off"
             >
+               <input
+              className="hiddenInput"
+              autocomplete="false"
+              name="hidden"
+              type="text"
+            ></input>
               <div className="upperPostJobForm">
                 <div>
                   <h3>Job Title *</h3>
@@ -87,15 +131,16 @@ class PostJob extends Component {
                 <div>
                   <h3>Location *</h3>
                   <Autocomplete
-                    name="location"
-                    onPlaceSelected={(place) => {
-                      console.log(place);
-                      this.setState({ location: place.formatted_address });
-                      console.log(this.state);
-                    }}
-                    types={["(regions)"]}
-                    componentRestrictions={{ country: "au" }}
-                  />
+                  name="location"
+                  onPlaceSelected={(place) => {
+                    console.log(place);
+                    this.setState({ location: place.formatted_address });
+                    console.log(this.state);
+                  }}
+                  types={["(regions)"]}
+                  componentRestrictions={{ country: "au" }}
+                  onFocus={this.onFocus}
+                />
                 </div>
                 <div>
                   <h3>Salary *</h3>
@@ -180,5 +225,4 @@ const mapActionsToProps = {
   createJob,
 };
 
-
-export default connect(mapStateToProps , mapActionsToProps)(PostJob);
+export default connect(mapStateToProps, mapActionsToProps)(PostJob);

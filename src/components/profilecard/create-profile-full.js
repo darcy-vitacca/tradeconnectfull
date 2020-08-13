@@ -82,7 +82,7 @@ class CreateProfile extends Component {
     let referencesArr = [];
     let fullNameArr = [];
     let locationArr = [];
-    let stateLocation ;
+    let stateLocation;
     //converts and object to not be a pointer and actually a clone
     let expArr = JSON.parse(JSON.stringify(this.state.exp));
     let bestWorkArr = JSON.parse(JSON.stringify(this.state.bestWork));
@@ -122,15 +122,17 @@ class CreateProfile extends Component {
       }, "")
       .trim();
     locationArr = locationArr.split(" ");
-    
+
     //Get state function
-    locationArr.forEach((entry ) =>{
-      console.log(entry)
-      if(['ACT','NSW', 'NT', 'QLD', 'TAS', 'SA', 'VIC', 'WA'].includes(entry)){
+    locationArr.forEach((entry) => {
+      console.log(entry);
+      if (
+        ["ACT", "NSW", "NT", "QLD", "TAS", "SA", "VIC", "WA"].includes(entry)
+      ) {
         stateLocation = entry;
-        console.log(stateLocation)
+        console.log(stateLocation);
       }
-    })
+    });
 
     indexItems.forEach((entry) => {
       entry.forEach((doc) => {
@@ -152,7 +154,7 @@ class CreateProfile extends Component {
         // console.log(doc);
       });
     });
-
+  //TODO: had issues with the uppercase of the a section TODO: spinner is not centre
     const profileDetails = {
       userId: this.props.user.credentials.userId,
       about: this.state.about,

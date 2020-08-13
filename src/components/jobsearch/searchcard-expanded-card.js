@@ -7,7 +7,7 @@ class JobCard extends Component {
   render() {
     dayjs.extend(relativeTime);
     // we can destructure the api call within here
-    const {
+    let {
       job: {
         job,
         company,
@@ -24,7 +24,8 @@ class JobCard extends Component {
         imageUrl,
       },
     } = this.props;
-
+   
+    location = location.join(" ");
     return (
       <div className="jobSearchCard">
         <div className="jobSearchExpandBar">

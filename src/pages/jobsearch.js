@@ -1,32 +1,90 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "../components/jobsearch/jobsearch.css";
-import axios from "axios";
 import JobCard from "../components/jobsearch/searchcard-expanded-card";
-
+import { searchJobs } from "../redux/actions/userActions";
+import { jobSearch } from '../components/jobsearch/jobSearchFunc'
 // to call the api constantly we list it in our package.json at the end ounder proxy
 class JobSearch extends Component {
   state = {
-    jobs: null,
+    errors: [],
+    jobSearchInput: [
+      {
+        trade: "",
+        state: "",
+      },
+    ],
   };
-  
-  componentDidMount() {
-    // axios
-    //   .get("/getjobs")
-    //   .then((res) => {
-    //     // console.log(res.data)
-    //     this.setState({
-    //       jobs: res.data,
-    //     });
-    //     console.log(this.state.jobs);
-    //   })
-    //   .catch((err) => console.log(err));
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
   }
+
+  componentDidMount() {}
+  handleChange = (e) => {
+    let jobSearchInputState = [...this.state.jobSearchInput];
+    jobSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    jobSearch(this.state, this.props)
+    // let searchInput = this.state.jobSearchInput[0];
+    // //trade, state search
+    // if ((searchInput.trade && searchInput.state) !== "") {
+    //   console.log("here1");
+    //   const searchReq = {
+    //     trade: searchInput.trade,
+    //     state: searchInput.state,
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchJobs(searchReq, this.props.history);
+    // }
+    // //trade only search
+    // else if (searchInput.trade !== "") {
+    //   console.log("here2");
+    //   console.log(searchInput.trade);
+    //   const searchReq = {
+    //     trade: searchInput.trade,
+    //     state: "",
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchJobs(searchReq, this.props.history);
+    // }
+
+    // // state only search
+    // else if (searchInput.state !== "") {
+    //   console.log("here3");
+    //   console.log(searchInput.state);
+    //   const searchReq = {
+    //     trade: "",
+    //     state: searchInput.state,
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchJobs(searchReq, this.props.history);
+    // //full search
+    // } else {
+    //   console.log("here4");
+    //   const searchReq = {
+    //     trade: "",
+    //     state: "",
+    //   };
+    //   console.log(searchReq);
+    //   this.props.searchJobs(searchReq, this.props.history);
+    // }
+  };
   render() {
-    let recentJobsMarkup = this.state.jobs ? (
-      this.state.jobs.map((job) => <JobCard key={job.jobId} job={job} />)
+    let recentJobsMarkup = this.props.data.jobs ? (
+      this.props.data.jobs.map((job) => <JobCard key={job.jobId} job={job} />)
     ) : (
       <p>Loading...</p>
     );
+    const {
+      UI: { loading, errors },
+    } = this.props;
+
     return (
       // search bar
       <div className="jobSearchBody">
@@ -34,12 +92,18 @@ class JobSearch extends Component {
           <div className="jobSearchBarSection">
             <h1 className="jobSearchHeader">Job Search</h1>
             <div className="jobSearchBar">
-              <form className="searchBarForm">
+              <form
+                onChange={this.handleChange}
+                onSubmit={this.handleSubmit}
+                className="searchBarForm"
+              >
                 <div className="jobSearchInputs">
                   <div className="jobSearchTrade">
                     <label>Trade</label>
                     <input
                       type="search"
+                      name="trade"
+                      data-id="0"
                       placeholder="Trade"
                       className="searchTradeJobs"
                     ></input>
@@ -47,7 +111,11 @@ class JobSearch extends Component {
 
                   <div className="jobSearchLocation">
                     <label>Location</label>
-                    <select name="state" className="searchTradeJobs" required>
+                    <select
+                      name="state"
+                      className="searchTradeJobs"
+                      data-id="0"
+                    >
                       <option value="" disabled selected hidden>
                         State
                       </option>
@@ -65,10 +133,14 @@ class JobSearch extends Component {
 
                 <button className="jobToggleButton">Search</button>
               </form>
+              {errors !== null ? (
+                <div className="errorsMessage">{errors.error}</div>
+              ) : null}
             </div>
           </div>
+          {recentJobsMarkup}
           {/* body */}
-          <div className="jobSearchCard">
+          {/* <div className="jobSearchCard">
             <div className="jobSearchExpandBar">
               <p>&#43;</p>
             </div>
@@ -111,12 +183,22 @@ class JobSearch extends Component {
                 <button id="applyJobButton">Apply</button>
               </div>
             </div>
-          </div>
-          {recentJobsMarkup}
+          </div> */}
+       
         </div>
       </div>
     );
   }
 }
 
-export default JobSearch;
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+  data: state.data,
+});
+
+const mapActionsToProps = {
+  searchJobs,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(JobSearch);

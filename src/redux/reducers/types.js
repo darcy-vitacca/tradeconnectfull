@@ -15,3 +15,6 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS'
 export const SEARCH_EMPLOYEE = 'SEARCH_EMPLOYEE';
 export const SEARCH_JOBS = 'SEARCH_JOBS';
 export const LOADING_DATA = 'LOADING_DATA';
+export const NEW_SEARCH = 'NEW_SEARCH'
+export const CLEAR_EMPLOYEES = 'CLEAR_EMPLOYEES'
+export const CLEAR_JOBS = 'CLEAR_JOBS'

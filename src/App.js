@@ -13,8 +13,8 @@ import { logoutUser, getUserData } from "./redux/actions/userActions";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import Jobsearch from "./pages/jobsearch";
-import Peoplesearch from "./pages/peoplesearch";
+import JobSearch from "./pages/jobsearch";
+import EmployeeSearch from "./pages/peoplesearch";
 import MyProfile from "./pages/myprofile";
 import Contact from "./pages/contact";
 import PostJob from "./pages/postjob";
@@ -41,6 +41,7 @@ if (token) {
   }
 }
 //TODO: the way to make money could be search functionallity for the ideal candidate and give % matches
+//TODO: change all the paths names and file to appropriate things.
 //The provider gives us access to anything in the store to use in the state so everything needs to be within it to have access to the store
 function App() {
   return (
@@ -54,8 +55,8 @@ function App() {
               <Route path="/" exact component={Home} />
               <AuthRoute path="/login" component={Login} />
               <AuthRoute path="/signup" component={Signup} />
-              <Route path="/jobsearch" component={Jobsearch} />
-              <Route path="/peoplesearch" component={Peoplesearch} />
+              <Route path="/jobsearch" component={JobSearch} />
+              <Route path="/peoplesearch" component={EmployeeSearch} />
               <Route path="/apprenticeships" component={Apprenticeships} />
               <Route path="/myprofile" component={MyProfile} />
               <Route path="/contact" component={Contact} />

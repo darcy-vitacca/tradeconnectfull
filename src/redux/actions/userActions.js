@@ -6,11 +6,11 @@ import {
   SET_UNAUTHENTICATED,
   SEARCH_EMPLOYEE,
   SEARCH_JOBS,
-  LOADING_DATA
+  LOADING_DATA,
+  CLEAR_EMPLOYEES,
+  CLEAR_JOBS,
 } from "../reducers/types";
 import axios from "axios";
-
-
 
 //this is taken from the login page and we need to user dispatch because we have asynchronous code. We can set the login from the  action itself here we use dispatch to set the type whcih is loading UI. We dispatch the type then catch it from the user. We need to redirect by passing in history from the login component to the action then the action will use it
 //LOGIN USER
@@ -45,7 +45,7 @@ export const logoutUser = (history) => (dispatch) => {
   delete axios.defaults.headers.common["Authorization"];
   //THIS CHANGES AUTHENTICATED TO FALSE AND DISPATCHES IT
   dispatch({ type: SET_UNAUTHENTICATED });
-  history.push('/login')
+  history.push("/login");
 };
 
 //we login and when we get the data back we want to fetch the user it doesn't take an argument becuause we get the token back. This sends a get request to /user to get user data and if we get a result we need to dispatch an action which is the SET_USER and this action gives a payload which is data we send to the reducer and the reducer does something with it.
@@ -129,34 +129,40 @@ export const createJob = (newJob, history) => (dispatch) => {
     });
 };
 
-
 //SEARCH JOBS
 export const searchJobs = (searchReq, history) => (dispatch) => {
-  // let searchReqJson = JSON.stringify(searchReq)
-  console.log(history)
-  console.log(searchReq)
-  dispatch({ type: LOADING_UI });
+  dispatch({ type: LOADING_DATA });
+  dispatch({ type: CLEAR_JOBS });
   axios
     .post("/searchjobs", searchReq)
     .then((res) => {
       console.log(res.data);
-      // dispatch({
-      //   type: SET_USER,
-      //   payload: res.data,
-      // });
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({
+        type: SEARCH_JOBS,
+        payload: res.data,
+      });
+      history.push(`/jobsearch`);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+      history.push(`/jobsearch`);
+    });
 };
 
 //SEARCH PEOPLE
 export const searchEmployee = (searchReq, history) => (dispatch) => {
-  // console.log(history)
-  // console.log(searchReq)
   dispatch({ type: LOADING_DATA });
+  dispatch({ type: CLEAR_EMPLOYEES });
   axios
     .post("/searchemployee", searchReq)
     .then((res) => {
       console.log(res.data);
+      dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: SEARCH_EMPLOYEE,
         payload: res.data,
@@ -172,6 +178,10 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
       history.push(`/peoplesearch`);
     });
 };
+
+
+
+
 //HELPER - SET AUTHORIZATION HEADER
 const setAuthorizationHeader = (token) => {
   //the promise returned will through an error if not successful and if we are will be redirected to the home page using history.push loading is changed back becuase we have the result

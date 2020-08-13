@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { searchEmployee, searchJobs } from "../redux/actions/userActions";
+import { searchEmployee, sears } from "../redux/actions/userActions";
 import { ScaleLoader } from "react-spinners";
 import PropTypes from 'prop-types'
+import { employeeSearch } from '../components/peoplesearch/employeeSearchFunc'
+import { jobSearch } from '../components/jobsearch/jobSearchFunc'
+import { searchJobs } from "../redux/actions/userActions";
 
 class Home extends Component {
   constructor() {
@@ -13,14 +16,14 @@ class Home extends Component {
       jobSearchInput: [
         {
           trade: "",
-          location: "",
+          state: "",
         },
       ],
       peopleSearchInput: [
         {
           name: "",
           trade: "",
-          location: "",
+          state: "",
         },
       ],
     };
@@ -35,14 +38,14 @@ class Home extends Component {
         jobSearchInput: [
           {
             trade: "",
-            location: "",
+            state: "",
           },
         ],
         peopleSearchInput: [
           {
             name: "",
             trade: "",
-            location: "",
+            state: "",
           },
         ],
       }));
@@ -52,14 +55,14 @@ class Home extends Component {
         jobSearchInput: [
           {
             trade: "",
-            location: "",
+            state: "",
           },
         ],
         peopleSearchInput: [
           {
             name: "",
             trade: "",
-            location: "",
+            state: "",
           },
         ],
       }));
@@ -91,44 +94,41 @@ class Home extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+    
     //handle employee search
-    let fullNameArr;
     if (this.state.searchState === false) {
-      if (this.state.peopleSearchInput[0].name != "") {
-        fullNameArr = this.state.peopleSearchInput[0].name
-          .split(" ")
-          .reduce((acc, cv) => {
-            return acc + " " + cv[0].toUpperCase() + cv.slice(1);
-          }, "")
-          .trim();
-        fullNameArr = fullNameArr.split(" ");
-        console.log("here");
-        const searchReq = {
-          fullName: fullNameArr,
-          trade: this.state.peopleSearchInput[0].trade,
-          state: this.state.peopleSearchInput[0].state,
-        };
-        console.log(searchReq);
-        this.props.searchEmployee(searchReq, this.props.history);
-      } else {
-        const searchReq = {
-          trade: this.state.peopleSearchInput[0].trade,
-          state: this.state.peopleSearchInput[0].state,
-        };
-        console.log(searchReq);
-        this.props.searchEmployee(searchReq, this.props.history);
-      }
+      employeeSearch(this.state, this.props)
+      // if (this.state.peopleSearchInput[0].name !== "") {
+      //   fullNameArr = this.state.peopleSearchInput[0].name
+      //     .split(" ")
+      //     .reduce((acc, cv) => {
+      //       return acc + " " + cv[0].toUpperCase() + cv.slice(1);
+      //     }, "")
+      //     .trim();
+      //   fullNameArr = fullNameArr.split(" ");
+      //   console.log("here");
+      //   const searchReq = {
+      //     fullName: fullNameArr,
+      //     trade: this.state.peopleSearchInput[0].trade,
+      //     state: this.state.peopleSearchInput[0].state,
+      //   };
+      //   console.log(searchReq);
+      //   this.props.searchEmployee(searchReq, this.props.history);
+      // } else {
+      //   const searchReq = {
+      //     trade: this.state.peopleSearchInput[0].trade,
+      //     state: this.state.peopleSearchInput[0].state,
+      //   };
+      //   console.log(searchReq);
+      //   this.props.searchEmployee(searchReq, this.props.history);
+      // }
 
       //handle job searchTODO:
     } else if (this.state.searchState === true) {
-      const searchReq = {
-        trade: this.state.jobSearchInput[0].trade,
-        location: this.state.jobSearchInput[0].location,
-      };
-      console.log(searchReq);
-      this.props.searchJobs(searchReq, this.props.history);
+      jobSearch(this.state, this.props)
+
     }
+     
   };
 
   // TODO: when logged in handle clicking on loggin links or don't show them on the home page
@@ -158,7 +158,7 @@ class Home extends Component {
               placeholder="Trade"
               name="trade"
               className="searchPeopleName"
-              required
+      
             ></input>
           </div>
           <div className="searchHomeLabels">
@@ -167,9 +167,9 @@ class Home extends Component {
               name="state"
               className="searchPeopleName"
               data-id="0"
-              required
+             
             >
-              <option value="" disabled selected hidden>
+              <option value=""disabled selected hidden>
                 State
               </option>
               <option>ACT</option>
@@ -198,7 +198,7 @@ class Home extends Component {
               placeholder="Trade"
               className="searchPeopleName"
               name="trade"
-              required
+              
             ></input>
           </div>
           <div className="searchHomeLabels">
@@ -207,7 +207,7 @@ class Home extends Component {
               name="state"
               className="searchPeopleName"
               data-id="0"
-              required
+             
             >
               <option value="" disabled selected hidden>
                 State
@@ -306,6 +306,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   searchEmployee,
+  searchJobs
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Home);
