@@ -15,7 +15,7 @@ class ViewProfile extends Component {
       profile: null,
     };
   }
-
+//  TODO: CREATE PROFILE BUG
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     if (nextProps.UI.errors) {

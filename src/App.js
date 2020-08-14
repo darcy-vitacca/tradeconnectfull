@@ -18,7 +18,7 @@ import EmployeeSearch from "./pages/peoplesearch";
 import MyProfile from "./pages/myprofile";
 import Contact from "./pages/contact";
 import PostJob from "./pages/postjob";
-import Apprenticeships from "./pages/apprenticeships";
+
 //Auth
 import AuthRoute from "./components/util/auth_route";
 import axios from "axios";
@@ -40,6 +40,7 @@ if (token) {
     store.dispatch(getUserData());
   }
 }
+//TODO: for with formik youtube tutotial docs are bad
 //TODO: the way to make money could be search functionallity for the ideal candidate and give % matches
 //TODO: change all the paths names and file to appropriate things.
 //The provider gives us access to anything in the store to use in the state so everything needs to be within it to have access to the store
@@ -57,7 +58,6 @@ function App() {
               <AuthRoute path="/signup" component={Signup} />
               <Route path="/jobsearch" component={JobSearch} />
               <Route path="/peoplesearch" component={EmployeeSearch} />
-              <Route path="/apprenticeships" component={Apprenticeships} />
               <Route path="/myprofile" component={MyProfile} />
               <Route path="/contact" component={Contact} />
               <Route path="/postjob" component={PostJob} />

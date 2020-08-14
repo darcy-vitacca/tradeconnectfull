@@ -12,6 +12,10 @@ header {
   background-color: #e16b05;
 }
 
+input, select{
+  width:100%;
+  box-sizing:border-box;
+}
 
 .nav-links {
   list-style-type: none;
@@ -236,6 +240,10 @@ nav ul a:hover {
   
 
 }
+.postJobClassification{
+  width: 100%;
+  
+}
  .postJobFormCont {
   width: 80%;
   margin: 0 auto 0 auto;
@@ -254,7 +262,7 @@ nav ul a:hover {
   max-width: 320px;
 }
 
-.postJobForm input {
+.postJobForm input , .postJobForm select{
   width: 100%;
   font-family: "Montserrat", sans-serif;
   min-width: 300px;
@@ -449,6 +457,7 @@ nav ul a:hover {
     max-width: 460px;
     margin: 0 auto 0 auto;
   }
+  
 }
 
 @media screen and (min-width: 800px) {
@@ -471,6 +480,7 @@ nav ul a:hover {
   .homePageIcon {
     max-width: 160px;
   }
+  
 }
 
 @media screen and (min-width: 1024px) {
@@ -529,6 +539,10 @@ nav ul a:hover {
     flex-wrap: wrap;
     justify-content: space-between;
   }
+  .postJobForm select{
+    width: 90%;
+  }
+  
 }
 
 

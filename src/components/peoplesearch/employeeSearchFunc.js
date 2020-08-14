@@ -16,22 +16,22 @@ export function employeeSearch(state, props) {
   };
 
   //name, state, people search
-  if ((searchInput.name && searchInput.trade && searchInput.state) !== "") {
+  if ((searchInput.name && searchInput.tradeClassification && searchInput.state) !== "") {
     console.log("here1");
 
     const searchReq = {
       fullName: nameCaps(),
-      trade: searchInput.trade,
+      trade: searchInput.tradeClassification,
       state: searchInput.state,
     };
     console.log(searchReq);
     props.searchEmployee(searchReq, props.history);
     //trade, state, no name search
-  } else if ((searchInput.trade && searchInput.state) !== "") {
+  } else if ((searchInput.tradeClassification && searchInput.state) !== "") {
     console.log("here2");
     const searchReq = {
       fullName: "",
-      trade: searchInput.trade,
+      trade: searchInput.tradeClassification,
       state: searchInput.state,
     };
     console.log(searchReq);
@@ -49,11 +49,11 @@ export function employeeSearch(state, props) {
     props.searchEmployee(searchReq, props.history);
   }
   //trade, name , no start search
-  else if ((searchInput.trade && searchInput.name) !== "") {
+  else if ((searchInput.tradeClassification && searchInput.name) !== "") {
     console.log("here4");
     const searchReq = {
       fullName: nameCaps(),
-      trade: searchInput.trade,
+      trade: searchInput.tradeClassification,
       state: "",
     };
     console.log(searchReq);
@@ -73,12 +73,12 @@ export function employeeSearch(state, props) {
     props.searchEmployee(searchReq, props.history);
   }
   //trade only search
-  else if (searchInput.trade !== "") {
+  else if (searchInput.tradeClassification !== "") {
     console.log("here5");
-    console.log(searchInput.trade);
+    console.log(searchInput.tradeClassification);
     const searchReq = {
       fullName: "",
-      trade: searchInput.trade,
+      trade: searchInput.tradeClassification,
       state: "",
     };
     console.log(searchReq);

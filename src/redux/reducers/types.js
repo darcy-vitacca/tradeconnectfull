@@ -18,3 +18,6 @@ export const LOADING_DATA = 'LOADING_DATA';
 export const NEW_SEARCH = 'NEW_SEARCH'
 export const CLEAR_EMPLOYEES = 'CLEAR_EMPLOYEES'
 export const CLEAR_JOBS = 'CLEAR_JOBS'
+export const CLEAR_PROFILE = 'CLEAR_PROFILE'
+export const GET_PROFILE = 'GET_PROFILE'
+

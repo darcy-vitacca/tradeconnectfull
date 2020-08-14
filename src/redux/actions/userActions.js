@@ -9,8 +9,12 @@ import {
   LOADING_DATA,
   CLEAR_EMPLOYEES,
   CLEAR_JOBS,
+  GET_PROFILE,
+  CLEAR_PROFILE
 } from "../reducers/types";
 import axios from "axios";
+// TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
+
 
 //this is taken from the login page and we need to user dispatch because we have asynchronous code. We can set the login from the  action itself here we use dispatch to set the type whcih is loading UI. We dispatch the type then catch it from the user. We need to redirect by passing in history from the login component to the action then the action will use it
 //LOGIN USER
@@ -49,6 +53,7 @@ export const logoutUser = (history) => (dispatch) => {
 };
 
 //we login and when we get the data back we want to fetch the user it doesn't take an argument becuause we get the token back. This sends a get request to /user to get user data and if we get a result we need to dispatch an action which is the SET_USER and this action gives a payload which is data we send to the reducer and the reducer does something with it.
+
 //HELPER - GET USER DATA
 export const getUserData = () => (dispatch) => {
   axios
@@ -177,6 +182,33 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
       });
       history.push(`/peoplesearch`);
     });
+};
+
+//GET PROFILE
+export const getProfile = (uid) => () => {
+  console.log(uid)
+  console.log("here")
+  // dispatch({ type: LOADING_DATA });
+  // dispatch({ type: CLEAR_PROFILE });
+  // axios
+  //  .get(`/getprofile/${uid}`)
+  //   .then((res) => {
+  //     console.log(res.data);
+  //     dispatch({ type: CLEAR_ERRORS });
+  //     dispatch({
+  //       type: GET_PROFILE,
+  //       payload: res.data.profileData,
+  //     });
+   
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     dispatch({
+  //       type: SET_ERRORS,
+  //       payload: err.response.data,
+  //     });
+  
+  //   });
 };
 
 

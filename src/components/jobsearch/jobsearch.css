@@ -15,6 +15,9 @@
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
 }
+.jobSearchBar {
+  margin: 1vh;
+}
 .jobSearchHeader {
   text-align: center;
   margin: 0;
@@ -24,7 +27,7 @@
 }
 .searchTradeJobs,
 .searchLocationJobs {
-  width: 80%;
+  width: 100%;
   max-width: 340px;
   margin: 0 auto 0 auto;
 }
@@ -43,9 +46,13 @@
 }
 
 .jobSearchTrade input,
-.jobSearchLocation input {
+.jobSearchLocation input,
+.jobSearchClassification select {
   margin: 0 auto 0 auto;
   max-width: 340px;
+  display: flex;
+    justify-content: flex-end;
+    width: 100%;
 }
 /*      */
 .searchBarForm {
@@ -184,12 +191,18 @@
     width: 100%;
   }
   .jobSearchTrade input,
-  .jobSearchLocation input {
+  .jobSearchLocation input,
+  .jobSearchClassification select {
     display: flex;
     justify-content: flex-end;
+    width: 100%;
+    max-width: 340px;
+    margin-right: 0.2em;
+    margin-left: 0.2em;
   }
   .jobSearchTrade label,
-  .jobSearchLocation label {
+  .jobSearchLocation label,
+  .jobSearchClassification label {
     margin: 0;
     display: flex;
     justify-content: flex-end;
@@ -199,42 +212,34 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    
   }
 
   .jobSearchTrade,
-  .jobSearchLocation {
+  .jobSearchLocation,
+  .jobSearchClassification {
     width: 80%;
     max-width: 340px;
+    margin-right: 0.2em;
+    margin-left: 0.2em;
   }
 
   .jobSearchLocation {
     width: 80%;
     max-width: 340px;
-    margin-right: 2em;
   }
   .jobSearchTrade {
     width: 80%;
     max-width: 340px;
-    margin-right: 2em;
-    margin-left: 2em;
   }
   .jobToggleButton {
     max-width: 180px;
     font-size: 0.9em;
   }
-  .searchBarForm {
+  .jobSearchBarBottom {
     display: flex;
+    justify-content: flex-end;
   }
+
 }
 
-@media screen and (min-width: 800px) {
-  .searchBarForm {
-    margin: 1em;
-  }
-  .jobToggleButton {
-    margin-right: 3em;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-}

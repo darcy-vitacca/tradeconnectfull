@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Autocomplete from "react-google-autocomplete";
 import { createJob } from "../redux/actions/userActions";
 import PropTypes from "prop-types";
+import { uuid } from 'uuidv4';
 
 class PostJob extends Component {
   constructor() {
@@ -19,8 +20,51 @@ class PostJob extends Component {
       applyNow: "",
       contactDetails: "",
       imageUrl: "",
-    };
+      classifcations :[
+        "Air Conditioning & Refrigeration",
+        "Arborist",
+        "Automotive Trades",
+        "Bakers & Pastry Chefs",
+       "Boat Builder and Repairer",
+        "Bricklayer",
+        "Building Trades",
+        "Butchers",
+        "Cook",
+       "Carpentry",
+        "Cabinet Making",
+        "Cleaning Services",
+       "Electricians",
+       "Fitters, Turners & Machinists",
+        "Floristry",
+        "Gardening & Landscaping",
+        "Glazier",
+       "Hair & Beauty Services",
+        "Joiner",
+       "Labourers",
+        "Lift Mechanic",
+       "Locksmiths",
+        "Maintenance /Handyperson Services",
+       "Metal Fabricator",
+       "Nannies & Babysitters" ,
+        "Painters & Sign Writers" ,
+       "Plaster",
+       "Plumbers",
+        "Printing & Publishing Services" ,
+        "Roof Tiler",
+        "Roof Plumber",
+        "Screen Printer",
+       "Shearer",
+        "Security Services",
+        "Stonemason",
+        "Tailors & Dressmakers",
+        "Telecommuncations",
+        "Technicians",
+        "Wall and Floor Tiler",
+       "Welders & Boilermakers",
+       "Other"]
+    }
   }
+
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     if (nextProps.UI.errors) {
@@ -38,8 +82,9 @@ class PostJob extends Component {
 
   
     let locationArr =[];
+    let keywordsArr = [];
     let stateLocation = []
-
+   
     
 
     //address split
@@ -78,6 +123,8 @@ class PostJob extends Component {
       applyNow: this.state.applyNow,
       contactDetails: this.state.contactDetails,
       imageUrl: this.state.imageUrl,
+      tradeClassification : this.state.tradeClassification,
+      keywords : keywordsArr
     };
     console.log(newJob);
     this.props.createJob(newJob, this.props.history);
@@ -92,6 +139,7 @@ class PostJob extends Component {
   
 
   render() {
+    let {classifcations} = this.state;
     return (
       <div className="postJobBody">
         <div className="postJobCard">
@@ -141,6 +189,18 @@ class PostJob extends Component {
                   componentRestrictions={{ country: "au" }}
                   onFocus={this.onFocus}
                 />
+                 
+              <h3>Trade Classification</h3>
+            <select name="tradeClassification" className="postJobClassification" data-id="0">
+              <option value="" disabled selected hidden>
+                Trade Classification
+              </option>
+              {classifcations.map(classifcation =>{
+            
+                return <option key={uuid()} value={classifcation}> {classifcation}</option>
+              })}
+            </select>
+              
                 </div>
                 <div>
                   <h3>Salary *</h3>
@@ -157,8 +217,11 @@ class PostJob extends Component {
                     className="salaryFreqJobAd"
                     required
                   ></input>
+                  
                 </div>
+               
               </div>
+              
 
               <h3>About the Business *</h3>
               <textarea

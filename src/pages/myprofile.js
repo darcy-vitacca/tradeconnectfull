@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ViewProfile from "../components/profilecard/view-profile-card";
+import { uuid } from 'uuidv4';
 
 class MyProfile extends Component {
   //TODO: may need to get rid of this

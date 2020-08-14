@@ -5,7 +5,9 @@ import PeopleSearchCard1 from "../components/peoplesearch/people-searchcard-clos
 import { searchEmployee } from "../redux/actions/userActions";
 import "../components/peoplesearch/people-search.css";
 import { employeeSearch } from '../components/peoplesearch/employeeSearchFunc'
+import { uuid } from 'uuidv4';
 
+//TODO: needs to delete the search every time it makes one out of state
 // import './profilecard/profile.css';
 class EmployeeSearch extends Component {
   state = {
@@ -13,10 +15,52 @@ class EmployeeSearch extends Component {
     peopleSearchInput: [
       {
         name: "",
-        trade: "",
+        tradeClassification: "",
         state: "",
       },
     ],
+    classifcations :[
+      "Air Conditioning & Refrigeration",
+      "Arborist",
+      "Automotive Trades",
+      "Bakers & Pastry Chefs",
+     "Boat Builder and Repairer",
+      "Bricklayer",
+      "Building Trades",
+      "Butchers",
+      "Cook",
+     "Carpentry",
+      "Cabinet Making",
+      "Cleaning Services",
+     "Electricians",
+     "Fitters, Turners & Machinists",
+      "Floristry",
+      "Gardening & Landscaping",
+      "Glazier",
+     "Hair & Beauty Services",
+      "Joiner",
+     "Labourers",
+      "Lift Mechanic",
+     "Locksmiths",
+      "Maintenance /Handyperson Services",
+     "Metal Fabricator",
+     "Nannies & Babysitters" ,
+      "Painters & Sign Writers" ,
+     "Plaster",
+     "Plumbers",
+      "Printing & Publishing Services" ,
+      "Roof Tiler",
+      "Roof Plumber",
+      "Screen Printer",
+     "Shearer",
+      "Security Services",
+      "Stonemason",
+      "Tailors & Dressmakers",
+      "Telecommuncations",
+      "Technicians",
+      "Wall and Floor Tiler",
+     "Welders & Boilermakers",
+     "Other"]
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
@@ -26,133 +70,15 @@ class EmployeeSearch extends Component {
   componentDidMount() {}
 
   handleChange = (e) => {
+    
     let peopleSearchInputState = [...this.state.peopleSearchInput];
     peopleSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    //TODO:SAVE THIS OLD SEARCH SOMEWHERE
+console.log(this.state.peopleSearchInput)
     employeeSearch(this.state, this.props)
-    // let fullNameArr;
-    // let searchInput = this.state.peopleSearchInput[0]
-    // //name validator
-    // let nameCaps = () => {
-    //   fullNameArr = searchInput.name
-    //     .split(" ")
-    //     .reduce((acc, cv) => {
-    //       return acc + " " + cv[0].toUpperCase() + cv.slice(1);
-    //     }, "")
-    //     .trim();
-    //   fullNameArr = fullNameArr.split(" ");
-    //   return fullNameArr;
-    // };
-
-    // //name, state, people search
-    // if (
-    //   (searchInput.name &&
-    //     searchInput.trade &&
-    //     searchInput.state) !== ""
-    // ) {
-    //   console.log("here1");
-
-    //   const searchReq = {
-    //     fullName: nameCaps(),
-    //     trade: searchInput.trade,
-    //     state: searchInput.state,
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    //   //trade, state, no name search
-    // } else if (
-    //   (searchInput.trade &&
-    //     searchInput.state) !== ""
-    // ) {
-    //   console.log("here2");
-    //   const searchReq = {
-    //     fullName: "",
-    //     trade: searchInput.trade,
-    //     state: searchInput.state,
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    // }
-    // //name, state, no trade search
-    // else if (
-    //   (searchInput.name &&
-    //     searchInput.state) !== ""
-    // ) {
-    //   console.log("here3");
-    //   const searchReq = {
-    //     fullName: nameCaps(),
-    //     trade: "",
-    //     state: searchInput.state,
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    // }
-    // //trade, name , no start search
-    // else if (
-    //   (searchInput.trade &&
-    //     searchInput.name) !== ""
-    // ) {
-    //   console.log("here4");
-    //   const searchReq = {
-    //     fullName: nameCaps(),
-    //     trade: searchInput.trade,
-    //     state: "",
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    // }
-
-    // //name onle search
-    // else if (searchInput.name !== "") {
-    //   console.log("here6");
-    //   console.log(searchInput.state);
-    //   const searchReq = {
-    //     fullName: nameCaps(),
-    //     trade: "",
-    //     state: "",
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    // }
-    // //trade only search
-    // else if (searchInput.trade !== "") {
-    //   console.log("here5");
-    //   console.log(searchInput.trade);
-    //   const searchReq = {
-    //     fullName: "",
-    //     trade: searchInput.trade,
-    //     state: "",
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    // }
-
-    // // state only search
-    // else if (searchInput.state !== "") {
-    //   console.log("here7");
-    //   console.log(searchInput.state);
-    //   const searchReq = {
-    //     fullName: "",
-    //     trade: "",
-    //     state: searchInput.state,
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    // //empty search
-    // } else {
-    //   console.log("here8");
-    //   const searchReq = {
-    //     fullName: "",
-    //     trade: "",
-    //     state: "",
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchEmployee(searchReq, this.props.history);
-    // }
   };
 
   render() {
@@ -166,9 +92,9 @@ class EmployeeSearch extends Component {
     const {
       UI: { loading ,errors},
     } = this.props;
-
+    let {classifcations} = this.state;
     return (
-      <div className="peopleSearchBody">
+      <div className="peopleSearchBody" key={uuid()}>
         <div className="search">
           <div className="peopleSearchBarSection">
             <h1 className="peopleSearchHeader">People Search</h1>
@@ -190,16 +116,29 @@ class EmployeeSearch extends Component {
                     ></input>
                   </div>
 
+                    <div className="peopleSearchTrade">
+          <label>Trade Classification</label>
+            <select name="tradeClassification" className="searchPeopleBar" data-id="0">
+              <option value="" disabled selected hidden>
+                Trade Classification
+              </option>
+              {classifcations.map(classifcation =>{
+            
+                return <option key={uuid()} value={classifcation}> {classifcation}</option>
+              })}
+            </select>
+          </div>
+{/* 
                   <div className="peopleSearchTrade">
                     <label>Trade</label>
                     <input
                       type="search"
-                      name="trade"
+                      name="tradeClassification"
                       data-id="0"
                       placeholder="Trade"
                       className="searchTradeJobs"
                     ></input>
-                  </div>
+                  </div> */}
                   <div className="peopleSearchTrade">
                     <label>Location</label>
                     <select
@@ -230,7 +169,6 @@ class EmployeeSearch extends Component {
             </div>
           </div>
           {recentProfileMarkup}
-          <PeopleSearchCard1 />
         </div>
       </div>
     );

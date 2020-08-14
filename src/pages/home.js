@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { searchEmployee, sears } from "../redux/actions/userActions";
 import { ScaleLoader } from "react-spinners";
-import PropTypes from 'prop-types'
-import { employeeSearch } from '../components/peoplesearch/employeeSearchFunc'
-import { jobSearch } from '../components/jobsearch/jobSearchFunc'
+import PropTypes from "prop-types";
+import { employeeSearch } from "../components/peoplesearch/employeeSearchFunc";
+import { jobSearch } from "../components/jobsearch/jobSearchFunc";
 import { searchJobs } from "../redux/actions/userActions";
+import { uuid } from 'uuidv4';
 
 class Home extends Component {
   constructor() {
@@ -15,17 +16,60 @@ class Home extends Component {
       searchState: true,
       jobSearchInput: [
         {
-          trade: "",
+          keywords: "",
+          tradeClassification: "",
           state: "",
         },
       ],
       peopleSearchInput: [
         {
           name: "",
-          trade: "",
+          tradeClassification: "",
           state: "",
         },
       ],
+      classifcations :[
+        "Air Conditioning & Refrigeration",
+        "Arborist",
+        "Automotive Trades",
+        "Bakers & Pastry Chefs",
+       "Boat Builder and Repairer",
+        "Bricklayer",
+        "Building Trades",
+        "Butchers",
+        "Cook",
+       "Carpentry",
+        "Cabinet Making",
+        "Cleaning Services",
+       "Electricians",
+       "Fitters, Turners & Machinists",
+        "Floristry",
+        "Gardening & Landscaping",
+        "Glazier",
+       "Hair & Beauty Services",
+        "Joiner",
+       "Labourers",
+        "Lift Mechanic",
+       "Locksmiths",
+        "Maintenance /Handyperson Services",
+       "Metal Fabricator",
+       "Nannies & Babysitters" ,
+        "Painters & Sign Writers" ,
+       "Plaster",
+       "Plumbers",
+        "Printing & Publishing Services" ,
+        "Roof Tiler",
+        "Roof Plumber",
+        "Screen Printer",
+       "Shearer",
+        "Security Services",
+        "Stonemason",
+        "Tailors & Dressmakers",
+        "Telecommuncations",
+        "Technicians",
+        "Wall and Floor Tiler",
+       "Welders & Boilermakers",
+       "Other"]
     };
   }
 
@@ -37,14 +81,15 @@ class Home extends Component {
         searchState: !prevState.searchState,
         jobSearchInput: [
           {
-            trade: "",
+            keywords: "",
+            tradeClassification: "",
             state: "",
           },
         ],
         peopleSearchInput: [
           {
             name: "",
-            trade: "",
+            tradeClassification: "",
             state: "",
           },
         ],
@@ -54,14 +99,15 @@ class Home extends Component {
         searchState: !prevState.searchState,
         jobSearchInput: [
           {
-            trade: "",
+            keywords: "",
+            tradeClassification: "",
             state: "",
           },
         ],
         peopleSearchInput: [
           {
             name: "",
-            trade: "",
+            tradeClassification: "",
             state: "",
           },
         ],
@@ -79,136 +125,70 @@ class Home extends Component {
   //maybe make a click required only for the location to filter out bad data.
 
   handleChange = (e) => {
-
     if (this.state.searchState === false) {
       let peopleSearchInputState = [...this.state.peopleSearchInput];
       peopleSearchInputState[e.target.dataset.id][e.target.name] =
         e.target.value;
-      // console.log(peopleSearchInputState[0]);
+      console.log(peopleSearchInputState[0]);
     } else if (this.state.searchState === true) {
       let jobSearchInputState = [...this.state.jobSearchInput];
       jobSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
-      // console.log(jobSearchInputState[0]);
+      console.log(jobSearchInputState[0]);
     }
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    
+
     //handle employee search
     if (this.state.searchState === false) {
-      employeeSearch(this.state, this.props)
-      // if (this.state.peopleSearchInput[0].name !== "") {
-      //   fullNameArr = this.state.peopleSearchInput[0].name
-      //     .split(" ")
-      //     .reduce((acc, cv) => {
-      //       return acc + " " + cv[0].toUpperCase() + cv.slice(1);
-      //     }, "")
-      //     .trim();
-      //   fullNameArr = fullNameArr.split(" ");
-      //   console.log("here");
-      //   const searchReq = {
-      //     fullName: fullNameArr,
-      //     trade: this.state.peopleSearchInput[0].trade,
-      //     state: this.state.peopleSearchInput[0].state,
-      //   };
-      //   console.log(searchReq);
-      //   this.props.searchEmployee(searchReq, this.props.history);
-      // } else {
-      //   const searchReq = {
-      //     trade: this.state.peopleSearchInput[0].trade,
-      //     state: this.state.peopleSearchInput[0].state,
-      //   };
-      //   console.log(searchReq);
-      //   this.props.searchEmployee(searchReq, this.props.history);
-      // }
+      employeeSearch(this.state, this.props);
+      // console.log(this.state.jobSearchInput)
 
-      //handle job searchTODO:
+      //handle job search
     } else if (this.state.searchState === true) {
-      jobSearch(this.state, this.props)
-
+      // console.log(this.state.peopleSearchInput)
+      jobSearch(this.state, this.props);
     }
-     
   };
 
   // TODO: when logged in handle clicking on loggin links or don't show them on the home page
+  //TODO: add no autocmplete
   //Alternating Search Btn Render
   searchStateInput() {
-    if (this.state.searchState === false) {
-      //EMPLOYEE SEARCH
-      return (
-        <div className="searchInput">
-          <h4 className="searchTypeHome">Employee Search</h4>
-
-          <div className="searchHomeLabels">
-            <label>Name</label>
-            <input
-              type="search"
-              name="name"
-              data-id="0"
-              placeholder="Name"
-              className="searchPeopleName"
-            ></input>
-          </div>
-          <div className="searchHomeLabels">
-            <label>Trade *</label>
-            <input
-              type="search"
-              data-id="0"
-              placeholder="Trade"
-              name="trade"
-              className="searchPeopleName"
-      
-            ></input>
-          </div>
-          <div className="searchHomeLabels">
-            <label>Location *</label>
-            <select
-              name="state"
-              className="searchPeopleName"
-              data-id="0"
-             
-            >
-              <option value=""disabled selected hidden>
-                State
-              </option>
-              <option>ACT</option>
-              <option>NSW</option>
-              <option>NT</option>
-              <option>QLD</option>
-              <option>TAS</option>
-              <option>SA</option>
-              <option>VIC</option>
-              <option>WA</option>
-            </select>
-          </div>
-        </div>
-      );
-    } else {
-      //JOBSEARCH
-      return (
-        <div className="searchInput">
+    let {classifcations} = this.state;
+    if (this.state.searchState === true) {
+       //JOBSEARCH
+       return (
+        <div className="searchInput" key={uuid()}>
           <h4 className="searchTypeHome">Job Search</h4>
 
           <div className="searchHomeLabels">
-            <label>Trade *</label>
-            <input
+          <label>Keywords </label>
+          <input
               type="search"
               data-id="0"
-              placeholder="Trade"
+              placeholder="Enter Job Keywords"
               className="searchPeopleName"
-              name="trade"
-              
+              name="keywords"
             ></input>
+        
+            <div className="searchHomeLabels">
+            <label>Trade Classification</label>
+            <select name="tradeClassification" className="searchPeopleName" data-id="0">
+              <option value="" disabled selected hidden>
+                Trade Classification
+              </option>
+              {classifcations.map(classifcation =>{
+                return <option key={uuid()} value={classifcation}> {classifcation}</option>
+              })}
+            </select>
+          </div>
+        
           </div>
           <div className="searchHomeLabels">
-            <label>Location *</label>
-            <select
-              name="state"
-              className="searchPeopleName"
-              data-id="0"
-             
-            >
+            <label>Location </label>
+            <select name="state" className="searchPeopleName" data-id="0">
               <option value="" disabled selected hidden>
                 State
               </option>
@@ -224,6 +204,57 @@ class Home extends Component {
           </div>
         </div>
       );
+    } else {
+      //EMPLOYEE SEARCH
+      return (
+        <div className="searchInput" key={uuid()}>
+
+
+          <h4 className="searchTypeHome">Employee Search</h4>
+  
+          <div className="searchHomeLabels">
+            <label>Name</label>
+            <input
+              type="search"
+              name="name"
+              data-id="0"
+              placeholder="Name"
+              className="searchPeopleName"
+            ></input>
+          </div>
+      
+          
+          <div className="searchHomeLabels">
+          <label>Trade Classification</label>
+            <select name="tradeClassification" className="searchPeopleName" data-id="0">
+              <option value="" disabled selected hidden>
+                Trade Classification
+              </option>
+              {classifcations.map(classifcation =>{
+            
+                return <option key={uuid()} value={classifcation}> {classifcation}</option>
+              })}
+            </select>
+          </div>
+          <div className="searchHomeLabels">
+            <label>Location</label>
+            <select name="state" className="searchPeopleName" data-id="0">
+              <option value="" disabled selected hidden>
+                State
+              </option>
+              <option>ACT</option>
+              <option>NSW</option>
+              <option>NT</option>
+              <option>QLD</option>
+              <option>TAS</option>
+              <option>SA</option>
+              <option>VIC</option>
+              <option>WA</option>
+            </select>
+          </div>
+        </div>
+      );
+     
     }
   }
 
@@ -242,13 +273,6 @@ class Home extends Component {
             className="homePageIcon"
             alt="Home"
           ></img>
-          {/* TODO: maybe add back in? */}
-          {/* <img
-            src={require("../images/a.jpeg")}
-            className="homePagePhoto"
-            alt="Home"
-          ></img> */}
-
           <div>
             <div className="homePageContainer">
               <div className="homePageImage"></div>
@@ -276,7 +300,7 @@ class Home extends Component {
                 >
                   {this.searchStateInput()}
                   <button type="submit" className="homeToggleButton">
-                    Submit
+                    Search
                   </button>
                 </form>
               </div>
@@ -306,7 +330,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   searchEmployee,
-  searchJobs
+  searchJobs,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Home);

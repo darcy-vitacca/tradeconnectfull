@@ -4,7 +4,6 @@ const ExperienceProfile = (props) => {
   //TODO:recentEmployment
   //TODO: FIX IMAGE URL ISSUE NOT WORKING
   return props.exp.map((val) => {
-    console.log(val);
     return (
      
         <div className="expDiv"  key={val.index} >

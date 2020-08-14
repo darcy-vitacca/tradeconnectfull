@@ -44,7 +44,11 @@
   margin: 0 auto 0 auto;
   max-width: 340px;
 }
-
+.searchPeopleBar {
+  width:100%;
+  margin: 0 auto 0 auto;
+  max-width: 340px;
+}
 .peopleSearchExpandBar {
   background-color: #e16b05;
   text-align: right;

@@ -4,16 +4,61 @@ import "../components/jobsearch/jobsearch.css";
 import JobCard from "../components/jobsearch/searchcard-expanded-card";
 import { searchJobs } from "../redux/actions/userActions";
 import { jobSearch } from '../components/jobsearch/jobSearchFunc'
+import { uuid } from 'uuidv4';
 // to call the api constantly we list it in our package.json at the end ounder proxy
+// TODO: if on this page you need to not redirect through user actions can't research need to clear state on redirect
 class JobSearch extends Component {
   state = {
     errors: [],
     jobSearchInput: [
       {
-        trade: "",
+        keywords:"",
+        tradeClassification: "",
         state: "",
       },
     ],
+    classifcations :[
+      "Air Conditioning & Refrigeration",
+      "Arborist",
+      "Automotive Trades",
+      "Bakers & Pastry Chefs",
+     "Boat Builder and Repairer",
+      "Bricklayer",
+      "Building Trades",
+      "Butchers",
+      "Cook",
+     "Carpentry",
+      "Cabinet Making",
+      "Cleaning Services",
+     "Electricians",
+     "Fitters, Turners & Machinists",
+      "Floristry",
+      "Gardening & Landscaping",
+      "Glazier",
+     "Hair & Beauty Services",
+      "Joiner",
+     "Labourers",
+      "Lift Mechanic",
+     "Locksmiths",
+      "Maintenance /Handyperson Services",
+     "Metal Fabricator",
+     "Nannies & Babysitters" ,
+      "Painters & Sign Writers" ,
+     "Plaster",
+     "Plumbers",
+      "Printing & Publishing Services" ,
+      "Roof Tiler",
+      "Roof Plumber",
+      "Screen Printer",
+     "Shearer",
+      "Security Services",
+      "Stonemason",
+      "Tailors & Dressmakers",
+      "Telecommuncations",
+      "Technicians",
+      "Wall and Floor Tiler",
+     "Welders & Boilermakers",
+     "Other"]
   };
 
   componentWillReceiveProps(nextProps) {
@@ -22,7 +67,7 @@ class JobSearch extends Component {
     }
   }
 
-  componentDidMount() {}
+
   handleChange = (e) => {
     let jobSearchInputState = [...this.state.jobSearchInput];
     jobSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
@@ -31,49 +76,7 @@ class JobSearch extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     jobSearch(this.state, this.props)
-    // let searchInput = this.state.jobSearchInput[0];
-    // //trade, state search
-    // if ((searchInput.trade && searchInput.state) !== "") {
-    //   console.log("here1");
-    //   const searchReq = {
-    //     trade: searchInput.trade,
-    //     state: searchInput.state,
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchJobs(searchReq, this.props.history);
-    // }
-    // //trade only search
-    // else if (searchInput.trade !== "") {
-    //   console.log("here2");
-    //   console.log(searchInput.trade);
-    //   const searchReq = {
-    //     trade: searchInput.trade,
-    //     state: "",
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchJobs(searchReq, this.props.history);
-    // }
-
-    // // state only search
-    // else if (searchInput.state !== "") {
-    //   console.log("here3");
-    //   console.log(searchInput.state);
-    //   const searchReq = {
-    //     trade: "",
-    //     state: searchInput.state,
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchJobs(searchReq, this.props.history);
-    // //full search
-    // } else {
-    //   console.log("here4");
-    //   const searchReq = {
-    //     trade: "",
-    //     state: "",
-    //   };
-    //   console.log(searchReq);
-    //   this.props.searchJobs(searchReq, this.props.history);
-    // }
+   
   };
   render() {
     let recentJobsMarkup = this.props.data.jobs ? (
@@ -84,10 +87,11 @@ class JobSearch extends Component {
     const {
       UI: { loading, errors },
     } = this.props;
-
+   let {classifcations} = this.state;
     return (
+      
       // search bar
-      <div className="jobSearchBody">
+      <div className="jobSearchBody" key={uuid}>
         <div className="search">
           <div className="jobSearchBarSection">
             <h1 className="jobSearchHeader">Job Search</h1>
@@ -98,18 +102,32 @@ class JobSearch extends Component {
                 className="searchBarForm"
               >
                 <div className="jobSearchInputs">
+
                   <div className="jobSearchTrade">
                     <label>Trade</label>
                     <input
                       type="search"
-                      name="trade"
+                      name="keywords"
                       data-id="0"
-                      placeholder="Trade"
+                      placeholder="Enter Job Keywords"
                       className="searchTradeJobs"
                     ></input>
-                  </div>
+                     </div>
 
-                  <div className="jobSearchLocation">
+                     <div className="jobSearchClassification">
+                    <label>Trade Classification</label>
+            <select name="tradeClassification" className="searchTradeJobs" data-id="0">
+              <option value="" disabled selected hidden>
+                Trade Classification
+              </option>
+              {classifcations.map(classifcation =>{
+                return <option key={uuid()} value={classifcation}> {classifcation}</option>
+              })}
+            </select>
+            </div>
+
+
+            <div className="jobSearchLocation">
                     <label>Location</label>
                     <select
                       name="state"
@@ -129,9 +147,15 @@ class JobSearch extends Component {
                       <option>WA</option>
                     </select>
                   </div>
-                </div>
+                  
+                 
 
+                  
+                </div>
+                <div className="jobSearchBarBottom">
                 <button className="jobToggleButton">Search</button>
+                </div>
+               
               </form>
               {errors !== null ? (
                 <div className="errorsMessage">{errors.error}</div>
