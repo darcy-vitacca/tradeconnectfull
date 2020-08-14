@@ -2,6 +2,7 @@ const {db} = require('../util/admin');
 
 exports.getProfile = (request, response) =>{
     let profileData = {}
+    console.log('Here')
     db.doc(`/profiles/${request.params.userId}`).get()
     .then(doc =>{
         //checks if the doucment has been made in the database or not

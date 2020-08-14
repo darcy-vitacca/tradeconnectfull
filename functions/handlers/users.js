@@ -110,7 +110,7 @@ exports.login = (request, response) => {
       return response.status(500).json({ error: err.code });
     });
 };
-// SEARCH PROFILES// SEARCH PROFILES// SEARCH PROFILES// SEARCH PROFILES
+// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES
 exports.searchEmployees = (request, response) => {
   console.log(request.body);
   let employeesAll = [];
@@ -151,7 +151,7 @@ exports.searchEmployees = (request, response) => {
   };
   //full Search
   if (
-    (request.body.fullName && request.body.trade && request.body.state) != ""
+    (request.body.fullName && request.body.trade && request.body.state) !== ""
   ) {
     console.log("here1");
     const searchReq = {
@@ -163,7 +163,7 @@ exports.searchEmployees = (request, response) => {
     db.collection("profiles")
       .where("fullName", "array-contains-any", searchReq.fullName)
       .where("state", "==", searchReq.state)
-      .where("trade", "==", searchReq.trade)
+      .where("tradeClassification", "==", searchReq.trade)
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
@@ -179,7 +179,7 @@ exports.searchEmployees = (request, response) => {
     //TWO FIELDS SEARCHES
     //trade + state  no name search
   } else if (
-    (request.body.trade && request.body.state) != "" &&
+    (request.body.trade && request.body.state) !== "" &&
     request.body.fullName === ""
   ) {
     console.log("here2");
@@ -190,7 +190,7 @@ exports.searchEmployees = (request, response) => {
     console.log(searchReq);
     db.collection("profiles")
       .where("state", "==", searchReq.state)
-      .where("trade", "==", searchReq.trade)
+      .where("tradeClassification", "==", searchReq.trade)
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
@@ -203,7 +203,7 @@ exports.searchEmployees = (request, response) => {
       });
     //name, state no trade
   } else if (
-    (request.body.fullName && request.body.state) != "" &&
+    (request.body.fullName && request.body.state) !== "" &&
     request.body.trade === ""
   ) {
     console.log("here2");
@@ -228,7 +228,7 @@ exports.searchEmployees = (request, response) => {
 
     //trade, name, no state
   } else if (
-    (request.body.trade && request.body.fullName) != "" &&
+    (request.body.trade && request.body.fullName) !== "" &&
     request.body.state === ""
   ) {
     console.log("here2");
@@ -239,7 +239,7 @@ exports.searchEmployees = (request, response) => {
     console.log(searchReq);
     db.collection("profiles")
       .where("fullName", "==", searchReq.name)
-      .where("trade", "==", searchReq.trade)
+      .where("tradeClassification", "==", searchReq.trade)
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
@@ -254,16 +254,17 @@ exports.searchEmployees = (request, response) => {
     //SINGLE SEARCHES
     //trade, no name + no state search
   } else if (
-    request.body.trade != "" &&
+    request.body.trade !== "" &&
     (request.body.fullName && request.body.state) === ""
   ) {
     console.log("here3");
     const searchReq = {
       trade: request.body.trade,
     };
+    console.log("HERE")
     console.log(searchReq);
     db.collection("profiles")
-      .where("trade", "==", searchReq.trade)
+      .where("tradeClassification", "==", searchReq.trade)
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
@@ -277,7 +278,7 @@ exports.searchEmployees = (request, response) => {
   }
   // name  no trade + no state search
   else if (
-    request.body.fullName != "" &&
+    request.body.fullName !== "" &&
     (request.body.trade && request.body.state) === ""
   ) {
     console.log("here3");
@@ -300,7 +301,7 @@ exports.searchEmployees = (request, response) => {
   }
   // state  no trade + no name search
   else if (
-    request.body.state != "" &&
+    request.body.state !== "" &&
     (request.body.trade && request.body.fullName) === ""
   ) {
     console.log("here4");

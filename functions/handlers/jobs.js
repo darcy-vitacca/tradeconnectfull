@@ -20,7 +20,7 @@ exports.getJob = (request, response) => {
     });
 };
 
-//SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS
+//SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS//SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS
 exports.searchJobs = (request, response) => {
   console.log("here");
   console.log(request.body);
@@ -44,6 +44,8 @@ exports.searchJobs = (request, response) => {
           contactDetails: doc.data().contactDetails,
           handle: doc.data().handle,
           imageUrl: doc.data().imageUrl,
+          keywords: doc.data().keywords,
+          tradeClassification: doc.data().tradeClassification
         });
       });
     }
@@ -58,17 +60,19 @@ exports.searchJobs = (request, response) => {
     }
   };
 
-  //full Search
-  if ((request.body.trade && request.body.state) != "") {
+  //FULL SEARCH
+  if ((request.body.trade && request.body.state && request.body.keywords) !== "") {
     console.log("here2");
     const searchReq = {
+      keywords: request.body.keywords,
       trade: request.body.trade,
       state: request.body.state,
     };
     console.log(searchReq);
     db.collection("job")
+      .where("keywords", "array-contains-any", searchReq.keywords)
       .where("state", "==", searchReq.state)
-      .where("job", "==", searchReq.trade)
+      .where("tradeClassification", "==", searchReq.trade)
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
@@ -80,16 +84,106 @@ exports.searchJobs = (request, response) => {
         return response.status(500).json({ error: err.code });
       });
   }
+  //2 FIELDS SEARCHES
+  //trade state
+  else if ((request.body.trade && request.body.state) !== "" && request.body.keywords === "" ) {
+    console.log("here2");
+    const searchReq = {
+      trade: request.body.trade,
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("job")
+      .where("state", "==", searchReq.state)
+      .where("tradeClassification", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+  //trade keywords
+  else if ((request.body.trade && request.body.keywords) !== "" && request.body.state === "") {
+    console.log("here2");
+    const searchReq = {
+      trade: request.body.trade,
+      keywords: request.body.keywords,
+    };
+    console.log(searchReq);
+    db.collection("job")
+      .where("keywords", "array-contains-any", searchReq.keywords)
+      .where("tradeClassification", "==", searchReq.trade)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+  //keywords state
+  else if ((request.body.keywords && request.body.state) !== "" && request.body.trade === "") {
+    console.log("here2");
+    const searchReq = {
+      keywords: request.body.keywords,
+      state: request.body.state,
+    };
+    console.log(searchReq);
+    db.collection("job")
+      .where("keywords", "array-contains-any", searchReq.keywords)
+      .where("state", "==", searchReq.state)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
+
+
+
   //SINGLE SEARCHES
+  //keywords only
+  else if (request.body.keywords !== "" && (request.body.state && request.body.trade)  === "") {
+    console.log("here3");
+    const searchReq = {
+      keywords: request.body.keywords,
+    };
+    console.log(searchReq);
+    db.collection("job")
+      .where("keywords", "array-contains-any", searchReq.keywords)
+      .orderBy("createdAt", "desc")
+      .get()
+      .then((data) => {
+        jobSearch(data);
+        resultsCheck();
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  }
   //trade only
-  else if (request.body.trade != "" && request.body.state === "") {
+  else if (request.body.trade !== "" && (request.body.state && request.body.keywords)  === "") {
     console.log("here3");
     const searchReq = {
       trade: request.body.trade,
     };
     console.log(searchReq);
     db.collection("job")
-      .where("job", "==", searchReq.trade)
+      .where("tradeClassification", "==", searchReq.trade)
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
@@ -103,7 +197,7 @@ exports.searchJobs = (request, response) => {
   }
 
   // state  only
-  else if (request.body.state != "") {
+  else if (request.body.state !== "" && (request.body.trade && request.body.keywords)  === "") {
     console.log("here4");
     const searchReq = {
       state: request.body.state,
@@ -201,33 +295,3 @@ exports.deleteJob = (request, response) => {
     });
 };
 
-//TODO://
-//GET ALL JOBS
-// exports.getAllJobs = (request, response) => {
-//   db.collection("job")
-//     .orderBy("createdAt", "desc")
-//     .get()
-//     .then((data) => {
-//       let jobs = [];
-//       data.forEach((doc) => {
-//         jobs.push({
-//           jobId: doc.id,
-//           job: doc.data().job,
-//           company: doc.data().company,
-//           location: doc.data().location,
-//           salary: doc.data().salary,
-//           salaryFreq: doc.data().salaryFreq,
-//           createdAt: doc.data().createdAt,
-//           aboutBusiness: doc.data().aboutBusiness,
-//           role: doc.data().role,
-//           skillsExp: doc.data().skillsExp,
-//           applyNow: doc.data().applyNow,
-//           contactDetails: doc.data().contactDetails,
-//           handle: doc.data().handle,
-//           imageUrl: doc.data().imageUrl,
-//         });
-//       });
-//       return response.json(jobs);
-//     })
-//     .catch((err) => console.error(err));
-// };
