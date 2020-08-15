@@ -133,7 +133,7 @@ nav ul a:hover {
 .searchPeopleName {
   width: 80%;
   max-width: 400px;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 0.4em auto;
 }
 .searchHomeLabels {
   display: flex;
@@ -315,6 +315,7 @@ nav ul a:hover {
 .loginSignupLabel {
   margin: 0 0 0 1vh;
   text-align: left;
+ 
 }
 .logoLoginSignup {
   border-radius: 10px;
@@ -364,7 +365,11 @@ nav ul a:hover {
   width: 100%;
   max-width: 340px;
 }
-
+.css-0{
+  margin: 0 auto;
+  width: 54px;
+  
+}
 .css-0 div {
   background-color: #eaa060;
   width: 6px;
@@ -398,8 +403,8 @@ nav ul a:hover {
 .spinner {
   width: 100px;
   height: 40px;
-  margin: 0 auto;
-  margin-top: 10px;
+  margin: 0.em auto;
+  
 }
 
 .loginErrorsGeneral {
@@ -440,8 +445,15 @@ nav ul a:hover {
     font-size: 1.8em;
   }
   .searchHomeLabels {
-    font-size: 1.2em;
+    font-size: 1.1em;
+  
   }
+  .searchHomeLabels label{
+    font-size: 1.1em;
+    max-height: 21px;
+    margin-bottom: 0.4em;
+  }
+  
   .searchPeopleName {
     width: 60%;
 

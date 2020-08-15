@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { employeeSearch } from "../components/peoplesearch/employeeSearchFunc";
 import { jobSearch } from "../components/jobsearch/jobSearchFunc";
 import { searchJobs } from "../redux/actions/userActions";
-import { uuid } from 'uuidv4';
+import { uuid } from "uuidv4";
 
 class Home extends Component {
   constructor() {
@@ -28,48 +28,49 @@ class Home extends Component {
           state: "",
         },
       ],
-      classifcations :[
+      classifcations: [
         "Air Conditioning & Refrigeration",
         "Arborist",
         "Automotive Trades",
         "Bakers & Pastry Chefs",
-       "Boat Builder and Repairer",
+        "Boat Builder and Repairer",
         "Bricklayer",
         "Building Trades",
         "Butchers",
         "Cook",
-       "Carpentry",
+        "Carpentry",
         "Cabinet Making",
         "Cleaning Services",
-       "Electricians",
-       "Fitters, Turners & Machinists",
+        "Electricians",
+        "Fitters, Turners & Machinists",
         "Floristry",
         "Gardening & Landscaping",
         "Glazier",
-       "Hair & Beauty Services",
+        "Hair & Beauty Services",
         "Joiner",
-       "Labourers",
+        "Labourers",
         "Lift Mechanic",
-       "Locksmiths",
+        "Locksmiths",
         "Maintenance /Handyperson Services",
-       "Metal Fabricator",
-       "Nannies & Babysitters" ,
-        "Painters & Sign Writers" ,
-       "Plaster",
-       "Plumbers",
-        "Printing & Publishing Services" ,
+        "Metal Fabricator",
+        "Nannies & Babysitters",
+        "Painters & Sign Writers",
+        "Plaster",
+        "Plumbers",
+        "Printing & Publishing Services",
         "Roof Tiler",
         "Roof Plumber",
         "Screen Printer",
-       "Shearer",
+        "Shearer",
         "Security Services",
         "Stonemason",
         "Tailors & Dressmakers",
         "Telecommuncations",
         "Technicians",
         "Wall and Floor Tiler",
-       "Welders & Boilermakers",
-       "Other"]
+        "Welders & Boilermakers",
+        "Other",
+      ],
     };
   }
 
@@ -114,15 +115,8 @@ class Home extends Component {
       }));
     }
   }
-  //TODO:
-  //Create a function that handles the search then redirects to the appropriate page
-  // Set state to which input it is then make an axios request and a redirect to the search containing only those
 
-  //Send request to Job Search
-  //Send request to People search
-
-  //In the backend search location for VIC etc. then return all the matches back including ones that are just suburbs
-  //maybe make a click required only for the location to filter out bad data.
+  // TODO: //maybe make a click required only for the location to filter out bad data.
 
   handleChange = (e) => {
     if (this.state.searchState === false) {
@@ -156,36 +150,45 @@ class Home extends Component {
   //TODO: add no autocmplete
   //Alternating Search Btn Render
   searchStateInput() {
-    let {classifcations} = this.state;
+    let { classifcations } = this.state;
     if (this.state.searchState === true) {
-       //JOBSEARCH
-       return (
+      //JOBSEARCH
+      return (
         <div className="searchInput" key={uuid()}>
           <h4 className="searchTypeHome">Job Search</h4>
 
           <div className="searchHomeLabels">
-          <label>Keywords </label>
-          <input
+            <label>Keywords </label>
+            <input
               type="search"
               data-id="0"
               placeholder="Enter Job Keywords"
               className="searchPeopleName"
               name="keywords"
             ></input>
-        
-            <div className="searchHomeLabels">
+          </div>
+          <div className="searchHomeLabels">
             <label>Trade Classification</label>
-            <select name="tradeClassification" className="searchPeopleName" data-id="0">
+
+            <select
+              name="tradeClassification"
+              className="searchPeopleName"
+              data-id="0"
+            >
               <option value="" disabled selected hidden>
                 Trade Classification
               </option>
-              {classifcations.map(classifcation =>{
-                return <option key={uuid()} value={classifcation}> {classifcation}</option>
+              {classifcations.map((classifcation) => {
+                return (
+                  <option key={uuid()} value={classifcation}>
+                    {" "}
+                    {classifcation}
+                  </option>
+                );
               })}
             </select>
           </div>
-        
-          </div>
+
           <div className="searchHomeLabels">
             <label>Location </label>
             <select name="state" className="searchPeopleName" data-id="0">
@@ -208,10 +211,8 @@ class Home extends Component {
       //EMPLOYEE SEARCH
       return (
         <div className="searchInput" key={uuid()}>
-
-
           <h4 className="searchTypeHome">Employee Search</h4>
-  
+
           <div className="searchHomeLabels">
             <label>Name</label>
             <input
@@ -222,20 +223,29 @@ class Home extends Component {
               className="searchPeopleName"
             ></input>
           </div>
-      
-          
+
           <div className="searchHomeLabels">
-          <label>Trade Classification</label>
-            <select name="tradeClassification" className="searchPeopleName" data-id="0">
+            <label>Trade Classification</label>
+
+            <select
+              name="tradeClassification"
+              className="searchPeopleName"
+              data-id="0"
+            >
               <option value="" disabled selected hidden>
                 Trade Classification
               </option>
-              {classifcations.map(classifcation =>{
-            
-                return <option key={uuid()} value={classifcation}> {classifcation}</option>
+              {classifcations.map((classifcation) => {
+                return (
+                  <option key={uuid()} value={classifcation}>
+                    {" "}
+                    {classifcation}
+                  </option>
+                );
               })}
             </select>
           </div>
+
           <div className="searchHomeLabels">
             <label>Location</label>
             <select name="state" className="searchPeopleName" data-id="0">
@@ -254,7 +264,6 @@ class Home extends Component {
           </div>
         </div>
       );
-     
     }
   }
 

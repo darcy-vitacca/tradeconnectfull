@@ -29,12 +29,12 @@ const AboutProfile = (props) => {
         <div className="peopleSearchHeadRight">
           <h2>{fullName}</h2>
           <h2>{trade}</h2>
-          <h4 class="peopleSearchHeadRightLocation">{location}</h4>
-          <h4 class="peopleSearchHeadRightWebiste">{website}</h4>
-          <h4 class="peopleSearchHeadRightJob">{recentEmp}</h4>
+          <h4 className="peopleSearchHeadRightLocation">{location}</h4>
+          <h4 className="peopleSearchHeadRightWebiste">{website}</h4>
+          <h4 className="peopleSearchHeadRightJob">{recentEmp}</h4>
 
-          <h4 class="peopleSearchHeadRightLocation">{workStatus}</h4>
-          <span class="dot"></span>
+          <h4 className="peopleSearchHeadRightLocation">{workStatus}</h4>
+          <span className="dot"></span>
         </div>
       </div>
 

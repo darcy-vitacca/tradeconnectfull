@@ -3,66 +3,76 @@ import { connect } from "react-redux";
 import Autocomplete from "react-google-autocomplete";
 import { createJob } from "../redux/actions/userActions";
 import PropTypes from "prop-types";
-import { uuid } from 'uuidv4';
+import { uuid } from "uuidv4";
 
+// TODO: make slect only for the location dropdown don't accept typing come ip with an error message
+//TODO: Token expiring need to make the token better
+ // TODO: //maybe make a click required only for the location to filter out bad data.
 class PostJob extends Component {
   constructor() {
     super();
     this.state = {
-      job: "",
-      company: "",
-      location: "",
-      salary: "",
-      salaryFreq: "",
-      aboutBusiness: "",
-      role: "",
-      skillsExp: "",
-      applyNow: "",
-      contactDetails: "",
-      imageUrl: "",
-      classifcations :[
+      fullJob: [
+        {
+          job: "",
+          company: "",
+          location: "",
+          salary: "",
+          salaryFreq: "",
+          aboutBusiness: "",
+          role: "",
+          skillsExp: "",
+          applyNow: "",
+          contactDetails: "",
+          tradeClassification: "",
+          keywords: "",
+          imageUrl: "",
+        },
+      ],
+      classifcations: [
         "Air Conditioning & Refrigeration",
         "Arborist",
         "Automotive Trades",
         "Bakers & Pastry Chefs",
-       "Boat Builder and Repairer",
+        "Boat Builder and Repairer",
         "Bricklayer",
         "Building Trades",
         "Butchers",
         "Cook",
-       "Carpentry",
+        "Carpentry",
         "Cabinet Making",
         "Cleaning Services",
-       "Electricians",
-       "Fitters, Turners & Machinists",
+        "Electricians",
+        "Fitters, Turners & Machinists",
         "Floristry",
         "Gardening & Landscaping",
         "Glazier",
-       "Hair & Beauty Services",
+        "Hair & Beauty Services",
         "Joiner",
-       "Labourers",
+        "Labourers",
         "Lift Mechanic",
-       "Locksmiths",
+        "Locksmiths",
         "Maintenance /Handyperson Services",
-       "Metal Fabricator",
-       "Nannies & Babysitters" ,
-        "Painters & Sign Writers" ,
-       "Plaster",
-       "Plumbers",
-        "Printing & Publishing Services" ,
+        "Metal Fabricator",
+        "Nannies & Babysitters",
+        "Painters & Sign Writers",
+        "Plaster",
+        "Plumbers",
+        "Printing & Publishing Services",
         "Roof Tiler",
         "Roof Plumber",
         "Screen Printer",
-       "Shearer",
+        "Shearer",
         "Security Services",
         "Stonemason",
         "Tailors & Dressmakers",
         "Telecommuncations",
         "Technicians",
         "Wall and Floor Tiler",
-       "Welders & Boilermakers",
-       "Other"]
-    }
+        "Welders & Boilermakers",
+        "Other",
+      ],
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,24 +82,19 @@ class PostJob extends Component {
     }
   }
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-    console.log(this);
-    console.log(this.state);
+    let fullJob = [...this.state.fullJob];
+    fullJob[e.target.dataset.id][e.target.name] = e.target.value;
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-
-  
-    let locationArr =[];
+    let fullJobState = this.state.fullJob[0]
+    let locationArr = [];
     let keywordsArr = [];
-    let stateLocation = []
-   
-    
+    let stateLocation = [];
 
     //address split
-    locationArr = this.state.location.split(",");
-
+    locationArr = fullJobState.location.split(",");
     locationArr = locationArr[0]
       .trim()
       .split(" ")
@@ -110,36 +115,38 @@ class PostJob extends Component {
       }
     });
 
+    //keywords split
+    keywordsArr = fullJobState.job.split(" ");
+
     const newJob = {
-      job: this.state.job,
-      company: this.state.company,
+      job: fullJobState.job,
+      company: fullJobState.company,
       location: locationArr,
       state: stateLocation,
-      salary: this.state.salary,
-      salaryFreq: this.state.salaryFreq,
-      aboutBusiness: this.state.aboutBusiness,
-      role: this.state.role,
-      skillsExp: this.state.skillsExp,
-      applyNow: this.state.applyNow,
-      contactDetails: this.state.contactDetails,
-      imageUrl: this.state.imageUrl,
-      tradeClassification : this.state.tradeClassification,
-      keywords : keywordsArr
+      salary: fullJobState.salary,
+      salaryFreq: fullJobState.salaryFreq,
+      aboutBusiness: fullJobState.aboutBusiness,
+      role: fullJobState.role,
+      skillsExp: fullJobState.skillsExp,
+      applyNow: fullJobState.applyNow,
+      contactDetails: fullJobState.contactDetails,
+      imageUrl: fullJobState.imageUrl,
+      tradeClassification: fullJobState.tradeClassification,
+      keywords: keywordsArr,
     };
     console.log(newJob);
     this.props.createJob(newJob, this.props.history);
   };
 
-    //HANDLES AUTO-FILL CHROME BUG
-    onFocus = (event) => {
-      if (event.target.autocomplete) {
-        event.target.autocomplete = "";
-      }
-    };
-  
+  //HANDLES AUTO-FILL CHROME BUG
+  onFocus = (event) => {
+    if (event.target.autocomplete) {
+      event.target.autocomplete = "";
+    }
+  };
 
   render() {
-    let {classifcations} = this.state;
+    let { classifcations } = this.state;
     return (
       <div className="postJobBody">
         <div className="postJobCard">
@@ -149,14 +156,15 @@ class PostJob extends Component {
               className="postJobForm"
               onSubmit={this.handleSubmit}
               onChange={this.handleChange}
-              autocomplete="off"
+              autoComplete="off"
             >
-               <input
-              className="hiddenInput"
-              autocomplete="false"
-              name="hidden"
-              type="text"
-            ></input>
+              <input
+                className="hiddenInput"
+                autoComplete="false"
+                name="hidden"
+                data-id="0"
+                type="text"
+              ></input>
               <div className="upperPostJobForm">
                 <div>
                   <h3>Job Title *</h3>
@@ -164,6 +172,7 @@ class PostJob extends Component {
                     name="job"
                     placeholder="Job Title"
                     className="titleJobAd"
+                    data-id="0"
                     required
                   ></input>
                 </div>
@@ -171,6 +180,7 @@ class PostJob extends Component {
                   <h3>Company *</h3>
                   <input
                     name="company"
+                    data-id="0"
                     placeholder="Company"
                     className="companyJobAd"
                     required
@@ -179,32 +189,46 @@ class PostJob extends Component {
                 <div>
                   <h3>Location *</h3>
                   <Autocomplete
-                  name="location"
-                  onPlaceSelected={(place) => {
-                    console.log(place);
-                    this.setState({ location: place.formatted_address });
-                    console.log(this.state);
-                  }}
-                  types={["(regions)"]}
-                  componentRestrictions={{ country: "au" }}
-                  onFocus={this.onFocus}
-                />
-                 
-              <h3>Trade Classification</h3>
-            <select name="tradeClassification" className="postJobClassification" data-id="0">
-              <option value="" disabled selected hidden>
-                Trade Classification
-              </option>
-              {classifcations.map(classifcation =>{
-            
-                return <option key={uuid()} value={classifcation}> {classifcation}</option>
-              })}
-            </select>
-              
+                    name="location"
+                    data-id="0"
+                    onPlaceSelected={(place) => {
+                      console.log(place);
+                          this.setState(prevState => ({
+                        fullJob: [{               
+                            ...prevState.fullJob[0],    
+                            location: place.formatted_address    
+                        }]
+                    }))
+                    }}
+                    types={["(regions)"]}
+                    componentRestrictions={{ country: "au" }}
+                    onFocus={this.onFocus}
+                  />
+
+                  <h3>Trade Classification</h3>
+                  <select
+                    name="tradeClassification"
+                    className="postJobClassification"
+                    data-id="0"
+                    required
+                  >
+                    <option value="" disabled selected hidden>
+                      Trade Classification
+                    </option>
+                    {classifcations.map((classifcation) => {
+                      return (
+                        <option key={uuid()} value={classifcation}>
+                          {" "}
+                          {classifcation}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div>
                   <h3>Salary *</h3>
                   <input
+                    data-id="0"
                     name="salary"
                     placeholder="Salary"
                     className="salaryJobAd"
@@ -212,19 +236,18 @@ class PostJob extends Component {
                   ></input>
                   <h3>Salary Frequency *</h3>
                   <input
+                    data-id="0"
                     name="salaryFreq"
                     placeholder="Salary Frequency"
                     className="salaryFreqJobAd"
                     required
                   ></input>
-                  
                 </div>
-               
               </div>
-              
 
               <h3>About the Business *</h3>
               <textarea
+                data-id="0"
                 name="aboutBusiness"
                 placeholder="About the business"
                 className="aboutBusiness"
@@ -233,6 +256,7 @@ class PostJob extends Component {
 
               <h3>The Role *</h3>
               <textarea
+                data-id="0"
                 name="role"
                 placeholder="What is the role?"
                 className="role"
@@ -241,6 +265,7 @@ class PostJob extends Component {
 
               <h3>Skills and Experience Required *</h3>
               <textarea
+                data-id="0"
                 name="skillsExp"
                 placeholder="Skills and Experience Required"
                 className="skillsExp"
@@ -249,6 +274,7 @@ class PostJob extends Component {
 
               <h3>Apply Now Information *</h3>
               <textarea
+                data-id="0"
                 name="applyNow"
                 placeholder="Apply Now"
                 className="applyNow"
@@ -257,13 +283,14 @@ class PostJob extends Component {
 
               <h3>Contact Details *</h3>
               <textarea
+                data-id="0"
                 name="contactDetails"
                 placeholder="Contact Details"
                 className="contactDetails"
                 required
               ></textarea>
               <div className="jobSubmitButtonDiv">
-                <button type="submit" class="jobSubmitButton">
+                <button type="submit" className="jobSubmitButton">
                   Submit
                 </button>
               </div>

@@ -31,6 +31,7 @@ class CreateProfile extends Component {
       trade: "",
       location: "",
       about: "",
+      tradeClassification: "",
       exp: [
         {
           index: uuid(),
@@ -66,6 +67,49 @@ class CreateProfile extends Component {
           desc: "",
         },
       ],
+      classifcations: [
+        "Air Conditioning & Refrigeration",
+        "Arborist",
+        "Automotive Trades",
+        "Bakers & Pastry Chefs",
+        "Boat Builder and Repairer",
+        "Bricklayer",
+        "Building Trades",
+        "Butchers",
+        "Cook",
+        "Carpentry",
+        "Cabinet Making",
+        "Cleaning Services",
+        "Electricians",
+        "Fitters, Turners & Machinists",
+        "Floristry",
+        "Gardening & Landscaping",
+        "Glazier",
+        "Hair & Beauty Services",
+        "Joiner",
+        "Labourers",
+        "Lift Mechanic",
+        "Locksmiths",
+        "Maintenance /Handyperson Services",
+        "Metal Fabricator",
+        "Nannies & Babysitters",
+        "Painters & Sign Writers",
+        "Plaster",
+        "Plumbers",
+        "Printing & Publishing Services",
+        "Roof Tiler",
+        "Roof Plumber",
+        "Screen Printer",
+        "Shearer",
+        "Security Services",
+        "Stonemason",
+        "Tailors & Dressmakers",
+        "Telecommuncations",
+        "Technicians",
+        "Wall and Floor Tiler",
+        "Welders & Boilermakers",
+        "Other",
+      ],
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -79,19 +123,18 @@ class CreateProfile extends Component {
 
     let licencesArr = [];
     let educationArr = [];
+    let keywordsArr = [];
     let referencesArr = [];
     let fullNameArr = [];
     let locationArr = [];
     let stateLocation;
+
     //converts and object to not be a pointer and actually a clone
     let expArr = JSON.parse(JSON.stringify(this.state.exp));
     let bestWorkArr = JSON.parse(JSON.stringify(this.state.bestWork));
 
     //indexes in exp and merge date range
     expArr.forEach((doc) => {
-      // if (doc.index) {
-      //   delete doc.index;
-      // }
       doc.date = `${doc.date[0]} ${doc.date[1]} - ${doc.date[2]} ${doc.date[3]}`;
     });
 
@@ -113,7 +156,6 @@ class CreateProfile extends Component {
 
     //address split
     locationArr = this.state.location.split(",");
-
     locationArr = locationArr[0]
       .trim()
       .split(" ")
@@ -122,6 +164,9 @@ class CreateProfile extends Component {
       }, "")
       .trim();
     locationArr = locationArr.split(" ");
+
+    //keywords split
+    keywordsArr = this.state.trade.split(" ");
 
     //Get state function
     locationArr.forEach((entry) => {
@@ -154,7 +199,7 @@ class CreateProfile extends Component {
         // console.log(doc);
       });
     });
-  //TODO: had issues with the uppercase of the a section TODO: spinner is not centre
+    //TODO: had issues with the uppercase of the a section 
     const profileDetails = {
       userId: this.props.user.credentials.userId,
       about: this.state.about,
@@ -171,6 +216,8 @@ class CreateProfile extends Component {
       bestWork: bestWorkArr,
       workStatus: this.state.workStatus,
       website: this.state.website,
+      keywords: keywordsArr,
+      tradeClassification: this.state.tradeClassification,
     };
     console.log(profileDetails);
     this.props.createProfile(profileDetails, this.props.history);
@@ -194,7 +241,9 @@ class CreateProfile extends Component {
       //exp handler
     } else if (
       e.target.className.includes("periodWorkedYear") ||
-      e.target.className.includes("periodWorkedMon")
+      e.target.className.includes("periodWorkedMon") ||
+      e.target.id.includes("companyId") ||
+      e.target.id.includes("experienceText")
     ) {
       if (["date1", "date2", "date3", "date4"].includes(e.target.name)) {
         let exp = [...this.state.exp];
@@ -229,6 +278,7 @@ class CreateProfile extends Component {
         console.log("image");
       }
     } else {
+      console.log("here4");
       this.setState({ [e.target.name]: e.target.value });
     }
   };
@@ -361,6 +411,7 @@ class CreateProfile extends Component {
     let {
       UI: { loading },
     } = this.props;
+    let { classifcations } = this.state;
     return (
       <div>
         <h1 className="createProfileHeader">Create Your Profile</h1>
@@ -440,6 +491,29 @@ class CreateProfile extends Component {
                   name="workStatus"
                 ></input>
               </div>
+
+              <div>
+                <h3>Trade Classification</h3>
+                <select
+                  name="tradeClassification"
+                  className="postJobClassification"
+                  data-id="0"
+                  required
+                >
+                  <option value="" disabled selected hidden>
+                    Trade Classification
+                  </option>
+                  {classifcations.map((classifcation) => {
+                    return (
+                      <option key={uuid()} value={classifcation}>
+                        {" "}
+                        {classifcation}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
               <div>
                 <h3>Profile Photo</h3>
 
@@ -455,6 +529,7 @@ class CreateProfile extends Component {
               <h3>About Me *</h3>
 
               <textarea
+                name="about"
                 className="createProfileTextAreas"
                 placeholder="Enter a bit about yourself to let people know who you are to entice future employment..."
                 required
@@ -535,7 +610,6 @@ class CreateProfile extends Component {
   }
 }
 
-//TODO: PROPTYPES FOR THE PAGE TO BRING IN FROM THE GLOBAL STATE
 CreateProfile.propTypes = {
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,

@@ -16,7 +16,7 @@ const exp = (props) => {
             placeholder="Company"
             name="company"
             label="company"
-            id="company"
+            id="companyId"
             required
           ></input>
 <h5>Period Worked</h5>
@@ -110,6 +110,7 @@ const exp = (props) => {
             <textarea
               type="text"
               name="text"
+              id="experienceText"
               data-id={idx}
               className="createProfileTextAreas"
               placeholder="A description of experience and work done by you as well as your role in the company...."
