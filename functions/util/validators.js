@@ -126,13 +126,26 @@ exports.reduceProfileDetails = (data) => {
       profileDetails.location = data.location;
     }
   }
+  if (!isEmpty(data.state.trim())) profileDetails.state = data.state;
 
+
+   //keywords Check
+   if (data.keywords) {
+    if (!isEmpty(data.keywords[0])) {
+      profileDetails.keywords = data.keywords;
+    } else {
+      profileDetails.keywords = data.keywords;
+    }
+  }
+
+ 
   if (!isEmpty(data.website.trim())) profileDetails.website = data.website;
   if (!isEmpty(data.workStatus.trim()))
     profileDetails.workStatus = data.workStatus;
   if (!isEmpty(data.recentEmp.trim()))
     profileDetails.recentEmp = data.recentEmp;
   if (!isEmpty(data.trade.trim())) profileDetails.trade = data.trade;
+  if (!isEmpty(data.tradeClassification.trim())) profileDetails.tradeClassification = data.tradeClassification;
   if (!isEmpty(data.about.trim())) profileDetails.about = data.about;
 
   //experience

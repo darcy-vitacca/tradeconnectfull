@@ -357,6 +357,7 @@ exports.addUserDetails = (request, response) => {
 
 //ADD FULL PROFILE
 exports.addProfile = (request, response) => {
+  // TODO: add other fields to be recieved
   let profileDetails = reduceProfileDetails(request.body);
   profileDetails.userId = request.user.uid;
   profileDetails.handle = request.user.handle;

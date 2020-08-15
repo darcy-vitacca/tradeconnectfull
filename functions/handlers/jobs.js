@@ -239,6 +239,8 @@ exports.createNewJob = (request, response) => {
   let imageUrl = imageCheck(request.body.imageUrl);
   const newJob = {
     job: request.body.job,
+    keywords: request.body.keywords,
+    tradeClassification : request.body.tradeClassification,
     company: request.body.company,
     location: request.body.location,
     salary: request.body.salary,
