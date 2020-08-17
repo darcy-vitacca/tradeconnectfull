@@ -469,7 +469,7 @@ exports.uploadImage = (request, response) => {
     Promise.allSettled(promises) // .then((results) => results.forEach((result) => console.log(result.status)))
       .then(() => {
         console.log(imageUrls);
-        return response.json({ message: "image/s uploaded successfully" });
+        return response.json({ message: "image/s uploaded successfully" ,imageUrls : imageUrls});
       })
       .catch((err) => {
         console.error(err);

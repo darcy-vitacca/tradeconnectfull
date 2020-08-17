@@ -11,7 +11,7 @@ exports.getProfile = (request, response) =>{
         }
         profileData = doc.data();
         // console.log(profileData)
-        return response.json({ message: "Profile retrived" ,profileData: profileData});
+        return response.json({ message: "Profile retrived" ,profile: profileData});
     })
     .catch((err) => {
         console.error(err);

@@ -80,7 +80,7 @@ exports.reduceUserDetails = (data) => {
   return userDetails;
 };
 
-//TODO: CHANGE THIS IMAGE VALIDATOR TEMP FOR JOBS
+
 exports.imageCheck = (data) => {
   const noImgComp = "no-imgcomp.jpg";
   if (!isEmpty(data)) {
@@ -90,10 +90,10 @@ exports.imageCheck = (data) => {
   }
 };
 
-//TODO: HANDLE JOB UPLOADS AND VALIDATE THEM NEW SECTION
+
 
 //TODO:
-//handle images - profile images, company images, bestwork images
+//handle  company images
 exports.reduceProfileDetails = (data) => {
   let profileDetails = {};
   let expArr = [];
