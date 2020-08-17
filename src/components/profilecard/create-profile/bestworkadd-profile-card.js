@@ -26,6 +26,9 @@ const bestwork = (props) => {
               <input
                 type="file"
                 className="bestWorkSec"
+                name="imageUrl"
+                onChange={props.imageUploadFunc}
+                data-id={idx}
                 placeholder="Best Work photo"
                 id="bestWorkImageUrl"
               ></input>

@@ -4,7 +4,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ViewProfile from "../components/profilecard/view-profile-card";
-import { uuid } from 'uuidv4';
+import { uuid } from "uuidv4";
+
 
 class MyProfile extends Component {
   //TODO: may need to get rid of this
@@ -59,17 +60,32 @@ class MyProfile extends Component {
   }
 
   render() {
-    let { profileCreated } = this.props.user.credentials;
-    return(
-    <div className="profileBody">
-      <div className="profileCard">
-        {profileCreated === true ? (
-          <ViewProfile />
-        ) : (
-          <CreateProfile history={this.props.history} />
-        )}
+    const {
+      user: {
+        authenticated,
+        credentials: { profileCreated },
+        profile,
+        loading
+      },
+    } = this.props;
+    //TODO: put a spinner in
+    //checks if loading then renders profile if it's retrived else if unauthenticated and tries to see the page it will push to login else it will render create profile if you are logged in.
+    let profileMarkup = !loading ? (
+      authenticated && profile !== "Profile not found"? (
+        <ViewProfile/>
+      ) : (
+        !authenticated ? (this.props.history.push('/login')): (<CreateProfile history={this.props.history} />)
+        
+      )
+    ) : (
+      <p>loading</p>
+    );
+    return (
+      <div className="profileBody">
+        <div className="profileCard">
+          {profileMarkup}
+        </div>
       </div>
-    </div>
     );
   }
 }
@@ -84,6 +100,5 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
   data: state.data,
 });
-
 
 export default connect(mapStateToProps)(MyProfile);

@@ -4,7 +4,11 @@ import PropTypes from "prop-types";
 import { uuid } from "uuidv4";
 import { ScaleLoader } from "react-spinners";
 import Autocomplete from "react-google-autocomplete";
-import { createProfile } from "../../redux/actions/userActions";
+import {
+  createProfile,
+  logoutUser,
+  uploadImage,
+} from "../../redux/actions/userActions";
 
 //PAGE COMPONENTS
 import ExpCard from "./create-profile/expadd-profile-card";
@@ -199,7 +203,7 @@ class CreateProfile extends Component {
         // console.log(doc);
       });
     });
-    //TODO: had issues with the uppercase of the a section 
+    //TODO: had issues with the uppercase of the a section
     const profileDetails = {
       userId: this.props.user.credentials.userId,
       about: this.state.about,
@@ -228,15 +232,15 @@ class CreateProfile extends Component {
     if (e.target.name === "licences") {
       let license = [...this.state.licences];
       license[e.target.dataset.id][e.target.name] = e.target.value;
-      console.log(license);
+      // console.log(license);
     } else if (e.target.name === "education") {
       let education = [...this.state.education];
       education[e.target.dataset.id][e.target.name] = e.target.value;
-      console.log(education);
+      // console.log(education);
     } else if (e.target.name === "references") {
       let reference = [...this.state.references];
       reference[e.target.dataset.id][e.target.name] = e.target.value;
-      console.log(reference);
+      // console.log(reference);
 
       //exp handler
     } else if (
@@ -249,16 +253,16 @@ class CreateProfile extends Component {
         let exp = [...this.state.exp];
         if (e.target.name === "date1" || "date2" || "date3" || "date4") {
           if (e.target.name === "date1") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[0] = e.target.value;
           } else if (e.target.name === "date2") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[1] = e.target.value;
           } else if (e.target.name === "date3") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[2] = e.target.value;
           } else if (e.target.name === "date4") {
-            console.log(exp[e.target.dataset.id]);
+            // console.log(exp[e.target.dataset.id]);
             exp[e.target.dataset.id].date[3] = e.target.value;
           } else {
             console.log("error");
@@ -278,15 +282,13 @@ class CreateProfile extends Component {
         console.log("image");
       }
     } else {
-      console.log("here4");
       this.setState({ [e.target.name]: e.target.value });
     }
   };
 
   //ADD NEW CARD ROW BEST WORK/EXP
   addNewRow = (e) => {
-    // console.log("here");
-    // console.log(e);
+
     if (e.exp) {
       this.setState((prevState) => ({
         exp: [
@@ -377,8 +379,8 @@ class CreateProfile extends Component {
 
   //DELETE ARRAY SECTION LICENCES/EDUCATION/REFRENCES
   clickOnDeleteArray = (index) => {
-    console.log("Delete array");
-    console.log(index);
+    // console.log("Delete array");
+    // console.log(index);
 
     if (index.licences !== undefined) {
       let licencesUpd = this.state.licences.filter((r) => r !== index);
@@ -399,6 +401,31 @@ class CreateProfile extends Component {
       console.log("error");
     }
   };
+  handleImageChange = (e) => {
+ 
+    let target = e.target;
+    const image = e.target.files[0];
+    //send to server
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+    this.props
+      .uploadImage(formData)
+      .then((res) => {
+        let uploadedImage = res[0]
+        // console.log(res[0]);
+        // console.log(target)
+        if (target.name === "profileImageUrl") {
+          this.setState({ [target.name]: uploadedImage });
+          console.log(this.state)
+        } else if (target.id === "bestWorkImageUrl") {
+          let bWork = [...this.state.bestWork];
+          bWork[target.dataset.id][target.name] = uploadedImage;
+          console.log(this.state)
+        }
+      })//TODO: handle errors if an image can't be uploaded handle in user actions loading to false
+      .catch((err) => console.log(err));
+  };
+
   //HANDLES AUTO-FILL CHROME BUG
   onFocus = (event) => {
     if (event.target.autocomplete) {
@@ -420,11 +447,11 @@ class CreateProfile extends Component {
           <form
             onSubmit={this.handleSubmit}
             onChange={this.handleChange}
-            autocomplete="off"
+            autoComplete="off"
           >
             <input
               className="hiddenInput"
-              autocomplete="false"
+              autoComplete="false"
               name="hidden"
               type="text"
             ></input>
@@ -520,7 +547,9 @@ class CreateProfile extends Component {
                 <input
                   type="file"
                   placeholder="Profile Photo"
+                  name="profileImageUrl"
                   id="profileImageUrl"
+                  onChange={this.handleImageChange}
                 ></input>
               </div>
             </div>
@@ -578,6 +607,7 @@ class CreateProfile extends Component {
                   add={this.addNewRow}
                   delete={this.clickOnDelete.bind(this)}
                   bestWork={bestWork}
+                  imageUploadFunc = {this.handleImageChange.bind(this)}
                 />
               </div>
               <div className="submitSpinner">
@@ -614,6 +644,8 @@ CreateProfile.propTypes = {
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -624,6 +656,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   createProfile,
+  logoutUser,
+  uploadImage,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateProfile);

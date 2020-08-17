@@ -34,31 +34,7 @@ const BestWorkProfile = (props) => {
           src={val.imageUrl}
           alt="Best work"
         ></img>
-        <img
-          className="bestWorkLeftImgOnly"
-          src={val.imageUrl}
-          alt="Best work"
-        ></img>
-        <img
-          className="bestWorkLeftImgOnly"
-          src={val.imageUrl}
-          alt="Best work"
-        ></img>
-         <img
-          className="bestWorkLeftImgOnly"
-          src={val.imageUrl}
-          alt="Best work"
-        ></img>
-         <img
-          className="bestWorkLeftImgOnly"
-          src={val.imageUrl}
-          alt="Best work"
-        ></img>
-        <img
-          className="bestWorkLeftImgOnly"
-          src={val.imageUrl}
-          alt="Best work"
-        ></img>
+
         
       </div>
     );

@@ -28,7 +28,7 @@ import axios from "axios";
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken);
+  // console.log(decodedToken); TODO: maybe delete? safe?
   if (decodedToken * 1000 < Date.now()) {
     //if it's expired it will delete and logout the user
     store.dispatch(logoutUser());
@@ -40,6 +40,8 @@ if (token) {
     store.dispatch(getUserData());
   }
 }
+//TODO: menu not disappering when something is clicked
+//TODO: refactor code that is duplicates into helper functions
 //TODO: for with formik youtube tutotial docs are bad
 //TODO: the way to make money could be search functionallity for the ideal candidate and give % matches
 //TODO: change all the paths names and file to appropriate things.

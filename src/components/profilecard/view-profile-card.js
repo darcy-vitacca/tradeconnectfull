@@ -17,24 +17,17 @@ class ViewProfile extends Component {
   }
 //  TODO: CREATE PROFILE BUG
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+   
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
   }
   componentDidMount() {
-    axios
-      .get(`/getprofile/${this.props.user.credentials.userId}`)
-      .then((res) => {
-        this.setState({
-          profile: res.data.profileData,
-        });
-      })
-      .catch((err) => console.log(err));
+
   }
 
   renderMarkup() {
-    let { profile } = this.state;
+    let { profile } = this.props.user;
     return (
       <div>
         <h1 className="myProfileHeader">Your Profile</h1>
@@ -78,7 +71,7 @@ class ViewProfile extends Component {
   }
 
   render() {
-    let profileMarkup = this.state.profile ? (
+    let profileMarkup = this.props.user.profile  ? (
       this.renderMarkup()
     ) : (
       <p>Loading...</p>

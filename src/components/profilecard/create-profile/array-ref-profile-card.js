@@ -10,7 +10,7 @@ const references = (props) => {
           name="references"
           label="references"
           id="references"
-          class="referencesInput"
+          className="referencesInput"
           placeholder="Enter a reference from someone who you have worked for that can vouch for your quality of work. Include their name and Company/Relationship......."
           required
         ></textarea>

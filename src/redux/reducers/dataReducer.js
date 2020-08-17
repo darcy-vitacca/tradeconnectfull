@@ -17,7 +17,7 @@ const initialState = {
 
 // TODO:// if search is clicked again delete current searches
 export default function (state = initialState, action) {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
     case LOADING_DATA:
       return {

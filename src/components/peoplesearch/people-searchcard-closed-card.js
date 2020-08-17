@@ -29,7 +29,6 @@ const relativeTime = require("dayjs/plugin/relativeTime");
       workStatus,
       },
     } = this.props;
-    console.log(this.props)
     fullName= fullName.join(' ')
   return (
    

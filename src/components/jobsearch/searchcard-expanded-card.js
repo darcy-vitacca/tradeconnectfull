@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import dayjs from "dayjs";
 const relativeTime = require("dayjs/plugin/relativeTime");
 
+//TODO: the search bars are slightly different on the job/people search
 //the data that you are calling on is passed in the props from higher order down like all job details
 class JobCard extends Component {
   render() {

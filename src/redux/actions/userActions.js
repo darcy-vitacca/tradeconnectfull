@@ -1,6 +1,7 @@
 import {
   SET_USER,
   SET_ERRORS,
+  SET_ERRORS_PROFILE,
   CLEAR_ERRORS,
   LOADING_UI,
   SET_UNAUTHENTICATED,
@@ -10,11 +11,12 @@ import {
   CLEAR_EMPLOYEES,
   CLEAR_JOBS,
   GET_PROFILE,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  SET_PROFILE,
+  LOADING_USER,
 } from "../reducers/types";
 import axios from "axios";
 // TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
-
 
 //this is taken from the login page and we need to user dispatch because we have asynchronous code. We can set the login from the  action itself here we use dispatch to set the type whcih is loading UI. We dispatch the type then catch it from the user. We need to redirect by passing in history from the login component to the action then the action will use it
 //LOGIN USER
@@ -56,17 +58,46 @@ export const logoutUser = (history) => (dispatch) => {
 
 //HELPER - GET USER DATA
 export const getUserData = () => (dispatch) => {
+  let uid;
+  dispatch({ type: LOADING_USER });
   axios
     .get("/user")
     .then((res) => {
-      // console.log(res);
+      uid = res.data.credentials.userId;
       dispatch({
         type: SET_USER,
         payload: res.data,
       });
+      axios
+        .get(`/getprofile/${uid}`)
+        .then((res) => {
+          // console.log(res.data);
+          dispatch({
+            type: SET_PROFILE,
+            payload: res.data.profile,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          dispatch({
+            type: SET_ERRORS_PROFILE,
+            payload: err.response.data,
+          });
+        });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };
+
+//HELPER - GET PROFILE
+// export const getUserProfile = () => (dispatch) =>{
+
+// }
 
 //SIGNUP USER
 export const signupUser = (newUserData, history) => (dispatch) => {
@@ -77,6 +108,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
+      //TODO: change to my profile?
       history.push("/");
     })
     .catch((err) => {
@@ -183,36 +215,17 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
       history.push(`/peoplesearch`);
     });
 };
-
-//GET PROFILE
-export const getProfile = (uid) => () => {
-  console.log(uid)
-  console.log("here")
-  // dispatch({ type: LOADING_DATA });
-  // dispatch({ type: CLEAR_PROFILE });
-  // axios
-  //  .get(`/getprofile/${uid}`)
-  //   .then((res) => {
-  //     console.log(res.data);
-  //     dispatch({ type: CLEAR_ERRORS });
-  //     dispatch({
-  //       type: GET_PROFILE,
-  //       payload: res.data.profileData,
-  //     });
-   
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     dispatch({
-  //       type: SET_ERRORS,
-  //       payload: err.response.data,
-  //     });
-  
-  //   });
+//UPLOAD IMAGE
+export const uploadImage = (formData) => (dispatch) => {
+  // dispatch({ type: LOADING_USER });
+  return axios
+    .post("/user/image", formData)
+    .then((res) => {
+      console.log("here")
+      return res.data.imageUrls
+      })
+    .catch((err) => console.log(err));
 };
-
-
-
 
 //HELPER - SET AUTHORIZATION HEADER
 const setAuthorizationHeader = (token) => {
@@ -224,3 +237,30 @@ const setAuthorizationHeader = (token) => {
   axios.defaults.headers.common["Authorization"] = FBIdToken;
   //We can dispatch the getUser action which allows us to run it after we are loggedin and authorized
 };
+
+//GET PROFILE
+// export const getProfile = (uid) => () => {
+//   console.log(uid);
+//   console.log("here");
+//   // dispatch({ type: LOADING_DATA });
+//   // dispatch({ type: CLEAR_PROFILE });
+//   // axios
+//   //  .get(`/getprofile/${uid}`)
+//   //   .then((res) => {
+//   //     console.log(res.data);
+//   //     dispatch({ type: CLEAR_ERRORS });
+//   //     dispatch({
+//   //       type: GET_PROFILE,
+//   //       payload: res.data.profileData,
+//   //     });
+
+//   //   })
+//   //   .catch((err) => {
+//   //     console.log(err);
+//   //     dispatch({
+//   //       type: SET_ERRORS,
+//   //       payload: err.response.data,
+//   //     });
+
+//   //   });
+// };

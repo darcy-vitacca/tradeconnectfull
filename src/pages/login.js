@@ -6,7 +6,7 @@ import { ScaleLoader } from "react-spinners";
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 
-
+//TODO: login spinner not centered at all probably the same as sign up
 class Login extends Component {
   //controlled components use the state to handle forms it's good to use this because we can use the react dev tools. We set the state using the constructor below and loading is used to show a spinner. In cloud functiosn the first excecution is acutally slow so a spinner is good for responsiveness. we use onChange to set the value of it's input to the target value on it's state. If it's the email input .name will be email or if it's a password it will be password and the value will be the value of what is being typed in through the value attribute.
 
