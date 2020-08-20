@@ -140,12 +140,14 @@ exports.reduceProfileDetails = (data) => {
 
  
   if (!isEmpty(data.website.trim())) profileDetails.website = data.website;
+
   if (!isEmpty(data.workStatus.trim()))
     profileDetails.workStatus = data.workStatus;
   if (!isEmpty(data.recentEmp.trim()))
     profileDetails.recentEmp = data.recentEmp;
   if (!isEmpty(data.trade.trim())) profileDetails.trade = data.trade;
   if (!isEmpty(data.tradeClassification.trim())) profileDetails.tradeClassification = data.tradeClassification;
+  if (!isEmpty(data.employeeSummary.trim())) profileDetails.employeeSummary = data.employeeSummary;
   if (!isEmpty(data.about.trim())) profileDetails.about = data.about;
 
   //experience

@@ -127,8 +127,11 @@ exports.searchEmployees = (request, response) => {
           fullName: doc.data().fullName,
           handle: doc.data().handle,
           licences: doc.data().licences,
+          keywords: doc.data().keywords,
           location: doc.data().location,
           profileImageUrl: doc.data().profileImageUrl,
+          employeeSummary: doc.data().employeeSummary,
+          tradeClassification: doc.data().tradeClassification,
           recentEmp: doc.data().recentEmp,
           references: doc.data().references,
           state: doc.data().state,
@@ -490,6 +493,7 @@ exports.uploadImage = (request, response) => {
 };
 
 //DELETE PROFILE
+//TODO: //remove profile and change to profile false
 exports.deleteProfile = (request, response) => {
   const document = db.doc(`/profiles/${request.params.profileId}`);
   document
@@ -503,7 +507,16 @@ exports.deleteProfile = (request, response) => {
         return response.status(403).json({ error: "Unauthorized" });
       } else {
         document.delete();
-        return response.json({ message: "Profile deleted successfully" });
+        db.doc(`/users/${request.user.handle}`)
+        .update({ profileCreated: false })
+        .then(() => {
+          return response.json({ message: "Profile deleted successfully" });
+        })
+        .catch((err) => {
+          console.error(err);
+          return response.status(500).json({ error: err.code });
+        });
+        
       }
     })
     .catch((err) => {
@@ -533,6 +546,8 @@ exports.getAllProfiles = (request, response) => {
           licences: doc.data().licences,
           location: doc.data().location,
           profileImageUrl: doc.data().profileImageUrl,
+          employeeSummary: doc.data().employeeSummary,
+          tradeClassification: doc.data().tradeClassification,
           recentEmp: doc.data().recentEmp,
           references: doc.data().references,
           trade: doc.data().trade,

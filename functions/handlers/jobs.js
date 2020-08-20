@@ -32,25 +32,27 @@ exports.searchJobs = (request, response) => {
         jobsAll.push({
           jobId: doc.id,
           job: doc.data().job,
+          jobSummary: doc.data().jobSummary,
           company: doc.data().company,
           location: doc.data().location,
+          state: doc.data().state,
           salary: doc.data().salary,
           salaryFreq: doc.data().salaryFreq,
-          createdAt: doc.data().createdAt,
           aboutBusiness: doc.data().aboutBusiness,
+          keywords: doc.data().keywords,
           role: doc.data().role,
           skillsExp: doc.data().skillsExp,
-          applyNow: doc.data().applyNow,
+          additionalInfo: doc.data().additionalInfo,
           contactDetails: doc.data().contactDetails,
+          tradeClassification: doc.data().tradeClassification,
           handle: doc.data().handle,
           imageUrl: doc.data().imageUrl,
-          keywords: doc.data().keywords,
-          tradeClassification: doc.data().tradeClassification
+          workType: doc.data().workType,
+          createdAt: doc.data().createdAt,
         });
       });
     }
   };
-
   //checks for search results
   resultsCheck = () => {
     if (jobsAll === undefined || jobsAll.length == 0) {
@@ -61,7 +63,9 @@ exports.searchJobs = (request, response) => {
   };
 
   //FULL SEARCH
-  if ((request.body.trade && request.body.state && request.body.keywords) !== "") {
+  if (
+    (request.body.trade && request.body.state && request.body.keywords) !== ""
+  ) {
     console.log("here2");
     const searchReq = {
       keywords: request.body.keywords,
@@ -86,7 +90,10 @@ exports.searchJobs = (request, response) => {
   }
   //2 FIELDS SEARCHES
   //trade state
-  else if ((request.body.trade && request.body.state) !== "" && request.body.keywords === "" ) {
+  else if (
+    (request.body.trade && request.body.state) !== "" &&
+    request.body.keywords === ""
+  ) {
     console.log("here2");
     const searchReq = {
       trade: request.body.trade,
@@ -108,7 +115,10 @@ exports.searchJobs = (request, response) => {
       });
   }
   //trade keywords
-  else if ((request.body.trade && request.body.keywords) !== "" && request.body.state === "") {
+  else if (
+    (request.body.trade && request.body.keywords) !== "" &&
+    request.body.state === ""
+  ) {
     console.log("here2");
     const searchReq = {
       trade: request.body.trade,
@@ -130,7 +140,10 @@ exports.searchJobs = (request, response) => {
       });
   }
   //keywords state
-  else if ((request.body.keywords && request.body.state) !== "" && request.body.trade === "") {
+  else if (
+    (request.body.keywords && request.body.state) !== "" &&
+    request.body.trade === ""
+  ) {
     console.log("here2");
     const searchReq = {
       keywords: request.body.keywords,
@@ -152,11 +165,12 @@ exports.searchJobs = (request, response) => {
       });
   }
 
-
-
   //SINGLE SEARCHES
   //keywords only
-  else if (request.body.keywords !== "" && (request.body.state && request.body.trade)  === "") {
+  else if (
+    request.body.keywords !== "" &&
+    (request.body.state && request.body.trade) === ""
+  ) {
     console.log("here3");
     const searchReq = {
       keywords: request.body.keywords,
@@ -176,7 +190,10 @@ exports.searchJobs = (request, response) => {
       });
   }
   //trade only
-  else if (request.body.trade !== "" && (request.body.state && request.body.keywords)  === "") {
+  else if (
+    request.body.trade !== "" &&
+    (request.body.state && request.body.keywords) === ""
+  ) {
     console.log("here3");
     const searchReq = {
       trade: request.body.trade,
@@ -197,7 +214,10 @@ exports.searchJobs = (request, response) => {
   }
 
   // state  only
-  else if (request.body.state !== "" && (request.body.trade && request.body.keywords)  === "") {
+  else if (
+    request.body.state !== "" &&
+    (request.body.trade && request.body.keywords) === ""
+  ) {
     console.log("here4");
     const searchReq = {
       state: request.body.state,
@@ -237,23 +257,26 @@ exports.searchJobs = (request, response) => {
 exports.createNewJob = (request, response) => {
   //because of FBAuth we don't have to name the user handle as we have already got it from this previous function
   let imageUrl = imageCheck(request.body.imageUrl);
+
   const newJob = {
     job: request.body.job,
-    keywords: request.body.keywords,
-    tradeClassification : request.body.tradeClassification,
+    jobSummary: request.body.jobSummary,
     company: request.body.company,
     location: request.body.location,
+    state: request.body.state,
     salary: request.body.salary,
     salaryFreq: request.body.salaryFreq,
-    state: request.body.state,
     aboutBusiness: request.body.aboutBusiness,
+    keywords: request.body.keywords,
     role: request.body.role,
     skillsExp: request.body.skillsExp,
-    applyNow: request.body.applyNow,
+    additionalInfo: request.body.additionalInfo,
     contactDetails: request.body.contactDetails,
+    tradeClassification: request.body.tradeClassification,
+    imageUrl: imageUrl,
+    workType: request.body.workType,
     createdAt: new Date().toISOString(),
     handle: request.user.handle,
-    imageUrl: imageUrl,
   };
 
   db.collection("job")
@@ -296,4 +319,3 @@ exports.deleteJob = (request, response) => {
       return response.status(500).json({ error: err.code });
     });
 };
-

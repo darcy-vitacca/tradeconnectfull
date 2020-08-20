@@ -42,9 +42,8 @@ app.post("/searchemployee", searchEmployees); //search people
 app.post("/createprofile", FBAuth, addProfile); //add profile
 // TODO: change to /profile not
 app.get("/getprofile/:userId", getProfile); //get one profile
-app.delete("/deleteprofile/:profileId", FBAuth, deleteProfile); //remove profile and change to profile false
+app.delete("/deleteprofile/:profileId", FBAuth, deleteProfile); 
 app.get("/getprofiles", getAllProfiles);
-//TODO:  //get all profiles- maybe without pictures or a smaller version then get the full version
 //TODO:                                      //chat to person
 
 //USER ROUTES
