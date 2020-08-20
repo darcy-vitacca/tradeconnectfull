@@ -3,8 +3,6 @@ import React from "react";
 const bestwork = (props) => {
   return props.bestWork.map((val, idx) => {
     let cardIdBestWork = `bestWorkCard${idx}`;
-    // console.log(val.index, idx);
-    // console.log(val);
     return (
       <div className={cardIdBestWork} key={val.index}>
         <div className="expCardrow1">
@@ -13,6 +11,7 @@ const bestwork = (props) => {
             <input
               type="text"
               data-id={idx}
+              value={val.header}
               className="bestWorkSec"
               placeholder="Project Header"
               name="header"
@@ -61,9 +60,13 @@ const bestwork = (props) => {
               name="desc"
               data-id={idx}
               id="bestWorkCardDesc"
+              value={val.desc}
+              maxLength="600"
+              onInput={props.inputHandler}
               className="bestWorkSec"
               placeholder="A description of your best work project as well as any other details that might interest people."
             ></textarea>
+             <p id={`bestWorkCardDesc${idx}Label`} className="inputLengthLabels">0/600</p>
           </div>
         </div>
       </div>
@@ -73,62 +76,3 @@ const bestwork = (props) => {
 
 export default bestwork;
 
-// if (["date1", "date2", "date3", "date4"].includes(e.target.name)) {
-//   let exp = [...this.state.exp];
-//   if (e.target.name === "date1" || "date2" || "date3" || "date4") {
-
-//     if (e.target.name === "date1") {
-//       exp[e.target.dataset.id].date[0] = e.target.value;
-//     } else if (e.target.name === "date2") {
-//       exp[e.target.dataset.id].date[1] = e.target.value;
-//     } else if (e.target.name === "date3") {
-//       exp[e.target.dataset.id].date[2] = e.target.value;
-//     } else if (e.target.name === "date4") {
-//       exp[e.target.dataset.id].date[3] = e.target.value;
-//     } else {
-//       console.log("error");
-//     }
-//   }
-
-//FORM CHANGE HANDLER
-// handleChange = (e) => {
-// console.log(e.target.name)
-// if (e.target.name === "licenses") {
-//   let license = [...this.state.licenses];
-//   license[e.target.dataset.id][e.target.name] = e.target.value;
-//   // console.log(license);
-// } else if (e.target.name === "education") {
-//   let education = [...this.state.education];
-//   education[e.target.dataset.id][e.target.name] = e.target.value;
-//   // console.log(education);
-// } else if (e.target.name === "references") {
-//   let reference = [...this.state.references];
-//   reference[e.target.dataset.id][e.target.name] = e.target.value;
-//   // console.log(reference);
-// } else {
-//   if (
-//     ["index", "company", "date", "imageUrl", "text"].includes(e.target.name)
-//   ) {
-//     let exp = [...this.state.exp];
-//     exp[e.target.dataset.id][e.target.name] = e.target.value;
-//   } else if (["date1", "date2", "date3", "date4"].includes(e.target.name)) {
-//     let exp = [...this.state.exp];
-//     if (e.target.name === "date1" || "date2" || "date3" || "date4") {
-//       if (e.target.name === "date1") {
-//         exp[e.target.dataset.id].date[0] = e.target.value;
-//       } else if (e.target.name === "date2") {
-//         exp[e.target.dataset.id].date[1] = e.target.value;
-//       } else if (e.target.name === "date3") {
-//         exp[e.target.dataset.id].date[2] = e.target.value;
-//       } else if (e.target.name === "date4") {
-//         exp[e.target.dataset.id].date[3] = e.target.value;
-//       } else {
-//         console.log("error");
-//       }
-//     }
-//   } else {
-//     console.log("Here");
-//     this.setState({ [e.target.name]: e.target.value });
-//   }
-//   }
-// };

@@ -1,8 +1,6 @@
 import React from "react";
 
 const ExperienceProfile = (props) => {
-  //TODO:recentEmployment
-  //TODO: FIX IMAGE URL ISSUE NOT WORKING
   return props.exp.map((val) => {
     return (
      
@@ -11,12 +9,11 @@ const ExperienceProfile = (props) => {
             {/* TODO:Need to make images actually plug in here */}
             <img
               className="expIconProfile"
-              src={require("../../../images/stowe.png")}
+              src={val.imageUrl}
               alt="Exp icons"
             ></img>
             <p>{val.date}</p>
           </div>
-
 
           <div className="expRight">
             <h4>{val.company}</h4>
@@ -25,7 +22,6 @@ const ExperienceProfile = (props) => {
             </p>
           </div>
         </div>
-  
     );
   });
 };

@@ -94,11 +94,11 @@ class NavFull extends Component {
         </div>
 
         <div className="navRight ">
-          <a href="#" className="hide-desktop" onClick={this.handleClick}>
+          <p className="hide-desktop" onClick={this.handleClick}>
             <span className="menu" id="menu">
               &#9776;
             </span>
-          </a>
+          </p>
 
           <ul className={menu} id="nav">
             <li

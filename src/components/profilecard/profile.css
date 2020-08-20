@@ -6,7 +6,7 @@
   width: 96%;
   border: 2px solid #cecece;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  max-width: 1000px;
+  max-width: 850px;
 }
 .profileBody{
   background: #e5e5e5;
@@ -14,6 +14,7 @@
   text-align: none;
   height: 100%;
   padding-top: 0.5em;
+  padding-bottom: 6em;
   
   
 }
@@ -103,6 +104,11 @@
   margin: 0.2em  0.2em  0.2em 0;
   font-weight: 600;
   max-width: 300px;
+}
+.inputLengthLabels{
+  text-align: right;
+  margin: 0;
+  padding: 0;
 }
 
 .createProfileUpper, .createProfileLower{
@@ -250,6 +256,12 @@
   resize: vertical;
   margin: 0;
 }
+.referencesInfo{
+  height: 20px;
+    display: flex;
+    justify-content: space-between;
+
+}
 .bestWorkBtnSec {
   display: flex;
   justify-content: space-between;
@@ -278,7 +290,7 @@
   border: 1px solid #e16b05;
   color: #ffffff;
   padding: 7px 25px;
-  margin: 0 auto 1em auto;
+  margin: 1em auto;
   display: flex;
 }
 
@@ -291,6 +303,15 @@
   min-width: 280px;
   max-width: 900px;
 }
+
+.editDeleteIcon{
+  height: 20px;
+  width: 20px;
+  position: relative;
+  margin: 0.2em;
+  margin-top: 0.5em;
+  cursor: pointer;
+}
 .profileImageUrl{
   width: 100%;
 }
@@ -300,15 +321,33 @@ margin: 0 1em;;
 .bestWorkCont{
   margin: 0 1em;
 }
+.profileIcons{
+  display: flex;
+  background-color: #e16b05;
+  justify-content: space-between;
+  padding: 0 0.5em;
+}
 
+@media only screen and (min-width: 350px) {
+.editDeleteIcon{
+  margin-top: 0.6em;
+}
+}
 /* */
-@media only screen and (min-width: 660px) {
+@media only screen and (min-width: 650px) {
+  .editDeleteIcon{
+    height: 28px;
+    width: 28px;
+    position: relative;
+    margin: 0.5em;
+    margin-top: 1em;
+  }
   .expDiv {
     width: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    margin: 0 1em;
+    margin: 0;
   }
   .bestWorkDivImageOnly {
     display: flex;

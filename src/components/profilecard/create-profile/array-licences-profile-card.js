@@ -1,9 +1,7 @@
 import React from "react";
 
 const SkillsProfile = (props) => {
-  // console.log(props)
   return props.licences.map((val, idx) => {
-    // console.log(val)
     return (
       <div  key={val.index} className="licenseArr">
         <input
@@ -13,6 +11,7 @@ const SkillsProfile = (props) => {
           placeholder="Add your licences"
           name="licences"
           label="licences"
+          value={val.licences}
           id="licences"
           required
         ></input>

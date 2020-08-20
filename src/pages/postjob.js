@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Autocomplete from "react-google-autocomplete";
-import { createJob } from "../redux/actions/userActions";
+import { createJob, uploadImage, } from "../redux/actions/userActions";
 import PropTypes from "prop-types";
 import { uuid } from "uuidv4";
+import { ScaleLoader } from "react-spinners";
 
-// TODO: make slect only for the location dropdown don't accept typing come ip with an error message
 //TODO: Token expiring need to make the token better
- // TODO: //maybe make a click required only for the location to filter out bad data.
 class PostJob extends Component {
   constructor() {
     super();
@@ -15,6 +14,7 @@ class PostJob extends Component {
       fullJob: [
         {
           job: "",
+          jobSummary: "",
           company: "",
           location: "",
           salary: "",
@@ -22,13 +22,16 @@ class PostJob extends Component {
           aboutBusiness: "",
           role: "",
           skillsExp: "",
-          applyNow: "",
+          additionalInfo: "",
           contactDetails: "",
           tradeClassification: "",
           keywords: "",
           imageUrl: "",
+          workType: "",
+          locationCheck: false,
         },
       ],
+
       classifcations: [
         "Air Conditioning & Refrigeration",
         "Arborist",
@@ -72,23 +75,32 @@ class PostJob extends Component {
         "Welders & Boilermakers",
         "Other",
       ],
+      worktype: ["Full Time", "Part Time", "Casual", "Contract"],
+      salaryfreq: ["Per Year", "Per Hour"],
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
   }
   handleChange = (e) => {
-    let fullJob = [...this.state.fullJob];
-    fullJob[e.target.dataset.id][e.target.name] = e.target.value;
+    if (e.target.name !== "autoLocation") {
+      if(e.target.type !== "file"){
+        let fullJob = [...this.state.fullJob];
+        fullJob[e.target.dataset.id][e.target.name] = e.target.value;
+        console.log(fullJob);
+        console.log(this.state.fullJob[0]);
+
+      }
+     
+    }
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let fullJobState = this.state.fullJob[0]
+    let fullJobState = this.state.fullJob[0];
     let locationArr = [];
     let keywordsArr = [];
     let stateLocation = [];
@@ -120,6 +132,7 @@ class PostJob extends Component {
 
     const newJob = {
       job: fullJobState.job,
+      jobSummary: fullJobState.jobSummary,
       company: fullJobState.company,
       location: locationArr,
       state: stateLocation,
@@ -128,11 +141,12 @@ class PostJob extends Component {
       aboutBusiness: fullJobState.aboutBusiness,
       role: fullJobState.role,
       skillsExp: fullJobState.skillsExp,
-      applyNow: fullJobState.applyNow,
+      additionalInfo: fullJobState.additionalInfo,
       contactDetails: fullJobState.contactDetails,
-      imageUrl: fullJobState.imageUrl,
       tradeClassification: fullJobState.tradeClassification,
+      imageUrl: fullJobState.imageUrl,
       keywords: keywordsArr,
+      workType: fullJobState.workType,
     };
     console.log(newJob);
     this.props.createJob(newJob, this.props.history);
@@ -140,13 +154,47 @@ class PostJob extends Component {
 
   //HANDLES AUTO-FILL CHROME BUG
   onFocus = (event) => {
+    console.log(this.state);
     if (event.target.autocomplete) {
       event.target.autocomplete = "";
     }
+  }
+  //TODO: need to handle state changing when location set
+  onBlur = (event) => {
+    if (this.state.fullJob[0].locationCheck === false) {
+      event.target.value = "";
+    }
+  };
+
+  handleImageChange = (e) => {
+    let target = e.target;
+    console.log(e.target)
+    let fullJob = [...this.state.fullJob];
+    console.log(fullJob)
+    const image = e.target.files[0];
+    if (image) {
+      //send to server
+      const formData = new FormData();
+      formData.append("image", image, image.name);
+      this.props
+        .uploadImage(formData)
+        .then((res) => {
+          let uploadedImage = res[0];
+          if (target.id === "imageUrl") {
+            let fullJob = [...this.state.fullJob];
+            fullJob[0][target.name] = uploadedImage;
+          } 
+        })
+        .catch((err) => console.log(err));
+    }
+    console.log("here");
   };
 
   render() {
-    let { classifcations } = this.state;
+    let { classifcations, worktype, salaryfreq } = this.state;
+    let {
+      UI: { loading },
+    } = this.props;
     return (
       <div className="postJobBody">
         <div className="postJobCard">
@@ -164,6 +212,7 @@ class PostJob extends Component {
                 name="hidden"
                 data-id="0"
                 type="text"
+                autoComplete="off"
               ></input>
               <div className="upperPostJobForm">
                 <div>
@@ -189,16 +238,22 @@ class PostJob extends Component {
                 <div>
                   <h3>Location *</h3>
                   <Autocomplete
-                    name="location"
                     data-id="0"
+                    name="autoLocation"
+                    required
+                    onBlur={this.onBlur}
+                    placeholder="Select a Location from the dropdown"
                     onPlaceSelected={(place) => {
                       console.log(place);
-                          this.setState(prevState => ({
-                        fullJob: [{               
-                            ...prevState.fullJob[0],    
-                            location: place.formatted_address    
-                        }]
-                    }))
+                      this.setState((prevState) => ({
+                        fullJob: [
+                          {
+                            ...prevState.fullJob[0],
+                            location: place.formatted_address,
+                            locationCheck: true,
+                          },
+                        ],
+                      }));
                     }}
                     types={["(regions)"]}
                     componentRestrictions={{ country: "au" }}
@@ -212,7 +267,7 @@ class PostJob extends Component {
                     data-id="0"
                     required
                   >
-                    <option value="" disabled selected hidden>
+                    <option disabled selected hidden>
                       Trade Classification
                     </option>
                     {classifcations.map((classifcation) => {
@@ -226,6 +281,26 @@ class PostJob extends Component {
                   </select>
                 </div>
                 <div>
+                  <h3>Work Type *</h3>
+                  <select
+                    name="workType"
+                    className="postJobClassification"
+                    data-id="0"
+                    required
+                  >
+                    <option value="" disabled selected hidden>
+                      Work Type
+                    </option>
+                    {worktype.map((worktype) => {
+                      return (
+                        <option key={uuid()} value={worktype}>
+                          {" "}
+                          {worktype}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  
                   <h3>Salary *</h3>
                   <input
                     data-id="0"
@@ -234,22 +309,54 @@ class PostJob extends Component {
                     className="salaryJobAd"
                     required
                   ></input>
+                 
                   <h3>Salary Frequency *</h3>
-                  <input
-                    data-id="0"
+                  <select
                     name="salaryFreq"
-                    placeholder="Salary Frequency"
-                    className="salaryFreqJobAd"
+                    className="postJobClassification"
+                    data-id="0"
                     required
-                  ></input>
+                  >
+                    <option value="" disabled selected hidden>
+                      Salary Frequency
+                    </option>
+                    {salaryfreq.map((salaryfreq) => {
+                      return (
+                        <option key={uuid()} value={salaryfreq}>
+                          {" "}
+                          {salaryfreq}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <h3>Company Logo Image</h3>
+           <input
+                type="file"
+                className="expCardSec"
+                name="imageUrl"
+                onChange={this.handleImageChange}
+                data-id="0"
+                placeholder="Company logo image"
+                id="imageUrl"
+              ></input>
                 </div>
+                
               </div>
+
+              <h3>Summarize Your Job Ad *</h3>
+              <textarea
+                data-id="0"
+                name="jobSummary"
+                placeholder="Summarize your job ad, this is what applicants will see first in the search results and you want to attract the best applicants."
+                className="jobSummary"
+                required
+              ></textarea>
 
               <h3>About the Business *</h3>
               <textarea
                 data-id="0"
                 name="aboutBusiness"
-                placeholder="About the business"
+                placeholder="About the business, why would an applicant want to work here?"
                 className="aboutBusiness"
                 required
               ></textarea>
@@ -258,7 +365,7 @@ class PostJob extends Component {
               <textarea
                 data-id="0"
                 name="role"
-                placeholder="What is the role?"
+                placeholder="What is the role? What does the day in day out on the job look like?"
                 className="role"
                 required
               ></textarea>
@@ -267,17 +374,17 @@ class PostJob extends Component {
               <textarea
                 data-id="0"
                 name="skillsExp"
-                placeholder="Skills and Experience Required"
+                placeholder="What are the skills and experience required for an applicant to be successful? What is not a requirement but would be advantageous?"
                 className="skillsExp"
                 required
               ></textarea>
 
-              <h3>Apply Now Information *</h3>
+              <h3>Additional Information *</h3>
               <textarea
                 data-id="0"
-                name="applyNow"
-                placeholder="Apply Now"
-                className="applyNow"
+                name="additionalInfo"
+                placeholder="Is there any additional information that applicants would need to know about before applying?"
+                className="additionalInfo"
                 required
               ></textarea>
 
@@ -285,10 +392,24 @@ class PostJob extends Component {
               <textarea
                 data-id="0"
                 name="contactDetails"
-                placeholder="Contact Details"
+                placeholder="Contact details to apply for the job?"
                 className="contactDetails"
                 required
               ></textarea>
+               <div className="submitSpinner">
+                <div className="spinner">
+                  {loading === true ? (
+                    <div>
+                      {" "}
+                      <ScaleLoader
+                        className="spinner"
+                        size={240}
+                        loading
+                      />{" "}
+                    </div>
+                  ) : null}{" "}
+                </div>
+              </div>
               <div className="jobSubmitButtonDiv">
                 <button type="submit" className="jobSubmitButton">
                   Submit
@@ -313,6 +434,7 @@ const mapStateToProps = (state) => ({
 });
 const mapActionsToProps = {
   createJob,
+  uploadImage,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(PostJob);

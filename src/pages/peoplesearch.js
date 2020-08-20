@@ -128,17 +128,6 @@ console.log(this.state.peopleSearchInput)
               })}
             </select>
           </div>
-{/* 
-                  <div className="peopleSearchTrade">
-                    <label>Trade</label>
-                    <input
-                      type="search"
-                      name="tradeClassification"
-                      data-id="0"
-                      placeholder="Trade"
-                      className="searchTradeJobs"
-                    ></input>
-                  </div> */}
                   <div className="peopleSearchTrade">
                     <label>Location</label>
                     <select
@@ -160,7 +149,11 @@ console.log(this.state.peopleSearchInput)
                     </select>
                   </div>
                 </div>
-                {errors !== null ? <div className="errorsMessage">{errors.error}</div> : null}
+                <div className="errorCont">
+                {errors !== null ? (
+                <div className="errorsMessage">{errors.error}</div>
+              ) : null}
+                </div>
                 <div className="peopleSearchBottom"></div>
                 <div className="applyNowBtn">
                   <button className="peopleToggleButton">Search</button>

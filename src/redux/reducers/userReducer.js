@@ -7,7 +7,10 @@ import {
   LOADING_USER,
   SET_UNAUTHENTICATED,
   SET_PROFILE,
-  SET_ERRORS_PROFILE
+  DELETE_PROFILE_CREATED,
+  SET_ERRORS_PROFILE,
+  DELETE_PROFILE,
+  EDIT_PROFILE
 } from "./types";
 
 //this initial state isn't a global state but its what is stored in this reducer to be passed into the combined reducer
@@ -16,6 +19,7 @@ const initialState = {
   loading: false,
   credentials: {},
   profile: {},
+  editing: false,
 };
 
 //This function takes our default initial state value and the second param is the aciton we recieve we use a switch and depending on the action type we will do something
@@ -46,12 +50,29 @@ export default function (state = initialState, action) {
         loading: false,
         profile : action.payload
       };
+      case DELETE_PROFILE_CREATED:
+        return {
+          ...state,
+          loading: false,
+          credentials :{
+            ...state.credentials,
+            profileCreated : false
+          },
+          profile: "Profile not found"
+  
+        };
     case SET_ERRORS_PROFILE:
       return {
         ...state,
         loading: false,
         profile: action.payload.error
       }
+    case EDIT_PROFILE: 
+    let editState = !state.editing
+    return {
+      ...state,
+      editing: editState,
+    }
     case LOADING_USER:
       return {
         ...state,

@@ -5,7 +5,7 @@ import {
   CLEAR_EMPLOYEES,
   CLEAR_JOBS,
   GET_PROFILE,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
 } from "./types";
 
 const initialState = {

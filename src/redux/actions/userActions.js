@@ -13,7 +13,9 @@ import {
   GET_PROFILE,
   CLEAR_PROFILE,
   SET_PROFILE,
+  DELETE_PROFILE_CREATED,
   LOADING_USER,
+  EDIT_PROFILE,
 } from "../reducers/types";
 import axios from "axios";
 // TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
@@ -58,6 +60,7 @@ export const logoutUser = (history) => (dispatch) => {
 
 //HELPER - GET USER DATA
 export const getUserData = () => (dispatch) => {
+  //TODO: add a filter if not needed to get profile?
   let uid;
   dispatch({ type: LOADING_USER });
   axios
@@ -94,11 +97,6 @@ export const getUserData = () => (dispatch) => {
     });
 };
 
-//HELPER - GET PROFILE
-// export const getUserProfile = () => (dispatch) =>{
-
-// }
-
 //SIGNUP USER
 export const signupUser = (newUserData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -122,7 +120,9 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 };
 
 //CREATE A PROFILE
-export const createProfile = (profileDetails, history) => (dispatch) => {
+export const createProfile = (profileDetails, history, editProfile) => (dispatch) => {
+  console.log(editProfile)
+  console.log(history)
   // console.log(profileDetails);
   // console.log(history);
   dispatch({ type: LOADING_UI });
@@ -132,8 +132,13 @@ export const createProfile = (profileDetails, history) => (dispatch) => {
       // console.log(res.data);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
+      if (editProfile === true) {
+        dispatch(editUser(history, editProfile))
+      }else{
+        history.push("/myprofile");
+      }
       //redirect to user page
-      history.push(`/myprofile`);
+      
     })
     .catch((err) => {
       console.log(err);
@@ -143,11 +148,43 @@ export const createProfile = (profileDetails, history) => (dispatch) => {
       });
     });
 };
+//EDIT PROFILE
+export const editUser = (history, editPage) => (dispatch) => {
+  if (editPage === true) {
+    dispatch({ type: EDIT_PROFILE });
+    history.push("/myprofile");
+  } else {
+    dispatch({ type: EDIT_PROFILE });
+  }
+};
+
+//DELETE PROFILE
+export const deleteUser = (userCredentials, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .delete(`/deleteprofile/${userCredentials.userId}`, userCredentials)
+    .then((res) => {
+      console.log(res);
+      // dispatch({ type: DELETE_PROFILE_CREATED });
+      dispatch({ type: CLEAR_ERRORS });
+      history.push("/");
+      dispatch({ type: DELETE_PROFILE_CREATED });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+
 //CREATE A JOB
 export const createJob = (newJob, history) => (dispatch) => {
   console.log(newJob);
   console.log(history);
   dispatch({ type: LOADING_UI });
+  
   axios
     .post("/createjob", newJob)
     .then((res) => {
@@ -221,9 +258,9 @@ export const uploadImage = (formData) => (dispatch) => {
   return axios
     .post("/user/image", formData)
     .then((res) => {
-      console.log("here")
-      return res.data.imageUrls
-      })
+      console.log("here");
+      return res.data.imageUrls;
+    })
     .catch((err) => console.log(err));
 };
 

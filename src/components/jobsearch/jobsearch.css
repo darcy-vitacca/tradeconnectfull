@@ -1,6 +1,6 @@
 /* HEADER AND SEARCH BAR BODY*/
 .search {
-  max-width: 850px;
+  max-width: 750px;
   margin: 0 auto;
   padding-top: 0.5em;
 }
@@ -37,6 +37,7 @@
   margin: 1vh;
   text-align: none;
   height: 100%;
+  padding-bottom: 6em;
 }
 
 .jobSearchTrade,
@@ -61,7 +62,7 @@
 }
 .jobSearchCard {
   width: 100%;
-  max-width: 1800px;
+  max-width: 750px;
 }
 
 /* JOB SEARCH BOXES */
@@ -118,9 +119,8 @@
 }
 
 .jobIcon {
-  width: 80px;
-  height: 80px;
-  margin: 0.4em;
+  object-fit: cover;
+  display: none;
 }
 
 .jobSearchHead {
@@ -160,7 +160,14 @@
 .jobSearchExpandedBody {
   margin: 1em;
 }
+.jobSearchExpandedBody h4 {
+  margin-bottom: 0;
 
+}
+.jobSearchExpandedBody p {
+  margin-top: 0.2em;
+
+}
 .applyNow {
   min-height: inherit;
 }
@@ -182,8 +189,23 @@
   justify-content: center;
   margin: 0 auto 0 auto;
 }
+@media only screen and (min-width: 380px) {
+.jobIcon{
+  width: 60px;
+  height: 60px;
+  margin: 0.4em;
+  display: inherit;
+  object-fit: cover;
+}
 
+
+}
 @media only screen and (min-width: 650px) {
+  .jobIcon {
+    width: 80px;
+    height: 80px;
+    margin: 0.4em;
+  }
   .jobSearchInputs {
     display: flex;
     flex-direction: row;
@@ -232,7 +254,7 @@
     width: 80%;
     max-width: 340px;
   }
-  .jobToggleButton {
+  .jobToggleButton, .peopleToggleButton {
     max-width: 180px;
     font-size: 0.9em;
   }

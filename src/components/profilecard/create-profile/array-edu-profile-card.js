@@ -1,9 +1,7 @@
 import React from "react";
 
 const education = (props) => {
-  // console.log(props)
   return props.education.map((val, idx) => {
-    // console.log(val)
     return (
       <div  key={val.index} className="educationArr">
         <input
@@ -14,6 +12,7 @@ const education = (props) => {
           name="education"
           label="education"
           id="education"
+          value={val.education}
           required
         ></input>
         

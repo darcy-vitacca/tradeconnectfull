@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ViewProfile from "../components/profilecard/view-profile-card";
 import { uuid } from "uuidv4";
+import {editUser} from "../redux/actions/userActions"
 
 
 class MyProfile extends Component {
@@ -59,20 +60,27 @@ class MyProfile extends Component {
     }
   }
 
+  componentWillUnmount(){
+    if(this.props.user.editing === true){
+      this.props.editUser(this.props.history, false)
+    }
+  }
+
   render() {
     const {
       user: {
         authenticated,
         credentials: { profileCreated },
         profile,
-        loading
+        loading,
+        editing
       },
     } = this.props;
     //TODO: put a spinner in
     //checks if loading then renders profile if it's retrived else if unauthenticated and tries to see the page it will push to login else it will render create profile if you are logged in.
     let profileMarkup = !loading ? (
       authenticated && profile !== "Profile not found"? (
-        <ViewProfile/>
+        editing ? (<CreateProfile history={this.props.history} />) :(<ViewProfile history={this.props.history}/>)
       ) : (
         !authenticated ? (this.props.history.push('/login')): (<CreateProfile history={this.props.history} />)
         
@@ -93,6 +101,7 @@ MyProfile.propTypes = {
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
+  editUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -101,4 +110,15 @@ const mapStateToProps = (state) => ({
   data: state.data,
 });
 
-export default connect(mapStateToProps)(MyProfile);
+
+const mapActionsToProps = {
+  editUser,
+};
+
+export default connect(mapStateToProps , mapActionsToProps)(MyProfile);
+
+
+
+
+
+

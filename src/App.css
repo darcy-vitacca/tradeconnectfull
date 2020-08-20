@@ -3,6 +3,11 @@
 body {
   margin: 0;
   font-family: "Montserrat", sans-serif;
+  
+}
+.AppBody{
+  height: 100%;
+  min-height: 100vh;
 }
 p {
   font-size: 0.9em;
@@ -225,6 +230,7 @@ nav ul a:hover {
   text-align: none;
   height: 100%;
   padding-top: 0.5em;
+  padding-bottom: 6em;
   
   
 }
@@ -279,7 +285,7 @@ nav ul a:hover {
 
 .aboutBusiness,
 .role,
-.skillsExp {
+.skillsExp, .jobSummary {
   font-family: "Montserrat", sans-serif;
   width: 90%;
   resize: vertical;
@@ -287,7 +293,7 @@ nav ul a:hover {
 }
 
 .contactDetails,
-.applyNow {
+.additionalInfo {
   font-family: "Montserrat", sans-serif;
   width: 90%;
   resize: vertical;
@@ -303,7 +309,7 @@ nav ul a:hover {
   border: 1px solid #e16b05;
   color: #ffffff;
   padding: 7px 25px;
-  margin: 1em 1em 4em 1em;
+  margin: 1em 1em 1em 1em;
 }
 .jobSubmitButtonDiv {
   display: flex;
@@ -403,8 +409,14 @@ nav ul a:hover {
 .spinner {
   width: 100px;
   height: 40px;
-  margin: 0.em auto;
+  margin: 0.2em auto;
   
+}
+.errorsMessage{
+  font-weight: bold;
+   margin: 0.4em;
+   margin-bottom: 0;
+   color: #e16b05;
 }
 
 .loginErrorsGeneral {
@@ -456,9 +468,8 @@ nav ul a:hover {
   
   .searchPeopleName {
     width: 60%;
-
     padding: 0;
-    font-size: 22px;
+    font-size: 20px;
   }
   /* LOGIN*/
   .loginSignupHome a {
@@ -468,6 +479,11 @@ nav ul a:hover {
   .loginSignupHome {
     max-width: 460px;
     margin: 0 auto 0 auto;
+  }
+  .errorsMessage{
+    min-height: 19px;
+     margin-bottom: -1.6em;
+  
   }
   
 }
