@@ -11,6 +11,7 @@ const {
   createNewJob,
   deleteJob,
   searchJobs,
+  jobDashboard
 } = require("./handlers/jobs");
 const {
   signup,
@@ -25,22 +26,26 @@ const {
 } = require("./handlers/users");
 const { getProfile } = require("./handlers/profile");
 //IF YOU ARE GOING TO ADD NOTIFACTIONS AND HCAT ETC. WATCH VIDEO 12 + 13 again
+
+
+
+
 //JOB ROUTES
 app.get("/getjob/:jobId", getJob); //get one job - with full details
 // app.get("/getjobs", getAllJobs); //get all jobs
 app.post("/createjob", FBAuth, createNewJob); //create new job
+app.get("/jobdashboard/:userid", FBAuth ,jobDashboard)
 app.delete("/deletejob/:jobId", FBAuth, deleteJob); //remove job
 // TODO:
 app.post("/searchjobs", searchJobs); //search jobs
+
+
+
+
+
+
 app.post("/searchemployee", searchEmployees); //search people
-
-
-
-
-
-//PROFILE
 app.post("/createprofile", FBAuth, addProfile); //add profile
-// TODO: change to /profile not
 app.get("/getprofile/:userId", getProfile); //get one profile
 app.delete("/deleteprofile/:profileId", FBAuth, deleteProfile); 
 app.get("/getprofiles", getAllProfiles);

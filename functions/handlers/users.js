@@ -493,7 +493,7 @@ exports.uploadImage = (request, response) => {
 };
 
 //DELETE PROFILE
-//TODO: //remove profile and change to profile false
+
 exports.deleteProfile = (request, response) => {
   const document = db.doc(`/profiles/${request.params.profileId}`);
   document

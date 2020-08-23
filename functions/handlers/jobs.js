@@ -1,5 +1,6 @@
 const { db } = require("../util/admin");
 const { imageCheck } = require("../util/validators");
+const { response } = require("express");
 
 //GET A SINGLE JOB
 exports.getJob = (request, response) => {
@@ -19,6 +20,64 @@ exports.getJob = (request, response) => {
       return response.status(500).json({ error: err.code });
     });
 };
+
+
+//JOB DASHBOARD
+exports.jobDashboard = (request, response) =>{
+  // console.log(request.params.userid)
+  // console.log(request.params)
+ let jobsAll = [];
+  db.collection("job")
+  .where("userId", "==", request.params.userid)
+  .orderBy("createdAt", "desc")
+  .get()
+  .then((data) => {
+    console.log("Here")
+
+    if (data.size > 0) {
+    data.forEach((entry) =>{
+      console.log(entry)
+      jobsAll.push({
+        jobId: entry.id,
+        job: entry.data().job,
+        jobSummary: entry.data().jobSummary,
+        company: entry.data().company,
+        location: entry.data().location,
+        state: entry.data().state,
+        salary: entry.data().salary,
+        salaryFreq: entry.data().salaryFreq,
+        aboutBusiness: entry.data().aboutBusiness,
+        keywords: entry.data().keywords,
+        role: entry.data().role,
+        skillsExp: entry.data().skillsExp,
+        additionalInfo: entry.data().additionalInfo,
+        contactDetails: entry.data().contactDetails,
+        tradeClassification: entry.data().tradeClassification,
+        handle: entry.data().handle,
+        imageUrl: entry.data().imageUrl,
+        workType: entry.data().workType,
+        createdAt: entry.data().createdAt,
+      });
+    })
+      if (jobsAll === undefined || jobsAll.length === 0) {
+        return response.status(404).json({ error: "No Jobs Found... Press the plus icon to post a job." });
+      } else {
+
+        return response.json(jobsAll);
+      }
+    }else {
+      return response.status(404).json({ error: "No Jobs Found... Press the plus icon to post a job." });
+    }
+  
+  })
+
+    //TODO: check if there is anythign there send response no jobs found
+
+  .catch((err) => {
+    console.error(err);
+    return response.status(500).json({ error: err.code });
+  });
+}
 
 //SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS//SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS
 exports.searchJobs = (request, response) => {
@@ -55,8 +114,8 @@ exports.searchJobs = (request, response) => {
   };
   //checks for search results
   resultsCheck = () => {
-    if (jobsAll === undefined || jobsAll.length == 0) {
-      return response.status(404).json({ error: "No Employees Found" });
+    if (jobsAll === undefined || jobsAll.length === 0) {
+      return response.status(404).json({ error: "No Jobs Found" });
     } else {
       return response.json(jobsAll);
     }
@@ -259,6 +318,8 @@ exports.createNewJob = (request, response) => {
   let imageUrl = imageCheck(request.body.imageUrl);
 
   const newJob = {
+    editing: request.body.editing,
+    jobId: request.body.jobId,
     job: request.body.job,
     jobSummary: request.body.jobSummary,
     company: request.body.company,
@@ -277,9 +338,21 @@ exports.createNewJob = (request, response) => {
     workType: request.body.workType,
     createdAt: new Date().toISOString(),
     handle: request.user.handle,
+    userId: request.user.uid,
   };
-
-  db.collection("job")
+  if(newJob.editing === true){
+    db.collection("job")
+      .doc(newJob.jobId)
+        .update(newJob)
+        .then(() => {
+          response.json({ message: `document ${newJob.jobId} updated succesfully` });
+        })
+        .catch((err) => {
+          console.error(err);
+          return response.status(500).json({ error: err.code });
+        });
+  }else{
+    db.collection("job")
     .add(newJob)
     .then((doc) => {
       db.doc(`/job/${doc.id}`)
@@ -296,14 +369,21 @@ exports.createNewJob = (request, response) => {
       response.status(500).json({ error: "something went wrong" });
       console.error(err);
     });
+
+  }
+ 
 };
 
 //DELETE JOB
 exports.deleteJob = (request, response) => {
+  console.log("here21")
+  console.log(request.params)
+  console.log(request.user)
   const document = db.doc(`/job/${request.params.jobId}`);
   document
     .get()
     .then((doc) => {
+      console.log(doc)
       if (!doc.exists) {
         return response.status(404).json({ error: "Job not found" });
       }
