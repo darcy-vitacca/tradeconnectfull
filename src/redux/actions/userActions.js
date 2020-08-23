@@ -16,6 +16,9 @@ import {
   DELETE_PROFILE_CREATED,
   LOADING_USER,
   EDIT_PROFILE,
+  EDIT_JOB,
+  JOB_DASHBOARD,
+  DELETE_JOB,
 } from "../reducers/types";
 import axios from "axios";
 // TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
@@ -62,6 +65,7 @@ export const logoutUser = (history) => (dispatch) => {
 export const getUserData = () => (dispatch) => {
   //TODO: add a filter if not needed to get profile?
   let uid;
+
   dispatch({ type: LOADING_USER });
   axios
     .get("/user")
@@ -71,6 +75,7 @@ export const getUserData = () => (dispatch) => {
         type: SET_USER,
         payload: res.data,
       });
+      // dispatch(jobDashboard(uid))
       axios
         .get(`/getprofile/${uid}`)
         .then((res) => {
@@ -106,8 +111,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
-      //TODO: change to my profile?
-      history.push("/");
+      history.push("/myprofile");
     })
     .catch((err) => {
       console.log(err);
@@ -120,11 +124,9 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 };
 
 //CREATE A PROFILE
-export const createProfile = (profileDetails, history, editProfile) => (dispatch) => {
-  console.log(editProfile)
-  console.log(history)
-  // console.log(profileDetails);
-  // console.log(history);
+export const createProfile = (profileDetails, history, editProfile) => (
+  dispatch
+) => {
   dispatch({ type: LOADING_UI });
   axios
     .post("/createprofile", profileDetails)
@@ -133,12 +135,11 @@ export const createProfile = (profileDetails, history, editProfile) => (dispatch
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
       if (editProfile === true) {
-        dispatch(editUser(history, editProfile))
-      }else{
+        dispatch(editUser(history, editProfile));
+      } else {
         history.push("/myprofile");
       }
       //redirect to user page
-      
     })
     .catch((err) => {
       console.log(err);
@@ -180,19 +181,16 @@ export const deleteUser = (userCredentials, history) => (dispatch) => {
 };
 
 //CREATE A JOB
-export const createJob = (newJob, history) => (dispatch) => {
-  console.log(newJob);
-  console.log(history);
+export const createJob = (newJob, history, editing) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  
   axios
     .post("/createjob", newJob)
     .then((res) => {
-      // console.log(res.data);
-      // dispatch(getUserData())
+      if (editing === true) {
+        dispatch({ type: EDIT_JOB, payload: "" });
+      }
       dispatch({ type: CLEAR_ERRORS });
-      //redirect to user page
-      history.push(`/jobsearch`);
+      history.push(`/jobdashboard`);
     })
     .catch((err) => {
       console.log(err);
@@ -203,6 +201,53 @@ export const createJob = (newJob, history) => (dispatch) => {
     });
 };
 
+//JOB SEARCH DASHBOARD GET JOBS
+export const jobDashboard = (userId) => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
+  axios
+    .get(`/jobdashboard/${userId}`)
+    .then((res) => {
+      console.log(res);
+      dispatch({ type: JOB_DASHBOARD, payload: res.data });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//EDIT JOB
+
+export const editJob = (jobId, editPage, history) => (dispatch) => {
+  if (editPage === true) {
+    dispatch({ type: EDIT_JOB, payload: jobId });
+    history.push("/postjob");
+  } else {
+    dispatch({ type: EDIT_JOB, payload: "" });
+  }
+};
+
+//DELETE JOB
+export const deleteJob = (jobId, userId, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .delete(`/deletejob/${jobId}`)
+    .then((res) => {
+      console.log(res);
+      dispatch({ type: DELETE_JOB, payload: jobId });
+      dispatch({ type: CLEAR_ERRORS });
+      history.push("/");
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
 //SEARCH JOBS
 export const searchJobs = (searchReq, history) => (dispatch) => {
   dispatch({ type: LOADING_DATA });
@@ -274,30 +319,3 @@ const setAuthorizationHeader = (token) => {
   axios.defaults.headers.common["Authorization"] = FBIdToken;
   //We can dispatch the getUser action which allows us to run it after we are loggedin and authorized
 };
-
-//GET PROFILE
-// export const getProfile = (uid) => () => {
-//   console.log(uid);
-//   console.log("here");
-//   // dispatch({ type: LOADING_DATA });
-//   // dispatch({ type: CLEAR_PROFILE });
-//   // axios
-//   //  .get(`/getprofile/${uid}`)
-//   //   .then((res) => {
-//   //     console.log(res.data);
-//   //     dispatch({ type: CLEAR_ERRORS });
-//   //     dispatch({
-//   //       type: GET_PROFILE,
-//   //       payload: res.data.profileData,
-//   //     });
-
-//   //   })
-//   //   .catch((err) => {
-//   //     console.log(err);
-//   //     dispatch({
-//   //       type: SET_ERRORS,
-//   //       payload: err.response.data,
-//   //     });
-
-//   //   });
-// };

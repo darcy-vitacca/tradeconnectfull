@@ -63,6 +63,9 @@ class NavFull extends Component {
           <Link to="/postjob">
             <li className="nav-links" onClick={this.handleClick}>Post Job</li>
           </Link>
+          <Link to="/jobdashboard">
+            <li className="nav-links" onClick={this.handleClick}>Job Dashboard</li>
+          </Link>
           <Link to="/login">
             <li className="nav-links" id="logout" onClick={this.logoutUserBtn}>
               Logout

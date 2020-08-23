@@ -1,5 +1,4 @@
 import React from "react";
-
 const BestWorkProfile = (props) => {
   return props.bestWork.map((val) => {
     // console.log(val);

@@ -18,6 +18,7 @@ import EmployeeSearch from "./pages/peoplesearch";
 import MyProfile from "./pages/myprofile";
 import Contact from "./pages/contact";
 import PostJob from "./pages/postjob";
+import JobDashboard from "./pages/jobdashboard";
 
 //Auth
 import AuthRoute from "./components/util/auth_route";
@@ -41,6 +42,7 @@ if (token) {
   }
 }
 //TODO: menu not disappering when something is clicked
+//TODO: licences change to tag things in profile 
 //TODO: refactor code that is duplicates into helper functions
 //TODO: for with formik youtube tutotial docs are bad
 //TODO: the way to make money could be search functionallity for the ideal candidate and give % matches
@@ -59,6 +61,7 @@ function App() {
               <AuthRoute path="/login" component={Login} />
               <AuthRoute path="/signup" component={Signup} />
               <Route path="/jobsearch" component={JobSearch} />
+              <Route path="/jobdashboard" component={JobDashboard} />
               <Route path="/peoplesearch" component={EmployeeSearch} />
               <Route path="/myprofile" component={MyProfile} />
               <Route path="/contact" component={Contact} />

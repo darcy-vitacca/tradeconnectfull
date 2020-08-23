@@ -43,6 +43,24 @@
   width: 100%;
 }
 
+.dotOrange {
+  margin: 0.5em 0 0 1em;
+  height: 20px;
+  width: 20px;
+  background-color:#e16b05;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dotRed {
+  margin: 0.5em 0 0 1em;
+  height: 20px;
+  width: 20px;
+  background-color: rgb(223, 42, 42);
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .dot {
   margin: 0.5em 0 0 1em;
   height: 20px;
@@ -327,6 +345,36 @@ margin: 0 1em;;
   justify-content: space-between;
   padding: 0 0.5em;
 }
+/* IMAGE CAROUSEL *//* IMAGE CAROUSEL *//* IMAGE CAROUSEL *//* IMAGE CAROUSEL *//* IMAGE CAROUSEL *//* IMAGE CAROUSEL *//* IMAGE CAROUSEL */
+
+
+.arrows{
+  display: flex;
+  justify-content: space-around;
+  width: 15%;
+  margin: 0 auto
+
+}
+
+
+
+.arrowsCircleLeft , .arrowsCircleRight{
+  width: 46px;
+  height: 46px;
+  background-color: rgb(134, 134, 134);
+  border-radius: 60%;
+  /* opacity: 50%; */
+
+}
+
+.carouselImage{
+  width:100%;
+  object-fit: contain;
+  max-height: 350px;
+
+  
+}
+
 
 @media only screen and (min-width: 350px) {
 .editDeleteIcon{

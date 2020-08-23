@@ -3,6 +3,7 @@ import AboutProfile from "../profilecard/view-profile/about-profile-card";
 import ExperienceProfile from "../profilecard/view-profile/experience-profile-card";
 import SkillsProfile from "../profilecard/view-profile/skills-profile-card";
 import BestWorkProfile from "../profilecard/view-profile/bestwork-profile-card";
+import ImageCarousel from "../profilecard/image_carousel/image_carousel"
 
 import dayjs from "dayjs";
 const relativeTime = require("dayjs/plugin/relativeTime");
@@ -113,7 +114,8 @@ class PeopleSearchCard extends Component {
 
               <div>
                 <h4>Best Work</h4>
-                <BestWorkProfile bestWork={bestWork} />
+                {/* <BestWorkProfile bestWork={bestWork} /> */}
+                <ImageCarousel bestWork={bestWork} />
               </div>
               <div className="contactPersonBtn">
                 <button id="contactPersonButton">Contact</button>

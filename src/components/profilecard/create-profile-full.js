@@ -131,7 +131,6 @@ class CreateProfile extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
@@ -145,7 +144,7 @@ class CreateProfile extends Component {
   componentDidMount() {
     if (this.props.user.editing === true) {
       const { profile } = this.props.user;
-      console.log(profile);
+
 
       this.setState(
         (prevState) => ({
@@ -195,12 +194,13 @@ class CreateProfile extends Component {
           workStatus: profile.workStatus,
           website: profile.website,
           tradeClassification: profile.tradeClassification,
-        }),
-        () => {
-          console.log(this.state);
-        }
+        })
+        // ,
+        // () => {
+        //   console.log(this.state);
+        // }
       );
-      console.log(this.state);
+      // console.log(this.state);
     }
   }
 
@@ -256,12 +256,10 @@ class CreateProfile extends Component {
 
     //Get state function
     locationArr.forEach((entry) => {
-      console.log(entry);
       if (
         ["ACT", "NSW", "NT", "QLD", "TAS", "SA", "VIC", "WA"].includes(entry)
       ) {
         stateLocation = entry;
-        console.log(stateLocation);
       }
     });
 
@@ -538,7 +536,7 @@ class CreateProfile extends Component {
   };
   lengthHandler = (event) => {
     let dynamicContent = ["experienceText", "references", "bestWorkCardDesc"];
-
+    //TODO: change to react way not document get
     //checks for dynamic sections
     if (dynamicContent.includes(event.target.id) && event.target.id !== "") {
       document.getElementById(
@@ -585,7 +583,6 @@ class CreateProfile extends Component {
       UI: { loading },
     } = this.props;
     let { classifcations, workstatus } = this.state;
-    console.log(this.props)
     return (
       <div>
         <h1 className="createProfileHeader">Create Your Profile</h1>
