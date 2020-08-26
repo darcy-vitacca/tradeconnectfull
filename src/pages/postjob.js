@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import Autocomplete from "react-google-autocomplete";
-import { createJob, uploadImage, editJob } from "../redux/actions/userActions";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+//Functions
+import { createJob, uploadImage, editJob } from "../redux/actions/userActions";
+//Packages
+import Autocomplete from "react-google-autocomplete";
 import { uuid } from "uuidv4";
 import { ScaleLoader } from "react-spinners";
+//Dropdowns
+const {
+  ClassificationList,
+  WorkTypeList,
+  SalaryFreqList,
+} = require("../util/dropdowns");
 
 //TODO: Token expiring need to make the token better
 class PostJob extends Component {
@@ -33,51 +41,9 @@ class PostJob extends Component {
         },
       ],
 
-      classifcations: [
-        "Air Conditioning & Refrigeration",
-        "Arborist",
-        "Automotive Trades",
-        "Bakers & Pastry Chefs",
-        "Boat Builder and Repairer",
-        "Bricklayer",
-        "Building Trades",
-        "Butchers",
-        "Cook",
-        "Carpentry",
-        "Cabinet Making",
-        "Cleaning Services",
-        "Electricians",
-        "Fitters, Turners & Machinists",
-        "Floristry",
-        "Gardening & Landscaping",
-        "Glazier",
-        "Hair & Beauty Services",
-        "Joiner",
-        "Labourers",
-        "Lift Mechanic",
-        "Locksmiths",
-        "Maintenance /Handyperson Services",
-        "Metal Fabricator",
-        "Nannies & Babysitters",
-        "Painters & Sign Writers",
-        "Plaster",
-        "Plumbers",
-        "Printing & Publishing Services",
-        "Roof Tiler",
-        "Roof Plumber",
-        "Screen Printer",
-        "Shearer",
-        "Security Services",
-        "Stonemason",
-        "Tailors & Dressmakers",
-        "Telecommuncations",
-        "Technicians",
-        "Wall and Floor Tiler",
-        "Welders & Boilermakers",
-        "Other",
-      ],
-      worktype: ["Full Time", "Part Time", "Casual", "Contract"],
-      salaryfreq: ["Per Year", "Per Hour"],
+      classifcations: ClassificationList,
+      worktype: WorkTypeList,
+      salaryfreq: SalaryFreqList,
     };
   }
   componentWillUnmount() {
@@ -90,7 +56,6 @@ class PostJob extends Component {
       const editingJob = this.props.user.jobs.filter(
         (job) => job.jobId === this.props.user.editJobId
       );
-      console.log(editingJob);
       this.setState(
         (prevState) => ({
           ...prevState,
@@ -136,8 +101,6 @@ class PostJob extends Component {
         let fullJob = [...this.state.fullJob];
         fullJob[e.target.dataset.id][e.target.name] = e.target.value;
         this.setState({ fullJob }, console.log(this.state));
-        console.log(fullJob);
-        console.log(this.state.fullJob[0]);
       }
     }
   };
@@ -214,9 +177,7 @@ class PostJob extends Component {
 
   handleImageChange = (e) => {
     let target = e.target;
-    console.log(e.target);
     let fullJob = [...this.state.fullJob];
-    console.log(fullJob);
     const image = e.target.files[0];
     if (image) {
       //send to server
@@ -233,10 +194,9 @@ class PostJob extends Component {
         })
         .catch((err) => console.log(err));
     }
-    console.log("here");
   };
 
-  render() {
+  postJobForm() {
     let { classifcations, worktype, salaryfreq } = this.state;
     let {
       fullJob: [
@@ -258,244 +218,256 @@ class PostJob extends Component {
     } = this.state;
     let {
       UI: { loading },
+      user: { authenticated },
     } = this.props;
-    console.log(this.state);
-    return (
-      <div className="postJobBody">
-        <div className="postJobCard">
-          <h1 className="postJobHeader">Post a Job Ad</h1>
-          <div className="postJobFormCont">
-            <form
-              className="postJobForm"
-              onSubmit={this.handleSubmit}
-              onChange={this.handleChange}
-              autoComplete="off"
-            >
-              <input
-                className="hiddenInput"
-                autoComplete="false"
-                name="hidden"
-                data-id="0"
-                type="text"
-                autoComplete="off"
-              ></input>
-              <div className="upperPostJobForm">
-                <div>
-                  <h3>Job Title *</h3>
+    if (loading === false) {
+      if (authenticated === true) {
+        return (
+          <div className="postJobBody">
+            <div className="postJobCard">
+              <h1 className="postJobHeader">Post a Job Ad</h1>
+              <div className="postJobFormCont">
+                <form
+                  className="postJobForm"
+                  onSubmit={this.handleSubmit}
+                  onChange={this.handleChange}
+                  autoComplete="off"
+                >
                   <input
-                    name="job"
-                    value={job}
-                    placeholder="Job Title"
-                    className="titleJobAd"
+                    className="hiddenInput"
+                    autoComplete="false"
+                    name="hidden"
                     data-id="0"
-                    required
+                    type="text"
+                    autoComplete="off"
                   ></input>
-                </div>
-                <div>
-                  <h3>Company *</h3>
-                  <input
-                    name="company"
-                    value={company}
-                    data-id="0"
-                    placeholder="Company"
-                    className="companyJobAd"
-                    required
-                  ></input>
-                </div>
-                <div>
-                  <h3>Location *</h3>
-                  <Autocomplete
-                    data-id="0"
-                    name="autoLocation"
-                    required
-                    onBlur={this.onBlur}
-                    placeholder="Select a Location from the dropdown"
-                    onPlaceSelected={(place) => {
-                      console.log(place);
-                      this.setState((prevState) => ({
-                        fullJob: [
-                          {
-                            ...prevState.fullJob[0],
-                            location: place.formatted_address,
-                            locationCheck: true,
-                          },
-                        ],
-                      }));
-                    }}
-                    types={["(regions)"]}
-                    componentRestrictions={{ country: "au" }}
-                    onFocus={this.onFocus}
-                  />
-
-                  <h3>Trade Classification</h3>
-                  <select
-                    name="tradeClassification"
-                    value={tradeClassification}
-                    className="postJobClassification"
-                    data-id="0"
-                    required
-                  >
-                    <option disabled selected hidden>
-                      Trade Classification
-                    </option>
-                    {classifcations.map((classifcation) => {
-                      return (
-                        <option key={uuid()} value={classifcation}>
-                          {" "}
-                          {classifcation}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div>
-                  <h3>Work Type *</h3>
-                  <select
-                    name="workType"
-                    value={workType}
-                    className="postJobClassification"
-                    data-id="0"
-                    required
-                  >
-                    <option value="" disabled selected hidden>
-                      Work Type
-                    </option>
-                    {worktype.map((worktype) => {
-                      return (
-                        <option key={uuid()} value={worktype}>
-                          {" "}
-                          {worktype}
-                        </option>
-                      );
-                    })}
-                  </select>
-
-                  <h3>Salary *</h3>
-                  <input
-                    data-id="0"
-                    value={salary}
-                    name="salary"
-                    placeholder="Salary"
-                    className="salaryJobAd"
-                    required
-                  ></input>
-
-                  <h3>Salary Frequency *</h3>
-                  <select
-                    name="salaryFreq"
-                    value={salaryFreq}
-                    className="postJobClassification"
-                    data-id="0"
-                    required
-                  >
-                    <option value="" disabled selected hidden>
-                      Salary Frequency
-                    </option>
-                    {salaryfreq.map((salaryfreq) => {
-                      return (
-                        <option key={uuid()} value={salaryfreq}>
-                          {" "}
-                          {salaryfreq}
-                        </option>
-                      );
-                    })}
-                  </select>
-                  <h3>Company Logo Image</h3>
-                  <input
-                    type="file"
-                    className="expCardSec"
-                    name="imageUrl"
-                    onChange={this.handleImageChange}
-                    data-id="0"
-                    placeholder="Company logo image"
-                    id="imageUrl"
-                  ></input>
-                </div>
-              </div>
-
-              <h3>Summarize Your Job Ad *</h3>
-              <textarea
-                data-id="0"
-                value={jobSummary}
-                name="jobSummary"
-                placeholder="Summarize your job ad, this is what applicants will see first in the search results and you want to attract the best applicants."
-                className="jobSummary"
-                required
-              ></textarea>
-
-              <h3>About the Business *</h3>
-              <textarea
-                data-id="0"
-                name="aboutBusiness"
-                value={aboutBusiness}
-                placeholder="About the business, why would an applicant want to work here?"
-                className="aboutBusiness"
-                required
-              ></textarea>
-
-              <h3>The Role *</h3>
-              <textarea
-                data-id="0"
-                name="role"
-                value={role}
-                placeholder="What is the role? What does the day in day out on the job look like?"
-                className="role"
-                required
-              ></textarea>
-
-              <h3>Skills and Experience Required *</h3>
-              <textarea
-                data-id="0"
-                name="skillsExp"
-                value={skillsExp}
-                placeholder="What are the skills and experience required for an applicant to be successful? What is not a requirement but would be advantageous?"
-                className="skillsExp"
-                required
-              ></textarea>
-
-              <h3>Additional Information *</h3>
-              <textarea
-                data-id="0"
-                name="additionalInfo"
-                value={additionalInfo}
-                placeholder="Is there any additional information that applicants would need to know about before applying?"
-                className="additionalInfo"
-                required
-              ></textarea>
-
-              <h3>Contact Details *</h3>
-              <textarea
-                data-id="0"
-                name="contactDetails"
-                value={contactDetails}
-                placeholder="Contact details to apply for the job?"
-                className="contactDetails"
-                required
-              ></textarea>
-              <div className="submitSpinner">
-                <div className="spinner">
-                  {loading === true ? (
+                  <div className="upperPostJobForm">
                     <div>
-                      {" "}
-                      <ScaleLoader
-                        className="spinner"
-                        size={240}
-                        loading
-                      />{" "}
+                      <h3>Job Title *</h3>
+                      <input
+                        name="job"
+                        value={job}
+                        placeholder="Job Title"
+                        className="titleJobAd"
+                        data-id="0"
+                        required
+                      ></input>
                     </div>
-                  ) : null}{" "}
-                </div>
+                    <div>
+                      <h3>Company *</h3>
+                      <input
+                        name="company"
+                        value={company}
+                        data-id="0"
+                        placeholder="Company"
+                        className="companyJobAd"
+                        required
+                      ></input>
+                    </div>
+                    <div>
+                      <h3>Location *</h3>
+                      <Autocomplete
+                        data-id="0"
+                        name="autoLocation"
+                        required
+                        onBlur={this.onBlur}
+                        placeholder="Select a Location from the dropdown"
+                        onPlaceSelected={(place) => {
+                          console.log(place);
+                          this.setState((prevState) => ({
+                            fullJob: [
+                              {
+                                ...prevState.fullJob[0],
+                                location: place.formatted_address,
+                                locationCheck: true,
+                              },
+                            ],
+                          }));
+                        }}
+                        types={["(regions)"]}
+                        componentRestrictions={{ country: "au" }}
+                        onFocus={this.onFocus}
+                      />
+
+                      <h3>Trade Classification</h3>
+                      <select
+                        name="tradeClassification"
+                        value={tradeClassification}
+                        className="postJobClassification"
+                        data-id="0"
+                        required
+                      >
+                        <option disabled selected hidden>
+                          Trade Classification
+                        </option>
+                        {classifcations.map((classifcation) => {
+                          return (
+                            <option key={uuid()} value={classifcation}>
+                              {" "}
+                              {classifcation}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    <div>
+                      <h3>Work Type *</h3>
+                      <select
+                        name="workType"
+                        value={workType}
+                        className="postJobClassification"
+                        data-id="0"
+                        required
+                      >
+                        <option value="" disabled selected hidden>
+                          Work Type
+                        </option>
+                        {worktype.map((worktype) => {
+                          return (
+                            <option key={uuid()} value={worktype}>
+                              {" "}
+                              {worktype}
+                            </option>
+                          );
+                        })}
+                      </select>
+
+                      <h3>Salary *</h3>
+                      <input
+                        data-id="0"
+                        value={salary}
+                        name="salary"
+                        placeholder="Salary"
+                        className="salaryJobAd"
+                        required
+                      ></input>
+
+                      <h3>Salary Frequency *</h3>
+                      <select
+                        name="salaryFreq"
+                        value={salaryFreq}
+                        className="postJobClassification"
+                        data-id="0"
+                        required
+                      >
+                        <option value="" disabled selected hidden>
+                          Salary Frequency
+                        </option>
+                        {salaryfreq.map((salaryfreq) => {
+                          return (
+                            <option key={uuid()} value={salaryfreq}>
+                              {" "}
+                              {salaryfreq}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <h3>Company Logo Image</h3>
+                      <input
+                        type="file"
+                        className="expCardSec"
+                        name="imageUrl"
+                        onChange={this.handleImageChange}
+                        data-id="0"
+                        placeholder="Company logo image"
+                        id="imageUrl"
+                      ></input>
+                    </div>
+                  </div>
+
+                  <h3>Summarize Your Job Ad *</h3>
+                  <textarea
+                    data-id="0"
+                    value={jobSummary}
+                    name="jobSummary"
+                    placeholder="Summarize your job ad, this is what applicants will see first in the search results and you want to attract the best applicants."
+                    className="jobSummary"
+                    required
+                  ></textarea>
+
+                  <h3>About the Business *</h3>
+                  <textarea
+                    data-id="0"
+                    name="aboutBusiness"
+                    value={aboutBusiness}
+                    placeholder="About the business, why would an applicant want to work here?"
+                    className="aboutBusiness"
+                    required
+                  ></textarea>
+
+                  <h3>The Role *</h3>
+                  <textarea
+                    data-id="0"
+                    name="role"
+                    value={role}
+                    placeholder="What is the role? What does the day in day out on the job look like?"
+                    className="role"
+                    required
+                  ></textarea>
+
+                  <h3>Skills and Experience Required *</h3>
+                  <textarea
+                    data-id="0"
+                    name="skillsExp"
+                    value={skillsExp}
+                    placeholder="What are the skills and experience required for an applicant to be successful? What is not a requirement but would be advantageous?"
+                    className="skillsExp"
+                    required
+                  ></textarea>
+
+                  <h3>Additional Information *</h3>
+                  <textarea
+                    data-id="0"
+                    name="additionalInfo"
+                    value={additionalInfo}
+                    placeholder="Is there any additional information that applicants would need to know about before applying?"
+                    className="additionalInfo"
+                    required
+                  ></textarea>
+
+                  <h3>Contact Details *</h3>
+                  <textarea
+                    data-id="0"
+                    name="contactDetails"
+                    value={contactDetails}
+                    placeholder="Contact details to apply for the job?"
+                    className="contactDetails"
+                    required
+                  ></textarea>
+                  <div className="submitSpinner">
+                    <div className="spinner">
+                      {loading === true ? (
+                        <div>
+                          {" "}
+                          <ScaleLoader
+                            className="spinner"
+                            size={240}
+                            loading
+                          />{" "}
+                        </div>
+                      ) : null}{" "}
+                    </div>
+                  </div>
+                  <div className="jobSubmitButtonDiv">
+                    <button type="submit" className="jobSubmitButton">
+                      Submit
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div className="jobSubmitButtonDiv">
-                <button type="submit" className="jobSubmitButton">
-                  Submit
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
-      </div>
-    );
+        );
+      } else {
+        this.props.history.push("/login");
+      }
+    } else {
+      return <p>loading..</p>;
+    }
+  }
+
+  render() {
+    return <div>{this.postJobForm()}</div>;
   }
 }
 PostJob.propTypes = {

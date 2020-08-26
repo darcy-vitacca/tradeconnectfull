@@ -1,41 +1,35 @@
+//Core
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+//Components
 import NavFull from "./navFull";
-
 
 import "../../App.css";
 
 class Nav extends Component {
-  
   constructor() {
     super();
     this.state = {
-       errors: {},
-    }
+      errors: {},
+    };
   }
-  
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
   }
 
-
-  render(){
-  
-    
+  render() {
     return (
       <div>
         <header>
-         
-          <NavFull  history={this.props.history}/>
+          <NavFull history={this.props.history} />
         </header>
       </div>
     );
-
   }
-  
 }
 Nav.propTypes = {
   user: PropTypes.object.isRequired,
@@ -48,6 +42,5 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
   data: state.data,
 });
-
 
 export default connect(mapStateToProps)(Nav);

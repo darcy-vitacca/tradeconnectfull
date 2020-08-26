@@ -1,0 +1,41 @@
+.accountContainer {
+    background-color: white;
+    margin: 0 auto;
+    margin-top: 1em;
+    box-sizing: border-box;
+    width: 96%;
+    border: 2px solid #cecece;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    max-width: 850px;
+    min-width: 250px;
+  }
+  .accountHeader {
+    text-align: center;
+    margin: 0 0 0.5em 0;
+    padding: 0 0.3em;
+    background-color: #e16b05;
+    color: white;
+
+  }
+  .accountCont{
+    margin: 1em;
+    text-align: left;
+  }
+  .inboxHeader{
+    display: flex;
+  }
+  .inboxFrom{
+    min-width: 80px;
+    width: 24%;
+
+  }
+  .inboxSubject {
+    min-width: 80px;
+    width: 58%;
+    
+  }
+  .inboxCreated {
+    min-width: 80px;
+    width: 18%;
+    
+  }

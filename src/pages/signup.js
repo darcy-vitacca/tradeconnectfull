@@ -1,3 +1,4 @@
+//Core
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -48,7 +49,6 @@ class Signup extends Component {
 
   render() {
     const { UI : {loading}} = this.props;
-    //we get the errors and loading from the state
     const { errors } = this.state;
     return (
       <div className="signupCont">
@@ -148,17 +148,11 @@ Signup.propTypes = {
   signupUser: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
 };
-
-
-//It's a function that takes our global state and we take what we need from the reducers in this state we only need user and ui. This allows user and UI to get mapped from a global props and brought to be mapped into our component props. That why we can use this.props.loginUser above
-
 const mapStateToProps = (state) => ({
   user: state.user,
   UI: state.UI,
   data: state.data,
 });
-
-
 const mapActionsToProps = {
   signupUser,
 };

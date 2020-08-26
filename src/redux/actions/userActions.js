@@ -19,12 +19,17 @@ import {
   EDIT_JOB,
   JOB_DASHBOARD,
   DELETE_JOB,
+  ERROR_CLEAR_LOADING
 } from "../reducers/types";
 import axios from "axios";
 // TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
 
 //this is taken from the login page and we need to user dispatch because we have asynchronous code. We can set the login from the  action itself here we use dispatch to set the type whcih is loading UI. We dispatch the type then catch it from the user. We need to redirect by passing in history from the login component to the action then the action will use it
 //LOGIN USER
+export const pageChangeErrorClear = (state) => (dispatch) =>{
+  dispatch({ type: CLEAR_ERRORS });
+}
+
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
@@ -255,7 +260,7 @@ export const searchJobs = (searchReq, history) => (dispatch) => {
   axios
     .post("/searchjobs", searchReq)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: SEARCH_JOBS,
@@ -269,6 +274,7 @@ export const searchJobs = (searchReq, history) => (dispatch) => {
         type: SET_ERRORS,
         payload: err.response.data,
       });
+      dispatch({type: ERROR_CLEAR_LOADING})
       history.push(`/jobsearch`);
     });
 };
@@ -280,7 +286,7 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
   axios
     .post("/searchemployee", searchReq)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: SEARCH_EMPLOYEE,
@@ -294,6 +300,7 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
         type: SET_ERRORS,
         payload: err.response.data,
       });
+      dispatch({type: ERROR_CLEAR_LOADING})
       history.push(`/peoplesearch`);
     });
 };

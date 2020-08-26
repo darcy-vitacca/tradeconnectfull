@@ -1,6 +1,4 @@
 export function jobSearch(state, props) {
-  console.log(state.jobSearchInput[0]);
-  console.log("working");
   let searchInput = state.jobSearchInput[0];
   let keywordArr;
   let keywordValidator = () => {
@@ -20,7 +18,6 @@ export function jobSearch(state, props) {
       searchInput.state &&
       searchInput.keywords) !== ""
   ) {
-    console.log("here1");
     const searchReq = {
       keywords: keywordValidator(),
       trade: searchInput.tradeClassification,
@@ -33,7 +30,6 @@ export function jobSearch(state, props) {
   //TWO FIELDS SEARCHES/////////
   //keyword, state
   else if ((searchInput.keywords && searchInput.state) !== "") {
-    console.log("here1");
     const searchReq = {
       keywords: keywordValidator(),
       trade: "",
@@ -44,7 +40,6 @@ export function jobSearch(state, props) {
   }
   //keyword trade classificaiton
   else if ((searchInput.keywords && searchInput.tradeClassification) !== "") {
-    console.log("here1");
     const searchReq = {
       keywords: keywordValidator(),
       trade: searchInput.tradeClassification,
@@ -55,7 +50,6 @@ export function jobSearch(state, props) {
   }
   //state trade classificaiton
   else if ((searchInput.state && searchInput.tradeClassification) !== "") {
-    console.log("here1");
     const searchReq = {
       keywords: "",
       trade: searchInput.tradeClassification,
@@ -68,8 +62,6 @@ export function jobSearch(state, props) {
   //SINGLE SEARCHES//////////////
   //keywords only search
   else if (searchInput.keywords !== "") {
-    console.log("here2");
-    console.log(searchInput.keywords);
     const searchReq = {
       keywords: keywordValidator(),
       trade: "",
@@ -81,8 +73,6 @@ export function jobSearch(state, props) {
 
   // state only search
   else if (searchInput.state !== "") {
-    console.log("here3");
-    console.log(searchInput.state);
     const searchReq = {
       keywords: "",
       trade: "",
@@ -93,7 +83,6 @@ export function jobSearch(state, props) {
 
     //trade only search
   } else if (searchInput.tradeClassification !== "") {
-    console.log("here2");
     console.log(searchInput.tradeClassification);
     const searchReq = {
       keywords: "",

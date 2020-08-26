@@ -1,9 +1,11 @@
+//Core
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logoutUser } from "../../redux/actions/userActions";
 import PropTypes from "prop-types";
 import "../../App.css";
+//Redux
+import { logoutUser } from "../../redux/actions/userActions";
 
 
 //TODO: CHANGE FROM HASH ON LINK
@@ -13,6 +15,7 @@ class NavFull extends Component {
     super();
     this.state = {
       menu: "show-desktop hide-mobile nav-links",
+      avatar: "show-menu",
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -22,14 +25,36 @@ class NavFull extends Component {
   }
 
   handleClick = (e) => {
-    if (e.target.id === "menu") {
-      this.setState({
-        menu: "show-desktop nav-links",
-      });
-    } else if (e.target.id === "exit_menu" || e.target.className === "nav-links") {
+    if (e.target.id === "menu" || e.target.className === "show-menu") {
+      if (e.target.id === "avatarItems") {
+        this.setState({
+          menu: "show-desktop hide-mobile nav-links",
+        });
+      } else {
+        this.setState({
+          menu: "show-desktop nav-links",
+        });
+      }
+    } else if (
+      e.target.id === "exit_menu" ||
+      (e.target.className === "nav-links" && e.target.id !== "avatar")
+    ) {
+      if (e.target.id === "logout") {
+        this.logoutUserBtn(e);
+      }
       this.setState({
         menu: "show-desktop hide-mobile nav-links",
       });
+    } else if (e.target.id === "avatar") {
+      if (this.state.avatar === "show-menu") {
+        this.setState({
+          avatar: "hide-menu",
+        });
+      } else if (this.state.avatar === "hide-menu") {
+        this.setState({
+          avatar: "show-menu",
+        });
+      }
     }
   };
 
@@ -41,41 +66,83 @@ class NavFull extends Component {
   };
 
   searchStateInput() {
-   
+    let { menu } = this.state;
     let { authenticated } = this.props.user;
     if (authenticated === false) {
       return (
-        <div className="signedIn_OutLinks">
+        <div className={menu}>
           <Link to="/login">
-            <li className="nav-links" onClick={this.handleClick}>Login</li>
+            <li className="nav-links" onClick={this.handleClick}>
+              Login
+            </li>
           </Link>
           <Link to="/signup">
-            <li className="nav-links" onClick={this.handleClick}>Sign up</li>
+            <li className="nav-links" onClick={this.handleClick}>
+              Sign up
+            </li>
           </Link>
         </div>
       );
     } else {
       return (
-        <div className="signedIn_OutLinks">
-          <Link to="/myprofile">
-            <li className="nav-links" onClick={this.handleClick}>My Profile</li>
+        <div className={menu}>
+          <Link className="nav-links" to="/myprofile">
+            <li className="nav-links" onClick={this.handleClick}>
+              My Profile
+            </li>
           </Link>
-          <Link to="/postjob">
-            <li className="nav-links" onClick={this.handleClick}>Post Job</li>
+          <Link className="nav-links" to="/postjob">
+            <li className="nav-links" onClick={this.handleClick}>
+              Post Job
+            </li>
           </Link>
-          <Link to="/jobdashboard">
-            <li className="nav-links" onClick={this.handleClick}>Job Dashboard</li>
+          <Link className="nav-links" to="/jobdashboard">
+            <li className="nav-links" onClick={this.handleClick}>
+              Job Dashboard
+            </li>
           </Link>
-          <Link to="/login">
-            <li className="nav-links" id="logout" onClick={this.logoutUserBtn}>
+          <Link className="nav-links" to="/login">
+            <li className="nav-links" id="logout" onClick={this.handleClick}>
               Logout
             </li>
           </Link>
-          {/* <Link>
-          <div className=" Avatar">
-            <li className="nav-links">DV</li>
+          <div>
+            <div className=" Avatar" id="avatar">
+              <li className="nav-links" id="avatar" onClick={this.handleClick}>
+                DV
+              </li>
+            </div>
+            <div className={`arrow-up ${this.state.avatar}`}></div>
+            <div className={`${this.state.avatar} menu`}>
+              <Link className="nav-links" to="/inbox">
+                <li
+                  className={`${this.state.avatar}`}
+                  onClick={this.handleClick}
+                  id="avatarItems"
+                >
+                  Inbox
+                </li>
+              </Link>
+              <Link className="nav-links" to="/settings">
+                <li
+                  className={this.state.avatar}
+                  onClick={this.handleClick}
+                  id="avatarItems"
+                >
+                  Settings
+                </li>
+              </Link>
+              <Link className="nav-links" to="/help">
+                <li
+                  className={this.state.avatar}
+                  onClick={this.handleClick}
+                  id="avatarItems"
+                >
+                  Help
+                </li>
+              </Link>
+            </div>
           </div>
-        </Link> */}
         </div>
       );
     }
@@ -86,7 +153,6 @@ class NavFull extends Component {
     return (
       <nav>
         <div className="navLeft">
-          {/* TODO:  DELETED EXACT DO I STILL NEED IT?*/}
           <Link to="/">
             <img
               className="logoNav"
@@ -113,19 +179,22 @@ class NavFull extends Component {
               &#10005;
             </li>
             <Link to="/jobsearch">
-              <li className="nav-links" onClick={this.handleClick}>Jobs</li>
+              <li className="nav-links" onClick={this.handleClick}>
+                Jobs
+              </li>
             </Link>
             <Link to="/peoplesearch">
-              <li className="nav-links" onClick={this.handleClick}>People</li>
+              <li className="nav-links" onClick={this.handleClick}>
+                People
+              </li>
             </Link>
-            {/* <Link to="/apprenticeships">
-              <li className="nav-links">Apprenticeships</li>
-            </Link> */}
-            {this.searchStateInput()}
 
             <Link to="/contact">
-              <li className="nav-links" onClick={this.handleClick}>Contact</li>
+              <li className="nav-links" onClick={this.handleClick}>
+                Contact
+              </li>
             </Link>
+            {this.searchStateInput()}
           </ul>
         </div>
       </nav>

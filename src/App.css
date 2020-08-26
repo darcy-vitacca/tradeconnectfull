@@ -3,9 +3,8 @@
 body {
   margin: 0;
   font-family: "Montserrat", sans-serif;
-  
 }
-.AppBody{
+.AppBody {
   height: 100%;
   min-height: 100vh;
 }
@@ -17,9 +16,10 @@ header {
   background-color: #e16b05;
 }
 
-input, select{
-  width:100%;
-  box-sizing:border-box;
+input,
+select {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .nav-links {
@@ -71,7 +71,7 @@ nav ul a {
   text-decoration: none;
   display: block;
   width: 100%;
-  padding: 0.3em 0.8em;
+  padding: 0.1em 0.8em;
   background-color: rgb(49, 55, 59);
 }
 
@@ -196,45 +196,38 @@ nav ul a:hover {
 
 /* logged in avatar */
 .Avatar {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  background: white;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  text-align: center;
+  display: none;
 }
 
 .Avatar li {
+  color: black;
   position: absolute;
+  margin: 0;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-/*          */
 
 /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */ /* POST JOB */
 
-.postJobHeader, .jobDashBoardHeader{
+.postJobHeader,
+.jobDashBoardHeader {
   text-align: center;
-    margin: 0 0 0.5em 0;
-    padding: 0 0.3em;
-    background-color: #e16b05;
-    color: white;
-
+  margin: 0 0 0.5em 0;
+  padding: 0 0.3em;
+  background-color: #e16b05;
+  color: white;
 }
-.postJobBody{
+.postJobBody {
   background: #e5e5e5;
   margin: 1vh;
   text-align: none;
   height: 100%;
   padding-top: 0.5em;
   padding-bottom: 6em;
-  
-  
+  min-height: 90vh;
 }
-.postJobCard{
+.postJobCard {
   background-color: white;
   margin: 0 auto;
   margin-top: 1em;
@@ -243,14 +236,11 @@ nav ul a:hover {
   border: 2px solid #cecece;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   max-width: 840px;
-  
-
 }
-.postJobClassification{
+.postJobClassification {
   width: 100%;
-  
 }
- .postJobFormCont {
+.postJobFormCont {
   width: 80%;
   margin: 0 auto 0 auto;
   max-width: 700px;
@@ -260,7 +250,6 @@ nav ul a:hover {
   text-align: center;
 }
 
-
 .postJobFormCont h3 {
   padding: 0;
   margin: 0.2em 0.2em 0.2em 0em;
@@ -268,11 +257,12 @@ nav ul a:hover {
   max-width: 320px;
 }
 
-.postJobForm input , .postJobForm select{
+.postJobForm input,
+.postJobForm select {
   width: 100%;
   font-family: "Montserrat", sans-serif;
   min-width: 300px;
-  max-width:340px;
+  max-width: 340px;
   margin: 0.5em 0.5em 0.5em 0;
 }
 
@@ -285,7 +275,8 @@ nav ul a:hover {
 
 .aboutBusiness,
 .role,
-.skillsExp, .jobSummary {
+.skillsExp,
+.jobSummary {
   font-family: "Montserrat", sans-serif;
   width: 90%;
   resize: vertical;
@@ -314,14 +305,13 @@ nav ul a:hover {
 .jobSubmitButtonDiv {
   display: flex;
   justify-content: center;
-} 
+}
 /*        */
 
 /* LOGIN SECTION */ /* LOGIN SECTION */ /* LOGIN SECTION */ /* LOGIN SECTION */ /* LOGIN SECTION */
 .loginSignupLabel {
   margin: 0 0 0 1vh;
   text-align: left;
- 
 }
 .logoLoginSignup {
   border-radius: 10px;
@@ -371,10 +361,9 @@ nav ul a:hover {
   width: 100%;
   max-width: 340px;
 }
-.css-0{
+.css-0 {
   margin: 0 auto;
   width: 54px;
-  
 }
 .css-0 div {
   background-color: #eaa060;
@@ -410,13 +399,12 @@ nav ul a:hover {
   width: 100px;
   height: 40px;
   margin: 0.2em auto;
-  
 }
-.errorsMessage{
+.errorsMessage {
   font-weight: bold;
-   margin: 0.4em;
-   margin-bottom: 0;
-   color: #e16b05;
+  margin: 0.4em;
+  margin-bottom: 0;
+  color: #e16b05;
 }
 
 .loginErrorsGeneral {
@@ -433,23 +421,23 @@ nav ul a:hover {
 }
 
 /*       */
-/* JOB DASHBOARD *//* JOB DASHBOARD *//* JOB DASHBOARD *//* JOB DASHBOARD *//* JOB DASHBOARD *//* JOB DASHBOARD */
+/* JOB DASHBOARD */ /* JOB DASHBOARD */ /* JOB DASHBOARD */ /* JOB DASHBOARD */ /* JOB DASHBOARD */ /* JOB DASHBOARD */
 
-.dashboardCard{
+.dashboardCard {
   background-color: white;
-    margin: 0 auto;
-    margin-top: 1em;
-    box-sizing: border-box;
-    width: 96%;
-    border: 2px solid #cecece;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    max-width: 650px;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  max-width: 650px;
 }
-.jobDashCont{
+.jobDashCont {
   margin: 1em;
   text-align: left;
 }
-.postJobLink{
+.postJobLink {
   width: 28px;
   height: 28px;
   margin: 0.2em;
@@ -457,66 +445,56 @@ nav ul a:hover {
   width: 20px;
 }
 
-.jobDashCard{
+.jobDashCard {
   margin: 1em;
-  display : flex;
+  display: flex;
   flex-direction: column;
-
 }
-.jobDashHead{
+.jobDashHead {
   margin: 1em;
-  display : flex;
+  display: flex;
   justify-content: space-between;
   align-content: flex-start;
-
 }
 
 .jobDashCont {
   min-height: 200px;
   max-width: 650px;
 }
-.jobDashCont h2{
+.jobDashCont h2 {
   margin: 0;
 }
-.jobDashCard p{
+.jobDashCard p {
   margin: 0;
- padding: 0;
-
+  padding: 0;
 }
-.jobDashCard .editDeleteIcon{
+.jobDashCard .editDeleteIcon {
   margin: 0.2em;
 }
-.jobDashCardUpperLeft{
+.jobDashCardUpperLeft {
   width: 70%;
-
 }
-.jobDashCardUpperRight{
+.jobDashCardUpperRight {
   width: 30%;
   display: flex;
   justify-content: flex-end;
-  
-
 }
-.jobDashCard h4{
+.jobDashCard h4 {
   margin: 0;
-
 }
-.jobDashCardUpper{
+.jobDashCardUpper {
   display: flex;
   justify-content: space-between;
 }
 
-.jobDashError{
-  color :#e16b05;
+.jobDashError {
+  color: #e16b05;
   margin: 1em;
 }
 
-.errorsMessage{
+.errorsMessage {
   margin: 1em;
 }
-
-
-
 
 /* MEDIA QUERIES */ /* MEDIA QUERIES */ /* MEDIA QUERIES */ /* MEDIA QUERIES */ /* MEDIA QUERIES */ /* MEDIA QUERIES */
 
@@ -541,14 +519,13 @@ nav ul a:hover {
   }
   .searchHomeLabels {
     font-size: 1.1em;
-  
   }
-  .searchHomeLabels label{
+  .searchHomeLabels label {
     font-size: 1.1em;
     max-height: 21px;
     margin-bottom: 0.4em;
   }
-  
+
   .searchPeopleName {
     width: 60%;
     padding: 0;
@@ -563,19 +540,15 @@ nav ul a:hover {
     max-width: 460px;
     margin: 0 auto 0 auto;
   }
-  .errorsMessage{
+  .errorsMessage {
     min-height: 19px;
-     margin-bottom: -1.6em;
-  
+    margin-bottom: -1.6em;
   }
-  .postJobLink{
+  .postJobLink {
     width: 28px;
     height: 28px;
   }
-  
 }
-
-
 
 @media screen and (min-width: 800px) {
   /* HOME PAGE */
@@ -597,7 +570,6 @@ nav ul a:hover {
   .homePageIcon {
     max-width: 160px;
   }
-  
 }
 
 @media screen and (min-width: 1024px) {
@@ -636,6 +608,7 @@ nav ul a:hover {
   .nav-links {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 0.2em;
   }
 
@@ -647,7 +620,6 @@ nav ul a:hover {
   }
   /* POST JOB */
 
- 
   .upperPostJobForm input {
     max-width: 300px;
   }
@@ -656,10 +628,70 @@ nav ul a:hover {
     flex-wrap: wrap;
     justify-content: space-between;
   }
-  .postJobForm select{
+  .postJobForm select {
     width: 90%;
+  }
+
+  /* AVATAR */
+  .Avatar {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    margin-top: 0.1em;
+    cursor: pointer;
+  }
+  .Avatar li {
+    color: black;
+    position: absolute;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .Avatar li {
+    color: black;
+    position: absolute;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-right: 2em;
+ 
+  }
+
+  .hide-menu li {
+    position: relative;
+  }
+  .show-menu {
+    display: none;
+  }
+  .hide-menu {
+    background-color: rgb(49, 55, 59);
+  }
+  .menu {
+    height: 75px;
+    position: absolute;
+    background-color: rgb(49, 55, 59);
+    margin-left: -3.85em;
+    margin-top: 0.6em;
+    padding-top: 0.2em ;
+    padding-bottom: 0.3em ;
+  }
+
+  .arrow-up {
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+    transform: rotate(45deg);
+    background-color: rgb(49, 55, 59);
+    margin-left: 0.42em;
+   
   }
   
 }
-
-

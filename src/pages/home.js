@@ -1,13 +1,19 @@
-import React, { Component } from "react";
+//Core
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { searchEmployee, sears } from "../redux/actions/userActions";
-import { ScaleLoader } from "react-spinners";
 import PropTypes from "prop-types";
-import { employeeSearch } from "../components/peoplesearch/employeeSearchFunc";
-import { jobSearch } from "../components/jobsearch/jobSearchFunc";
+//Redux
 import { searchJobs } from "../redux/actions/userActions";
+import { searchEmployee } from "../redux/actions/userActions";
+//Functions
+import { jobSearch } from "../components/jobsearch/jobSearchFunc";
+import { employeeSearch } from "../components/people_search/employee_search_func";
+//Packages
+import { ScaleLoader } from "react-spinners";
 import { uuid } from "uuidv4";
+//Dropdowns
+const { ClassificationList , StatesList} = require("../util/dropdowns");
 
 class Home extends Component {
   constructor() {
@@ -28,49 +34,8 @@ class Home extends Component {
           state: "",
         },
       ],
-      classifcations: [
-        "Air Conditioning & Refrigeration",
-        "Arborist",
-        "Automotive Trades",
-        "Bakers & Pastry Chefs",
-        "Boat Builder and Repairer",
-        "Bricklayer",
-        "Building Trades",
-        "Butchers",
-        "Cook",
-        "Carpentry",
-        "Cabinet Making",
-        "Cleaning Services",
-        "Electricians",
-        "Fitters, Turners & Machinists",
-        "Floristry",
-        "Gardening & Landscaping",
-        "Glazier",
-        "Hair & Beauty Services",
-        "Joiner",
-        "Labourers",
-        "Lift Mechanic",
-        "Locksmiths",
-        "Maintenance /Handyperson Services",
-        "Metal Fabricator",
-        "Nannies & Babysitters",
-        "Painters & Sign Writers",
-        "Plaster",
-        "Plumbers",
-        "Printing & Publishing Services",
-        "Roof Tiler",
-        "Roof Plumber",
-        "Screen Printer",
-        "Shearer",
-        "Security Services",
-        "Stonemason",
-        "Tailors & Dressmakers",
-        "Telecommuncations",
-        "Technicians",
-        "Wall and Floor Tiler",
-        "Welders & Boilermakers",
-        "Other",
-      ],
+      classifcations: ClassificationList,
+      stateList : StatesList
     };
   }
 
@@ -116,8 +81,6 @@ class Home extends Component {
     }
   }
 
-  // TODO: //maybe make a click required only for the location to filter out bad data.
-
   handleChange = (e) => {
     if (this.state.searchState === false) {
       let peopleSearchInputState = [...this.state.peopleSearchInput];
@@ -150,7 +113,7 @@ class Home extends Component {
   //TODO: add no autocmplete
   //Alternating Search Btn Render
   searchStateInput() {
-    let { classifcations } = this.state;
+    let { classifcations ,stateList} = this.state;
     if (this.state.searchState === true) {
       //JOBSEARCH
       return (
@@ -195,14 +158,14 @@ class Home extends Component {
               <option value="" disabled selected hidden>
                 State
               </option>
-              <option>ACT</option>
-              <option>NSW</option>
-              <option>NT</option>
-              <option>QLD</option>
-              <option>TAS</option>
-              <option>SA</option>
-              <option>VIC</option>
-              <option>WA</option>
+              {stateList.map((state) => {
+                        return (
+                          <option key={uuid()} value={state}>
+                            {" "}
+                            {state}
+                          </option>
+                        );
+                      })}
             </select>
           </div>
         </div>
@@ -252,14 +215,14 @@ class Home extends Component {
               <option value="" disabled selected hidden>
                 State
               </option>
-              <option>ACT</option>
-              <option>NSW</option>
-              <option>NT</option>
-              <option>QLD</option>
-              <option>TAS</option>
-              <option>SA</option>
-              <option>VIC</option>
-              <option>WA</option>
+              {stateList.map((state) => {
+                        return (
+                          <option key={uuid()} value={state}>
+                            {" "}
+                            {state}
+                          </option>
+                        );
+                      })}
             </select>
           </div>
         </div>
@@ -269,6 +232,7 @@ class Home extends Component {
 
   render() {
     let { searchState } = this.state;
+    let { authenticated } = this.props.user;
     return (
       <div>
         <section className="homePageSec">
@@ -315,8 +279,12 @@ class Home extends Component {
               </div>
             </div>
             <div className="loginSignupHome">
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Signup</Link>
+              {authenticated ?  null: (
+                <Fragment>
+                  <Link to="/login">Login</Link>
+                  <Link to="/signup">Signup</Link>
+                </Fragment>
+              ) }
             </div>
           </div>
         </section>

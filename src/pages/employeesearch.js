@@ -1,39 +1,45 @@
 //Core
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "../css/jobsearch.css";
-//Redux
-import { searchJobs, pageChangeErrorClear } from "../redux/actions/userActions";
+import "../css/people_search.css";
 //Functions
-import { jobSearch } from "../components/jobsearch/jobSearchFunc";
+import { employeeSearch } from "../components/people_search/employee_search_func";
+//Redux
+import {
+  searchEmployee,
+  pageChangeErrorClear,
+} from "../redux/actions/userActions";
+//Components
+import PeopleSearchCard from "../components/people_search/employee_search";
 //Packages
 import { uuid } from "uuidv4";
-//Components
-import JobCard from "../components/jobsearch/job_search";
-//Dropdowns
-const { ClassificationList , StatesList} = require("../util/dropdowns");
+import { ScaleLoader } from "react-spinners";
+//Drop downs
+const {ClassificationList, StatesList} = require("../util/dropdowns") 
 
-// TODO: if on this page you need to not redirect through user actions can't research need to clear state on redirect
-class JobSearch extends Component {
+
+//TODO: needs to delete the search every time it makes one out of stat
+class EmployeeSearch extends Component {
   state = {
     errors: [],
-    jobSearchInput: [
+    item : 0,
+    currItem : "",
+    peopleSearchInput: [
       {
-        keywords: "",
+        name: "",
         tradeClassification: "",
         state: "",
       },
     ],
     classifcations: ClassificationList,
-    stateList: StatesList
+    stateList : StatesList
   };
-
+  //
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
   }
-
   componentWillUnmount() {
     if (this.props.UI.errors !== null) {
       this.props.pageChangeErrorClear();
@@ -41,53 +47,56 @@ class JobSearch extends Component {
   }
 
   handleChange = (e) => {
-    let jobSearchInputState = [...this.state.jobSearchInput];
-    jobSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
+    let peopleSearchInputState = [...this.state.peopleSearchInput];
+    peopleSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    jobSearch(this.state, this.props);
+    employeeSearch(this.state, this.props);
   };
+
   render() {
-    let recentJobsMarkup = this.props.data.jobs ? (
-      this.props.data.jobs.map((job) => <JobCard key={job.jobId} job={job} />)
-    ) : (
-      <p>Loading...</p>
-    );
     const {
+      data: { employees },
       UI: { loading, errors },
     } = this.props;
     let { classifcations , stateList} = this.state;
+    let recentProfileMarkup = this.props.data.employees ? (
+      this.props.data.employees.map((profile) => (
+        <PeopleSearchCard key={profile.userId} profile={profile} />
+      ))
+    ) : (
+      <h1>here</h1>
+    );
     return (
-      // search bar
-      <div className="jobSearchBody" key={uuid}>
+      <div className="peopleSearchBody" key={uuid()}>
         <div className="search">
-          <div className="jobSearchBarSection">
-            <h1 className="jobSearchHeader">Job Search</h1>
-            <div className="jobSearchBar">
+          <div className="peopleSearchBarSection">
+            <h1 className="peopleSearchHeader">People Search</h1>
+            <div className="peopleSearchBar">
               <form
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
-                className="searchBarForm"
+                className="peopleSearchBarForm"
               >
-                <div className="jobSearchInputs">
-                  <div className="jobSearchTrade">
-                    <label>Trade</label>
+                <div className="peopleSearchTop">
+                  <div className="peopleSearchTrade">
+                    <label>Name</label>
                     <input
                       type="search"
-                      name="keywords"
                       data-id="0"
-                      placeholder="Enter Job Keywords"
+                      name="name"
+                      placeholder="Name"
                       className="searchTradeJobs"
                     ></input>
                   </div>
 
-                  <div className="jobSearchClassification">
+                  <div className="peopleSearchTrade">
                     <label>Trade Classification</label>
                     <select
                       name="tradeClassification"
-                      className="searchTradeJobs"
+                      className="searchPeopleBar"
                       data-id="0"
                     >
                       <option value="" disabled selected hidden>
@@ -103,13 +112,12 @@ class JobSearch extends Component {
                       })}
                     </select>
                   </div>
-
-                  <div className="jobSearchLocation">
+                  <div className="peopleSearchTrade">
                     <label>Location</label>
                     <select
                       name="state"
-                      className="searchTradeJobs"
                       data-id="0"
+                      className="searchTradeJobs"
                     >
                       <option value="" disabled selected hidden>
                         State
@@ -122,6 +130,7 @@ class JobSearch extends Component {
                           </option>
                         );
                       })}
+                  
                     </select>
                   </div>
                 </div>
@@ -130,8 +139,9 @@ class JobSearch extends Component {
                     <div className="errorsMessage">{errors.error}</div>
                   ) : null}
                 </div>
-                <div className="jobSearchBarBottom">
-                  <button className="jobToggleButton">Search</button>
+                <div className="peopleSearchBottom"></div>
+                <div className="applyNowBtn">
+                  <button className="peopleToggleButton">Search</button>
                 </div>
               </form>
             </div>
@@ -139,44 +149,56 @@ class JobSearch extends Component {
 
           {
             //Display searches or search suggestions
-            recentJobsMarkup.length > 0 ? (
-              recentJobsMarkup
+            recentProfileMarkup.length > 0 ? (
+              recentProfileMarkup
             ) : this.props.data.loading ? (
               <div></div>
             ) : (
               <div className="SearchSuggestions">
                 <div className="suggestionItems">
-                  <h4>Looking for job search advice?</h4>
+                  <img
+                    src={require("../images/checklist.jpg")}
+                    alt="Find the best candidate"
+                  ></img>
+                  <h4>How to find the best candidate</h4>
+                </div>
+                <div className="suggestionItems">
                   <img
                     src={require("../images/jobad.jpg")}
                     alt="How to write a job ad"
                   ></img>
-                </div>
-                <div className="suggestionItems">
-                  <h4>Have an interview coming up?</h4>
-                  <img
-                    src={require("../images/interview.jpg")}
-                    alt="How to write a job ad"
-                  ></img>
+                  <h4>How to write a job ad</h4>
                 </div>
 
                 <div className="suggestionItems">
-                  <h4>How to imporve your resume/ profile?</h4>
                   <img
-                    src={require("../images/resume.jpg")}
-                    alt="How to write a job ad"
+                    src={require("../images/employeewant.jpg")}
+                    alt="Find the best candidate"
                   ></img>
+                  <h4>What to look for in an new employee</h4>
                 </div>
                 <div className="suggestionItems">
-                  <h4>Skills/licenses/certifications can you should add?</h4>
                   <img
-                    src={require("../images/skills.jpg")}
-                    alt="Skills you can add"
+                    src={require("../images/bestcandidate.jpg")}
+                    alt="Find the best candidate"
                   ></img>
+                  <h4>How to interview candidates</h4>
                 </div>
               </div>
             )
           }
+           <div className="spinner">
+                  {loading === true ? (
+                    <div>
+                      {" "}
+                      <ScaleLoader
+                        className="spinner"
+                        size={240}
+                        loading
+                      />{" "}
+                    </div>
+                  ) : null}{" "}
+                </div>
         </div>
       </div>
     );
@@ -190,8 +212,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-  searchJobs,
+  searchEmployee,
   pageChangeErrorClear,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(JobSearch);
+export default connect(mapStateToProps, mapActionsToProps)(EmployeeSearch);

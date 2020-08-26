@@ -1,5 +1,3 @@
-//types allow us to spot our mistakes because the code won't run
-
 //USER REDUCER TYPES
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED';
@@ -28,3 +26,4 @@ export const CLEAR_JOBS = 'CLEAR_JOBS'
 export const CLEAR_PROFILE = 'CLEAR_PROFILE'
 export const GET_PROFILE = 'GET_PROFILE'
 export const DELETE_PROFILE = 'DELETE_PROFILE'
+export const ERROR_CLEAR_LOADING = 'ERROR_CLEAR_LOADING'

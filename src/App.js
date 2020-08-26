@@ -1,47 +1,45 @@
+//Core
 import React from "react";
-import "./App.css";
-import Nav from "./components/nav/nav";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import "./App.css";
 //Redux
 import { Provider } from "react-redux";
 import store from "./redux/reducers/store";
 import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/reducers/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
-
 //Pages
+import Nav from "./components/nav/nav";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import JobSearch from "./pages/jobsearch";
-import EmployeeSearch from "./pages/peoplesearch";
+import EmployeeSearch from "./pages/employeesearch";
 import MyProfile from "./pages/myprofile";
 import Contact from "./pages/contact";
 import PostJob from "./pages/postjob";
 import JobDashboard from "./pages/jobdashboard";
-
+import Inbox from "./pages/inbox"
+import Settings from "./pages/settings"
+import Help from "./pages/help"
 //Auth
-import AuthRoute from "./components/util/auth_route";
+import AuthRoute from "./util/auth_route";
 import axios from "axios";
 
-//this checks for authentication and using authroute re-routes to the home page if you are already logged in this only starts on startup and redux is needed to run it. It's bad practice to have global variables like this so we need to call action from our userActions and set ourselves to be authenticated and edit accordingly. We Check if the token is expired and authenticate from here
 
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
-  // console.log(decodedToken); TODO: maybe delete? safe?
+  //TODO: maybe delete? safe?
   if (decodedToken * 1000 < Date.now()) {
-    //if it's expired it will delete and logout the user
     store.dispatch(logoutUser());
     window.location.href = "/login";
   } else {
-    // this sets authenticated to true and when we call get user data we get the data after we set the headers
     store.dispatch({ type: SET_AUTHENTICATED });
     axios.defaults.headers.common["Authorization"] = token;
     store.dispatch(getUserData());
   }
 }
-//TODO: menu not disappering when something is clicked
 //TODO: licences change to tag things in profile 
 //TODO: refactor code that is duplicates into helper functions
 //TODO: for with formik youtube tutotial docs are bad
@@ -65,6 +63,9 @@ function App() {
               <Route path="/peoplesearch" component={EmployeeSearch} />
               <Route path="/myprofile" component={MyProfile} />
               <Route path="/contact" component={Contact} />
+              <Route path="/inbox" component={Inbox} />
+              <Route path="/settings" component={Settings} />
+              <Route path="/help" component={Help} />
               <Route path="/postjob" component={PostJob} />
             </Switch>
           </div>

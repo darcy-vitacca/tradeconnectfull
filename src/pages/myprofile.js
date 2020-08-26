@@ -1,15 +1,15 @@
-import CreateProfile from "../components/profilecard/create-profile-full";
-import "../components/profilecard/profile.css";
+//Core
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import ViewProfile from "../components/profilecard/view-profile-card";
-import { uuid } from "uuidv4";
-import {editUser} from "../redux/actions/userActions"
-
+import "../css/profile.css";
+//Redux
+import { editUser } from "../redux/actions/userActions";
+//Components
+import CreateProfile from "../components/profile/create_profile";
+import ViewProfile from "../components/profile/view_profile";
 
 class MyProfile extends Component {
-  //TODO: may need to get rid of this
   constructor() {
     super();
     this.state = {
@@ -60,9 +60,9 @@ class MyProfile extends Component {
     }
   }
 
-  componentWillUnmount(){
-    if(this.props.user.editing === true){
-      this.props.editUser(this.props.history, false)
+  componentWillUnmount() {
+    if (this.props.user.editing === true) {
+      this.props.editUser(this.props.history, false);
     }
   }
 
@@ -73,26 +73,29 @@ class MyProfile extends Component {
         credentials: { profileCreated },
         profile,
         loading,
-        editing
+        editing,
       },
     } = this.props;
-    //TODO: put a spinner in
+
     //checks if loading then renders profile if it's retrived else if unauthenticated and tries to see the page it will push to login else it will render create profile if you are logged in.
     let profileMarkup = !loading ? (
-      authenticated && profile !== "Profile not found"? (
-        editing ? (<CreateProfile history={this.props.history} />) :(<ViewProfile history={this.props.history}/>)
+      authenticated && profile !== "Profile not found" ? (
+        editing ? (
+          <CreateProfile history={this.props.history} />
+        ) : (
+          <ViewProfile history={this.props.history} />
+        )
+      ) : !authenticated ? (
+        this.props.history.push("/login")
       ) : (
-        !authenticated ? (this.props.history.push('/login')): (<CreateProfile history={this.props.history} />)
-        
+        <CreateProfile history={this.props.history} />
       )
     ) : (
       <p>loading</p>
     );
     return (
       <div className="profileBody">
-        <div className="profileCard">
-          {profileMarkup}
-        </div>
+        <div className="profileCard">{profileMarkup}</div>
       </div>
     );
   }
@@ -110,15 +113,8 @@ const mapStateToProps = (state) => ({
   data: state.data,
 });
 
-
 const mapActionsToProps = {
   editUser,
 };
 
-export default connect(mapStateToProps , mapActionsToProps)(MyProfile);
-
-
-
-
-
-
+export default connect(mapStateToProps, mapActionsToProps)(MyProfile);

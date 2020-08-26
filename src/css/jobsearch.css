@@ -1,0 +1,268 @@
+/* HEADER AND SEARCH BAR BODY*/
+.search {
+  max-width: 750px;
+  margin: 0 auto;
+  padding-top: 0.5em;
+}
+.jobSearchBarSection {
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 4px solid #cecece;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+.jobSearchBar {
+  margin: 1vh;
+}
+.jobSearchHeader {
+  text-align: center;
+  margin: 0;
+  padding: 0 0.3em;
+  background-color: #e16b05;
+  color: white;
+}
+.searchTradeJobs,
+.searchLocationJobs {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto 0 auto;
+}
+
+.jobSearchBody {
+  background: #e5e5e5;
+  margin: 1vh;
+  text-align: none;
+  height: 100%;
+  padding-bottom: 6em;
+  min-height: 90vh;
+}
+
+.jobSearchTrade,
+.jobSearchLocation {
+  display: flex;
+  flex-direction: column;
+}
+
+.jobSearchTrade input,
+.jobSearchLocation input,
+.jobSearchClassification select {
+  margin: 0 auto 0 auto;
+  max-width: 340px;
+  display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+/*      */
+.searchBarForm {
+  width: 100%;
+  text-align: center;
+}
+.jobSearchCard {
+  width: 100%;
+  max-width: 750px;
+}
+
+/* JOB SEARCH BOXES */
+.searchButtonJobs {
+  width: 100px;
+}
+
+.jobToggleButton {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
+}
+:disabled {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #f2d2b6 5%, #f5b578 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #f5dcc5;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 1em;
+}
+/**/
+
+.jobSearchExpandBar {
+  background-color: #e16b05;
+  text-align: right;
+  color: white;
+  max-height: 35px;
+  padding: 0;
+}
+
+.jobSearchExpandBar p {
+  margin-top: -1px;
+  padding-right: 0.6em;
+  font-weight: bold;
+}
+
+.jobSearchCard {
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.jobIcon {
+  object-fit: cover;
+  display: none;
+}
+
+.jobSearchHead {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+}
+.jobSearchHeadLeft {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.jobSearchHeadRight {
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+.jobSearchHeadRight h2,
+.jobSearchHeadRight h4 {
+  padding: 0;
+  margin: 0;
+}
+
+.jobSearchHeadLeftJob,
+.jobSearchHeadLeftLocation {
+  font-weight: normal;
+}
+
+.jobSearchWage,
+.jobSearchListed {
+  font-weight: normal;
+}
+
+.jobSearchExpandedBody {
+  margin: 1em;
+}
+.jobSearchExpandedBody h4 {
+  margin-bottom: 0;
+
+}
+.jobSearchExpandedBody p {
+  margin-top: 0.2em;
+
+}
+.applyNow {
+  min-height: inherit;
+}
+
+#applyJobButton {
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin: 0 auto 0 auto;
+}
+
+.applyNowBtn {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 0 auto;
+}
+@media only screen and (min-width: 380px) {
+.jobIcon{
+  width: 60px;
+  height: 60px;
+  margin: 0.4em;
+  display: inherit;
+  object-fit: cover;
+}
+
+
+}
+@media only screen and (min-width: 650px) {
+  .jobIcon {
+    width: 80px;
+    height: 80px;
+    margin: 0.4em;
+  }
+  .jobSearchInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .jobSearchTrade input,
+  .jobSearchLocation input,
+  .jobSearchClassification select {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 340px;
+    margin-right: 0.2em;
+    margin-left: 0.2em;
+  }
+  .jobSearchTrade label,
+  .jobSearchLocation label,
+  .jobSearchClassification label {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .searchTradeJobs,
+  .searchLocationJobs {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    
+  }
+
+  .jobSearchTrade,
+  .jobSearchLocation,
+  .jobSearchClassification {
+    width: 80%;
+    max-width: 340px;
+    margin-right: 0.2em;
+    margin-left: 0.2em;
+  }
+
+  .jobSearchLocation {
+    width: 80%;
+    max-width: 340px;
+  }
+  .jobSearchTrade {
+    width: 80%;
+    max-width: 340px;
+  }
+  .jobToggleButton, .peopleToggleButton {
+    max-width: 180px;
+    font-size: 0.9em;
+  }
+  .jobSearchBarBottom {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+}
+
