@@ -5,7 +5,6 @@ const {db} = require('../util/admin');
 
 
 module.exports = (request, response, next) => {
-  console.log("here1")
   // This checks header for a bearer token in authorization
   let idToken;
   // console.log(request.headers.Authorization)

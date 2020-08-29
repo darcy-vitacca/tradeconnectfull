@@ -8,10 +8,13 @@ const {
   validateLoginData,
   reduceUserDetails,
   reduceProfileDetails,
+  passwordUpdate,
+  emailUpdate,
 } = require("../util/validators");
 const { request } = require("http");
 const { profile } = require("console");
-const { json } = require("express");
+const { json, response } = require("express");
+const { user } = require("firebase-functions/lib/providers/auth");
 firebase.initializeApp(config);
 
 //SIGN UP USER
@@ -100,16 +103,148 @@ exports.login = (request, response) => {
         err.code === "auth/user-not-found" ||
         err.code === "auth/wrong-password"
       ) {
-        return (
-          response
-            //TODO: NOT DISPLAYING IN THE CONSOLE
-            .status(403)
-            .json({ general: "Wrong credentials please try again." })
-        );
+        return response
+          .status(403)
+          .json({ general: "Wrong credentials please try again." });
       }
       return response.status(500).json({ error: err.code });
     });
 };
+
+//PASSWORD RESET
+exports.forgotPassword = (request, response) => {
+  console.log(request.body);
+  firebase
+    .auth()
+    .sendPasswordResetEmail(request.body.email)
+    .then(() => {
+      console.log("Success");
+      return response.json({ message: "Password reset email sent!" });
+    })
+    .catch((error) => {
+      return response
+        .status(403)
+        .json({ error: "Wrong credentials please try again." });
+    });
+};
+//UPDATE PASSWORD
+exports.updatePassword = (request, response) => {
+  const newPassword = {
+    oldPassword: request.body.oldPassword,
+    newPassword: request.body.newPassword,
+    confirmPassword: request.body.confirmPassword,
+    email: request.body.email,
+  };
+  console.log(newPassword);
+  const { valid, errors } = passwordUpdate(newPassword);
+  if (!valid) return response.status(400).json(errors);
+
+  const user = firebase.auth().currentUser;
+
+  const cred = firebase.auth.EmailAuthProvider.credential(
+    newPassword.email,
+    newPassword.oldPassword
+  );
+
+  console.log(cred);
+
+  user
+    .reauthenticateWithCredential(cred)
+    .then((res) => {
+      console.log(res);
+      firebase
+        .auth()
+        .currentUser.updatePassword(newPassword.newPassword)
+        .then(() => {
+          console.log("here1");
+          return response.json({ message: "Password updated" });
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("here2");
+          return response
+            .status(403)
+            .json({ error: "Wrong credentials please try again." });
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("here3");
+      return response
+        .status(403)
+        .json({ error: "Wrong credentials please try again." });
+    });
+};
+
+//CHANGE EMAIL - update in user also //TODO:
+exports.updateEmail = (request, response) => {
+  console.log(request.body);
+  const emailReq = {
+    email: request.body.newEmail,
+    password: request.body.password,
+    oldEmail: request.body.oldEmail,
+    handle: request.body.handle
+  };
+
+  const { valid, errors } = emailUpdate(emailReq);
+  if (!valid) return response.status(400).json(errors);
+
+  const user = firebase.auth().currentUser;
+
+  const cred = firebase.auth.EmailAuthProvider.credential(
+    emailReq.oldEmail,
+    emailReq.password
+  );
+
+  console.log(cred);
+
+  user
+    .reauthenticateWithCredential(cred)
+    .then((res) => {
+      console.log(res);
+      firebase
+        .auth()
+        .currentUser.updateEmail(emailReq.email)
+        .then(() => {
+          db.doc(`/users/${emailReq.handle}`)
+            .update({ email: emailReq.email })
+            .then(() => {
+              console.log("here1");
+              return response.json({ message: "Email updated" });
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("here2");
+          if (error.code === "auth/email-already-in-use") {
+            return response
+              .status(400)
+              .json({ error: "Email is already in use." });
+          } else if (error.code === "auth/wrong-password") {
+            return response
+              .status(400)
+              .json({ error: "Wrong credentials please try again." });
+          } else {
+            return response
+              .status(403)
+              .json({ error: "Wrong credentials please try again." });
+          }
+        });
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.code === "auth/email-already-in-use") {
+        return response.status(400).json({ error: "Email is already in use." });
+      } else if (err.code === "auth/wrong-password") {
+        return response.status(400).json({ error: "Incorrect credentials." });
+      } else {
+        return response
+          .status(500)
+          .json({ error: "Something went wrong please try again." });
+      }
+    });
+};
+
 // SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES// SEARCH EMPLOYEES
 exports.searchEmployees = (request, response) => {
   console.log(request.body);
@@ -156,7 +291,6 @@ exports.searchEmployees = (request, response) => {
   if (
     (request.body.fullName && request.body.trade && request.body.state) !== ""
   ) {
-    console.log("here1");
     const searchReq = {
       fullName: request.body.fullName,
       trade: request.body.trade,
@@ -177,7 +311,6 @@ exports.searchEmployees = (request, response) => {
         console.error(err);
         return response.status(500).json({ error: err.code });
       });
-   
 
     //TWO FIELDS SEARCHES
     //trade + state  no name search
@@ -264,7 +397,7 @@ exports.searchEmployees = (request, response) => {
     const searchReq = {
       trade: request.body.trade,
     };
-    console.log("HERE")
+    console.log("HERE");
     console.log(searchReq);
     db.collection("profiles")
       .where("tradeClassification", "==", searchReq.trade)
@@ -407,9 +540,6 @@ exports.getAuthenticatedUser = (request, response) => {
 //TODO:
 //check for duplicate images
 ////limit size and amount images
-//Figure out how to route photos first from upload then into profile.
-//if a profile photo is added add to the users/image
-//keep them seperated in the correct category
 
 //UPLOAD IMAGES
 exports.uploadImage = (request, response) => {
@@ -472,7 +602,10 @@ exports.uploadImage = (request, response) => {
     Promise.allSettled(promises) // .then((results) => results.forEach((result) => console.log(result.status)))
       .then(() => {
         console.log(imageUrls);
-        return response.json({ message: "image/s uploaded successfully" ,imageUrls : imageUrls});
+        return response.json({
+          message: "image/s uploaded successfully",
+          imageUrls: imageUrls,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -493,7 +626,7 @@ exports.uploadImage = (request, response) => {
 };
 
 //DELETE PROFILE
-
+//TODO: delete emails also
 exports.deleteProfile = (request, response) => {
   const document = db.doc(`/profiles/${request.params.profileId}`);
   document
@@ -508,15 +641,14 @@ exports.deleteProfile = (request, response) => {
       } else {
         document.delete();
         db.doc(`/users/${request.user.handle}`)
-        .update({ profileCreated: false })
-        .then(() => {
-          return response.json({ message: "Profile deleted successfully" });
-        })
-        .catch((err) => {
-          console.error(err);
-          return response.status(500).json({ error: err.code });
-        });
-        
+          .update({ profileCreated: false })
+          .then(() => {
+            return response.json({ message: "Profile deleted successfully" });
+          })
+          .catch((err) => {
+            console.error(err);
+            return response.status(500).json({ error: err.code });
+          });
       }
     })
     .catch((err) => {
@@ -525,38 +657,98 @@ exports.deleteProfile = (request, response) => {
     });
 };
 
-//  TODO: maybe not necessary
-//GET ALL PROFILES
-exports.getAllProfiles = (request, response) => {
-  //only return maybe a portion instead of requesting the full amount. you could change this to recieve search variables
-  db.collection("profiles")
-    .orderBy("createdAt", "desc")
+//DELETE USER IN FULL
+exports.deleteUser = (request, response) => {
+  const userDetails = {
+    userId: request.params.userId,
+    handle: request.params.handle,
+  };
+  //Delete Profile
+  const profile = db.doc(`/profiles/${userDetails.userId}`);
+  profile
     .get()
-    .then((data) => {
-      let profilesAll = [];
-      data.forEach((doc) => {
-        profilesAll.push({
-          about: doc.data().about,
-          bestWork: doc.data().bestWork,
-          createdAt: doc.data().createdAt,
-          education: doc.data().education,
-          exp: doc.data().exp,
-          fullName: doc.data().fullName,
-          handle: doc.data().handle,
-          licences: doc.data().licences,
-          location: doc.data().location,
-          profileImageUrl: doc.data().profileImageUrl,
-          employeeSummary: doc.data().employeeSummary,
-          tradeClassification: doc.data().tradeClassification,
-          recentEmp: doc.data().recentEmp,
-          references: doc.data().references,
-          trade: doc.data().trade,
-          userId: doc.data().userId,
-          website: doc.data().website,
-          workStatus: doc.data().workStatus,
-        });
-      });
-      return response.json(profilesAll);
+    .then((doc) => {
+      if (!doc.exists) {
+        deleteJobFunc();
+      } else if (doc.data().handle !== userDetails.handle) {
+        deleteJobFunc();
+      } else {
+        profile
+          .delete()
+          .then(() => {
+            deleteJobFunc();
+          })
+          .catch((err) => {
+            console.error(err);
+            return response.status(500).json({ error: err.code });
+          });
+      }
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      console.error(err);
+      response.status(500).json({ error: err.code });
+    });
+
+  //Delete Jobs
+  deleteJobFunc = () => {
+    db.collection("job")
+      .where("userId", "==", userDetails.userId)
+      .get()
+      .then((data) => {
+        if (data.size <= 0) {
+          deleteUserFunc();
+        } else {
+          data.forEach((doc) => {
+            doc.ref.delete();
+          });
+          deleteUserFunc();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  };
+  //Delete User
+  deleteUserFunc = () => {
+    const users = db.doc(`/users/${userDetails.handle}`);
+    users
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          deleteUserDB();
+        } else if (doc.data().handle !== request.user.handle) {
+          return response.status(403).json({ error: "Unauthorized" });
+        } else {
+          users
+            .delete()
+            .then(() => {
+              deleteUserDB();
+            })
+            .catch((err) => {
+              console.error(err);
+              return response.status(500).json({ error: err.code });
+            });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  };
+
+  //Delete auth details from DB
+  deleteUserDB = () => {
+    firebase
+      .auth()
+      .currentUser.delete()
+      .then((data) => {
+        console.log("Successfully deleted user");
+        return response.json({ message: "Profile deleted successfully" });
+      })
+      .catch((err) => {
+        console.log("Error deleting user:", err);
+        return response.status(500).json({ error: err.code });
+      });
+  };
 };

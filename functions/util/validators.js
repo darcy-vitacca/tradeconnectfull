@@ -53,6 +53,70 @@ exports.validateSignUpData = (data) => {
   };
 };
 
+//check email
+exports.emailUpdate = (data) => {
+  console.log("here");
+  console.log(data);
+  let errors = {};
+  if (isEmpty(data.email)) {
+    errors.email = "Must not be empty";
+  } else if (!isEmail(data.email)) {
+    errors.email = "Must be a valid email address";
+  }
+  if (isEmpty(data.oldEmail)) {
+    errors.oldEmail = "Must not be empty";
+  } else if (!isEmail(data.oldEmail)) {
+    errors.oldEmail = "Must be a valid email address";
+  }
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};
+//check password
+exports.passwordUpdate = (data) => {
+  let errors = {};
+
+  //oldPassword
+  if (data.oldPassword === undefined) {
+    data.oldPassword = "";
+  }
+  if (isEmpty(data.oldPassword)) errors.oldPassword = "Must not be empty";
+
+  //newPassword
+  if (data.newPassword === undefined) {
+    data.newPassword = "";
+  }
+  if (isEmpty(data.newPassword)) errors.newPassword = "Must not be empty";
+
+  if (isEmpty(data.newPassword)) {
+    errors.newPassword = "Must not be empty";
+  } else if (data.newPassword.length < 8) {
+    errors.newPassword = "Must be 8 characters or more";
+  }
+  //confirmPassword
+  if (data.confirmPassword === undefined) {
+    data.confirmPassword = "";
+  }
+
+  if (isEmpty(data.confirmPassword))
+    errors.confirmPassword = "Must not be empty";
+
+  if (isEmpty(data.confirmPassword)) {
+    errors.confirmPassword = "Must not be empty";
+  } else if (data.confirmPassword.length < 8) {
+    errors.confirmPassword = "Must be 8 characters or more";
+  }
+  //Check all
+  if (data.newPassword !== data.confirmPassword)
+    errors.confirmPassword = "Passwords must match";
+ console.log(data)
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false,
+  };
+};
+
 //checks login
 exports.validateLoginData = (data) => {
   let errors = {};
@@ -80,7 +144,6 @@ exports.reduceUserDetails = (data) => {
   return userDetails;
 };
 
-
 exports.imageCheck = (data) => {
   const noImgComp = "no-imgcomp.jpg";
   if (!isEmpty(data)) {
@@ -89,8 +152,6 @@ exports.imageCheck = (data) => {
     return `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImgComp}?alt=media`;
   }
 };
-
-
 
 //TODO:
 //handle  company images
@@ -118,7 +179,7 @@ exports.reduceProfileDetails = (data) => {
       profileDetails.fullName = data.fullName;
     }
   }
-   //location Check
+  //location Check
   if (data.location) {
     if (!isEmpty(data.location[0])) {
       profileDetails.location = data.location;
@@ -128,9 +189,8 @@ exports.reduceProfileDetails = (data) => {
   }
   if (!isEmpty(data.state.trim())) profileDetails.state = data.state;
 
-
-   //keywords Check
-   if (data.keywords) {
+  //keywords Check
+  if (data.keywords) {
     if (!isEmpty(data.keywords[0])) {
       profileDetails.keywords = data.keywords;
     } else {
@@ -138,7 +198,6 @@ exports.reduceProfileDetails = (data) => {
     }
   }
 
- 
   if (!isEmpty(data.website.trim())) profileDetails.website = data.website;
 
   if (!isEmpty(data.workStatus.trim()))
@@ -146,8 +205,10 @@ exports.reduceProfileDetails = (data) => {
   if (!isEmpty(data.recentEmp.trim()))
     profileDetails.recentEmp = data.recentEmp;
   if (!isEmpty(data.trade.trim())) profileDetails.trade = data.trade;
-  if (!isEmpty(data.tradeClassification.trim())) profileDetails.tradeClassification = data.tradeClassification;
-  if (!isEmpty(data.employeeSummary.trim())) profileDetails.employeeSummary = data.employeeSummary;
+  if (!isEmpty(data.tradeClassification.trim()))
+    profileDetails.tradeClassification = data.tradeClassification;
+  if (!isEmpty(data.employeeSummary.trim()))
+    profileDetails.employeeSummary = data.employeeSummary;
   if (!isEmpty(data.about.trim())) profileDetails.about = data.about;
 
   //experience
