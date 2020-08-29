@@ -7,6 +7,7 @@ import {
   CLEAR_JOBS,
   GET_PROFILE,
   CLEAR_PROFILE,
+  RESET_DATA,
 } from "./types";
 
 const initialState = {
@@ -62,6 +63,8 @@ export default function (state = initialState, action) {
         ...state,
         profile: [],
       };
+    case RESET_DATA:
+      return initialState;
     default:
       return state;
   }

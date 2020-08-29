@@ -352,7 +352,7 @@ nav ul a:hover {
 .loginSection input,
 .signupSection input,
 .passwordSection input {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   height: 36px;
   border-width: 2px;
   border-style: none none solid none;

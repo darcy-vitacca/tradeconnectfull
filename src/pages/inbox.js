@@ -24,6 +24,32 @@ class Inbox extends Component {
 
   componentDidMount() {}
 
+  inboxItem() {
+    return (
+      <tr>
+        <td>Alfreds Futterkiste</td>
+        <td>Maria Anders</td>
+        <td>Germany</td>
+        <td>
+          <img
+            className="inboxReplyIcon"
+            src={require("../images/reply.png")}
+            alt="profile"
+          ></img>
+        </td>
+        <td>
+          <img
+            className="inboxDeleteIcon"
+            src={require("../images/deletedash.png")}
+            alt="profile"
+          ></img>
+        </td>
+      </tr>
+    );
+  }
+
+  readEmail() {}
+
   render() {
     let {
       UI: { loading },
@@ -34,41 +60,35 @@ class Inbox extends Component {
         this.props.history.push("/login")
       ) : (
         <div className="profileBody">
-        <div className="accountContainer">
-        <h1 className="accountHeader">Inbox</h1>
-        <div className="accountCont">
-          <div className="inboxHeader">
-            <div className="inboxFrom">
-            <h4>From</h4>
-
+          <div className="accountContainer">
+            <h1 className="accountHeader">Inbox</h1>
+            <div className="accountCont">
+              <table className="inbox">
+                <tr>
+                  <th className="col1">From</th>
+                  <th className="col2">Subject</th>
+                  <th className="col3">Date</th>
+                  <th className="col4">Reply</th>
+                  <th className="col5">
+                    <img
+                      className="inboxDeleteIcon"
+                      src={require("../images/deletedash.png")}
+                      alt="profile"
+                    ></img>{" "}
+                  </th>
+                </tr>
+                {this.inboxItem()}
+                
+              
+              </table>
             </div>
-            <div className="inboxSubject">
-            <h4>Subject</h4>
-
-            </div>
-            <div className="inboxCreatedAt">
-            
-
-            </div>
-       
-       
-
           </div>
-       
-
         </div>
-       
-        
-
-
-        </div>
-        
-      </div>
       )
     ) : (
       <p>...loading</p>
     );
-    return (<div>{helpMarkup}</div>);
+    return <div>{helpMarkup}</div>;
   }
 }
 Inbox.propTypes = {

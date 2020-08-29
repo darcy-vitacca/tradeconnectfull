@@ -10,11 +10,17 @@ export const EDIT_PROFILE = 'EDIT_PROFILE'
 export const JOB_DASHBOARD ='JOB_DASHBOARD'
 export const DELETE_JOB = 'DELETE_JOB'
 export const  EDIT_JOB = 'EDIT_JOB'
+export const  RESET_USER = 'RESET_USER'
+
+
 
 //UI REDUCER TYPES
 export const SET_ERRORS = 'SET_ERRORS';
 export const LOADING_UI = 'LOADING_UI';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
+export const  RESET_UI = 'RESET_UI'
+export const  SET_MESSAGE = 'SET_MESSAGE'
+export const  CLEAR_MESSAGE = 'CLEAR_MESSAGE'
 
 //DATA REDUCER TYPES
 export const SEARCH_EMPLOYEE = 'SEARCH_EMPLOYEE';
@@ -27,3 +33,4 @@ export const CLEAR_PROFILE = 'CLEAR_PROFILE'
 export const GET_PROFILE = 'GET_PROFILE'
 export const DELETE_PROFILE = 'DELETE_PROFILE'
 export const ERROR_CLEAR_LOADING = 'ERROR_CLEAR_LOADING'
+export const  RESET_DATA = 'RESET_DATA'

@@ -3,6 +3,8 @@ import {
   SET_ERRORS,
   SET_ERRORS_PROFILE,
   CLEAR_ERRORS,
+  SET_MESSAGE,
+  CLEAR_MESSAGE,
   LOADING_UI,
   SET_UNAUTHENTICATED,
   SEARCH_EMPLOYEE,
@@ -19,16 +21,24 @@ import {
   EDIT_JOB,
   JOB_DASHBOARD,
   DELETE_JOB,
-  ERROR_CLEAR_LOADING
+  ERROR_CLEAR_LOADING,
+  RESET_DATA,
+  RESET_UI,
+  RESET_USER,
 } from "../reducers/types";
 import axios from "axios";
 // TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
 
 //this is taken from the login page and we need to user dispatch because we have asynchronous code. We can set the login from the  action itself here we use dispatch to set the type whcih is loading UI. We dispatch the type then catch it from the user. We need to redirect by passing in history from the login component to the action then the action will use it
 //LOGIN USER
-export const pageChangeErrorClear = (state) => (dispatch) =>{
+export const pageChangeErrorClear = (state) => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
-}
+  dispatch({ type: CLEAR_MESSAGE });
+};
+
+export const resetUI = () => (dispatch) => {
+  dispatch({ type: RESET_UI });
+};
 
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -64,7 +74,71 @@ export const logoutUser = (history) => (dispatch) => {
   history.push("/login");
 };
 
-//we login and when we get the data back we want to fetch the user it doesn't take an argument becuause we get the token back. This sends a get request to /user to get user data and if we get a result we need to dispatch an action which is the SET_USER and this action gives a payload which is data we send to the reducer and the reducer does something with it.
+//FORGOT PASSWORD
+export const forgotPassword = (userData, history) => (dispatch) => {
+  console.log(userData);
+  dispatch({ type: LOADING_UI });
+  dispatch({ type: CLEAR_ERRORS });
+  dispatch({ type: CLEAR_MESSAGE });
+  axios
+    .post("/forgotpassword", userData)
+    .then((res) => {
+      dispatch({ type: SET_MESSAGE, payload: res.data.message });
+    })
+
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//CHANGE PASSWORD 
+export const changePassword = (userData, history) => (dispatch) => {
+  console.log(userData);
+  dispatch({ type: LOADING_UI });
+  // dispatch({ type: CLEAR_ERRORS });
+  // dispatch({ type: CLEAR_MESSAGE });
+  axios
+    .post("/updatepassword", userData)
+    .then((res) => {
+      console.log(res)
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: SET_MESSAGE ,
+        payload: res.data.message});
+    })
+
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//CHANGE EMAIL
+export const changeEmail = (userData, history) => (dispatch) => {
+  console.log(userData);
+  dispatch({ type: LOADING_UI });
+  dispatch({ type: CLEAR_ERRORS });
+  dispatch({ type: CLEAR_MESSAGE });
+  axios
+    .post("/updateemail", userData)
+    .then((res) => {
+      dispatch({ type: SET_MESSAGE ,
+        payload: res.data.message});
+        dispatch(getUserData());
+    })
+
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
 
 //HELPER - GET USER DATA
 export const getUserData = () => (dispatch) => {
@@ -114,9 +188,9 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     .post("/signup", newUserData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
-      dispatch(getUserData());
+      // dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
-      history.push("/myprofile");
+      history.push("/login");
     })
     .catch((err) => {
       console.log(err);
@@ -175,6 +249,29 @@ export const deleteUser = (userCredentials, history) => (dispatch) => {
       dispatch({ type: CLEAR_ERRORS });
       history.push("/");
       dispatch({ type: DELETE_PROFILE_CREATED });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//DELETE ACCOUNT
+export const deleteAccount = (handle, userId, history) => (dispatch) => {
+  const userCredentials = {
+    handle: handle,
+    userId: userId,
+  };
+  dispatch({ type: LOADING_UI });
+  axios
+    .delete(`/delete/${userId}/${handle}`, userCredentials)
+    .then((res) => {
+      dispatch(logoutUser(history));
+      dispatch({ type: RESET_DATA });
+      dispatch({ type: RESET_UI });
+      dispatch({ type: RESET_USER });
     })
     .catch((err) => {
       console.log(err);
@@ -274,7 +371,7 @@ export const searchJobs = (searchReq, history) => (dispatch) => {
         type: SET_ERRORS,
         payload: err.response.data,
       });
-      dispatch({type: ERROR_CLEAR_LOADING})
+      dispatch({ type: ERROR_CLEAR_LOADING });
       history.push(`/jobsearch`);
     });
 };
@@ -300,7 +397,7 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
         type: SET_ERRORS,
         payload: err.response.data,
       });
-      dispatch({type: ERROR_CLEAR_LOADING})
+      dispatch({ type: ERROR_CLEAR_LOADING });
       history.push(`/peoplesearch`);
     });
 };

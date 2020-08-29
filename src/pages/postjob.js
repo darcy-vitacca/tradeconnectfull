@@ -139,7 +139,7 @@ class PostJob extends Component {
 
     const newJob = {
       jobId: fullJobState.jobId,
-      editing: fullJobState.editing,
+      editing: this.props.user.editing,
       job: fullJobState.job,
       jobSummary: fullJobState.jobSummary,
       company: fullJobState.company,

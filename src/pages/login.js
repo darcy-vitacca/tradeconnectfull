@@ -1,10 +1,14 @@
 //Core
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 //Redux stuff
 import { connect } from "react-redux";
-import { loginUser } from "../redux/actions/userActions";
+import {
+  loginUser,
+  forgotPassword,
+  resetUI
+} from "../redux/actions/userActions";
 //Packages
 import { ScaleLoader } from "react-spinners";
 
@@ -14,24 +18,62 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {},
+      errors: null,
+      forgotPassword: false,
+      forgotPasswordEmail: "",
+      message: "",
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
+    if (nextProps.UI.errors !== null) {
+      
+      this.setState({ errors: nextProps.UI.errors, message: null }, () => {
+        console.log(this.state);
+      });
+      this.props.resetUI()
+    }
+    else if (nextProps.UI.message !== null) {
+      this.setState({ message: nextProps.UI.message, errors: null , forgotPassword: false}, () => {
+        console.log(this.state);
+      });
+      this.props.resetUI()
     }
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const userData = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    console.log(this.props);
-    console.log(this.props.history);
-    this.props.loginUser(userData, this.props.history);
+    
+    console.log(event.target.id);
+    if (event.target.id === "loginForm") {
+      const userData = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+
+      this.props.loginUser(userData, this.props.history);
+    } else if (event.target.id === "forgotPasswordForm") {
+      const userData = {
+        email: this.state.forgotPasswordEmail,
+      };
+
+      this.props.forgotPassword(userData, this.props.history);
+      
+    }
+  };
+
+  handleForgetPassword = () => {
+  
+    console.log(this.state.errors);
+    if (this.state.errors === null) {
+      this.setState(
+        {
+          forgotPassword: !this.state.forgotPassword,
+        },
+        () => {
+          console.log(this.state);
+        }
+      );
+    }
   };
 
   handleChange = (event) => {
@@ -44,70 +86,161 @@ class Login extends Component {
     const {
       UI: { loading },
     } = this.props;
+    let { forgotPassword } = this.state;
 
-    const { errors } = this.state;
+    const { errors, message } = this.state;
+
+    //LOGIN
     return (
       <div class="loginCont">
-        <img
-          className="logoLoginSignup"
-          src={require("../images/tradeconnect.png")}
-          alt="logo"
-        ></img>
-        <h1>Login</h1>
+        {!forgotPassword ? (
+          <Fragment>
+            <img
+              className="logoLoginSignup"
+              src={require("../images/tradeconnect.png")}
+              alt="logo"
+            ></img>
+            <h1>Login</h1>
 
-        <form onSubmit={this.handleSubmit}>
-          {/* login */}
-          <div className="loginSection">
-            <p className="loginSignupLabel">Email</p>
-            <input
-              placeholder="Email"
-              className="emailLogin"
-              id="email"
-              name="email"
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            ></input>
-            <span className="helper-text">{errors.email}</span>
-          </div>
+            <form onSubmit={this.handleSubmit} id="loginForm">
+              {/* login */}
+              <div className="loginSection">
+                <p className="loginSignupLabel">Email</p>
+                <input
+                  placeholder="Email"
+                  className="emailLogin"
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                ></input>
+                <span className="helper-text">
+                  {errors !== null ? errors.email : null}
+                </span>
+              </div>
 
-          {/* password */}
-          <div className="passwordSection">
-            <p className="loginSignupLabel">Email</p>
-            <input
-              placeholder="Password"
-              className="passwordLogin"
-              id="password"
-              name="password"
-              type="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            ></input>
-            <span className="helper-text">{errors.password}</span>
-          </div>
+              <div className="passwordSection">
+                <p className="loginSignupLabel">Password</p>
+                <input
+                  placeholder="Password"
+                  className="passwordLogin"
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                ></input>
+                <span>
+                  <Link
+                   
+                    onClick={this.handleForgetPassword}
+                    id="forgotPassowrd"
+                  >
+                    Forgot Password?
+                  </Link>
+                </span>
+                <span className="helper-text">
+                  {errors !== null ? errors.password : null}
+                </span>
+              </div>
 
-          <div className="submitSpinner">
-            <button type="submit" className="submitLogin" disabled={loading}>
-              Login
-            </button>
-            <div className="spinner">
-              {loading === true ? (
-                <div>
-                  {" "}
-                  <ScaleLoader className="spinner" size={240} loading />{" "}
+              <div className="submitSpinner">
+                <button
+                  type="submit"
+                  className="submitLogin"
+                  disabled={loading}
+                >
+                  Login
+                </button>
+
+                <div className="spinner">
+                  {loading === true ? (
+                    <div>
+                      {" "}
+                      <ScaleLoader
+                        className="spinner"
+                        size={240}
+                        loading
+                      />{" "}
+                    </div>
+                  ) : null}{" "}
                 </div>
-              ) : null}{" "}
-            </div>
-          </div>
+              </div>
 
-          <div className="loginErrorsGeneral">
-            <span className="helper-text">{errors.general}</span>
-          </div>
-        </form>
+              <div className="loginErrorsGeneral">
+                <span className="helper-text">
+                  {errors !== null ? errors.general : message}
+                </span>
+              </div>
+            </form>
 
-        <span>
-          Don't have an account? Sign up <Link to="/signup">here</Link>
-        </span>
+            <span>
+              Don't have an account? Sign up <Link to="/signup">here</Link>
+            </span>
+          </Fragment>
+        ) : (
+          //FORGOT PASSWORD
+          //TODO: add in helper text into if password doesn't exists or if it does a success
+          <Fragment>
+            <img
+              className="logoLoginSignup"
+              src={require("../images/tradeconnect.png")}
+              alt="logo"
+            ></img>
+            <h1>Password Reset</h1>
+
+            <form onSubmit={this.handleSubmit} id="forgotPasswordForm">
+              <div className="loginSection">
+                <p className="loginSignupLabel">Email</p>
+                <input
+                  placeholder="Email"
+                  className="emailLogin"
+                  id="forgotPasswordEmail"
+                  name="forgotPasswordEmail"
+                  type="email"
+                  value={this.state.forgotPasswordEmail}
+                  onChange={this.handleChange}
+                ></input>
+                <p>Please enter your email associated with your account</p>
+                {/* <span className="helper-text">{errors.email}</span> */}
+              </div>
+
+              <div className="submitSpinner">
+                <button
+                  type="submit"
+                  className="submitLogin"
+                  disabled={loading}
+                >
+                  Reset Password
+                </button>
+
+                <div className="spinner">
+                  {loading === true ? (
+                    <div>
+                      {" "}
+                      <ScaleLoader
+                        className="spinner"
+                        size={240}
+                        loading
+                      />{" "}
+                    </div>
+                  ) : null}{" "}
+                </div>
+              </div>
+
+              <div className="loginErrorsGeneral">
+                <span className="helper-text">
+                  {errors !== null ? errors.error : null}
+                </span>
+              </div>
+            </form>
+
+            <span>
+              Don't have an account? Sign up <Link to="/signup">here</Link>
+            </span>
+          </Fragment>
+        )}
       </div>
     );
   }
@@ -126,5 +259,7 @@ const mapStateToProps = (state) => ({
 });
 const mapActionsToProps = {
   loginUser,
+  forgotPassword,
+  resetUI
 };
 export default connect(mapStateToProps, mapActionsToProps)(Login);

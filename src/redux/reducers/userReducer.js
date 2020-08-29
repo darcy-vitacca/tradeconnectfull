@@ -14,6 +14,7 @@ import {
   JOB_DASHBOARD,
   DELETE_JOB,
   EDIT_JOB,
+  RESET_USER,
 } from "./types";
 
 const initialState = {
@@ -92,6 +93,8 @@ export default function (state = initialState, action) {
         editJobId: action.payload,
         editing: editJobState,
       };
+    case RESET_USER:
+      return initialState;
     default:
       return state;
   }

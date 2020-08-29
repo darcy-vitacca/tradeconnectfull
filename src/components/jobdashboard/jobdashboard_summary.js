@@ -61,7 +61,7 @@ class JobDashBoardSummary extends Component {
               data-tip="Edit Job"
               data-place="bottom"
               onClick={() => {
-                if (window.confirm(`Are you sure you wish to edit ${job}`))
+                if (window.confirm(`Are you sure you want to edit ${job}`))
                   this.props.editJob(jobId, true, this.props.history);
               }}
             ></img>
