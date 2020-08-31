@@ -67,35 +67,39 @@ exports.getInbox = (request, response) => {
     .orderBy("createdAt", "desc")
     .get()
     .then((data) => {
-      console.log("Here");
+      console.log("Here1");
 
       if (data.size > 0) {
         data.forEach((entry) => {
-          console.log(entry);
+          // console.log(entry);
           inboxAll.push({
-            jobId: entry.id,
+            messageId: entry.id,
             subject: entry.data().subject,
             body: entry.data().body,
             createdAt: entry.data().createdAt,
             attachments: entry.data().attachments,
             senderHandle: entry.data().senderHandle,
+            senderId: entry.data().senderId,
+            recipientHandle:  entry.data().recipientHandle,
+            recipientId: entry.data().recipientId,
           });
         });
-        if (inboxAll === undefined || inboxAll.length === 0) {
-          inboxAll = "Inbox empty";
-          console.log("Here");
-          return sentItemCheck();
-        } else {
-            console.log("Here");
-          return sentItemCheck();
-        }
+      }
+      console.log(inboxAll)
+      if (inboxAll === undefined || inboxAll.length === 0) {
+        inboxAll = "Inbox empty";
+        console.log("Here2");
+        return sentItemCheck();
+      } else {
+          console.log("Here3");
+        return sentItemCheck();
       }
     })
     .catch((err) => {
       console.error(err);
       errors = err.code
       return sentItemCheck();
-    //   return response.status(500).json({ error: err.code });
+      return response.status(500).json({ error: err.code });
     });
 
   // Sent
@@ -106,31 +110,37 @@ exports.getInbox = (request, response) => {
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
-        console.log("Here");
+        console.log("Here4");
 
         if (data.size > 0) {
           data.forEach((entry) => {
-            console.log(entry);
+            // console.log(entry);
             sentAll.push({
-              jobId: entry.id,
+              messageId: entry.id,
               subject: entry.data().subject,
               body: entry.data().body,
               createdAt: entry.data().createdAt,
               attachments: entry.data().attachments,
-              recipientHandle: entry.data().recipientHandleHandle,
+              senderHandle: entry.data().senderHandle,
+              senderId: entry.data().senderId,
+              recipientHandle:  entry.data().recipientHandle,
+              recipientId: entry.data().recipientId,
             });
           });
+          console.log(sentAll)
           if (sentAll === undefined || sentAll.length === 0) {
-            inboxAll = "Inbox empty";
+            sentAll = "No sent items";
+            console.log("Here5");
             return response.json({ inboxAll ,sentAll});
           } else {
+            console.log("Here6");
             return response.json({ inboxAll ,sentAll});
           }
         }
       })
       .catch((err) => {
         console.error(err);
-        return response.status(500).json({ errors });
+        return response.status(500).json({ error: errors ? (errors):(err.code) });
       });
   };
 };
@@ -167,7 +177,6 @@ exports.deleteMessage = (request, response) => {
               console.error(err);
               return response.status(500).json({ error: err.code });
             });
-          return response.json({ message: "Message deleted" });
         }
       })
       .catch((err) => {
