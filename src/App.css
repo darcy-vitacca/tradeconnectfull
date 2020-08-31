@@ -113,7 +113,7 @@ nav ul a:hover {
   padding: 7px 25px;
   margin: 1em;
 }
-:disabled {
+button[class="homeToggleButton"]:disabled {
   box-shadow: 3px 4px 0px 0px #f3a764;
   background: linear-gradient(to bottom, #f2d2b6 5%, #f5b578 100%);
   background-color: #e16b05;
@@ -383,7 +383,7 @@ nav ul a:hover {
   padding: 7px 25px;
   margin: 1em;
 }
-:disabled {
+button[class="submitLogin"]:disabled ,button[class="submitSignup"]:disabled {
   box-shadow: 3px 4px 0px 0px #f3a764;
   background: linear-gradient(to bottom, #f2d2b6 5%, #f5b578 100%);
   background-color: #e16b05;

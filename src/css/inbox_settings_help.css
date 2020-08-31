@@ -79,6 +79,40 @@
   display: flex;
 }
 
+.inboxButtons {
+  display: flex;
+  margin: 0 0;
+}
+
+.inboxButtons button {
+  width: 80px;
+  font-family: "Montserrat", sans-serif;
+  background-color: rgb(49, 55, 59);
+  color: white;
+  margin-right: 0.2em;
+  font-weight: 700;
+  border-radius: 18px;
+}
+
+button[class="inboxButtonToggle"]:disabled {
+  /* /* margin: 0;
+  padding: 0; */
+  background-color: #ddd
+}
+
+.viewMessageHolder{
+  border: 2px solid rgb(49, 55, 59);
+  padding: 0.8em;
+  margin: 0.6em 0;
+}
+.emailFontView{
+  font-size: 0.8em;
+}
+.viewEmailHeader{
+  display: flex;
+  justify-content: space-between;
+}
+
 /* Settings */
 
 .accountCard {
@@ -87,7 +121,8 @@
   justify-content: space-between;
 }
 
-.accountCard h4 , .accountCont h4{
+.accountCard h4,
+.accountCont h4 {
   margin: 0;
 }
 
@@ -101,7 +136,6 @@
   margin-top: 0;
 }
 
-
 /* HELP */
 .helpImage {
   width: 80%;
@@ -113,11 +147,18 @@
   text-align: center;
 }
 
-.settingsUpdate input{
-width: 100%;
-max-width: 400px;
-margin: 0.5em 0;
+.settingsUpdate input {
+  width: 100%;
+  max-width: 400px;
+  margin: 0.5em 0;
 }
 .updatePassword {
-  margin: 1em 0 ;
+  margin: 1em 0;
+}
+
+@media only screen and (min-width: 650px) {
+  .viewMessageHolder{
+    padding: 1.4em 5.4em ;
+  }
+
 }

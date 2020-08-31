@@ -11,6 +11,11 @@ export const JOB_DASHBOARD ='JOB_DASHBOARD'
 export const DELETE_JOB = 'DELETE_JOB'
 export const  EDIT_JOB = 'EDIT_JOB'
 export const  RESET_USER = 'RESET_USER'
+export const  GET_INBOX = 'GET_INBOX'
+export const  CLEAR_INBOX = 'CLEAR_INBOX'
+export const  DELETE_ITEM_INBOX ='DELETE_ITEM_INBOX'
+export const  SEND_ITEM_INBOX ='SEND_ITEM_INBOX'
+
 
 
 

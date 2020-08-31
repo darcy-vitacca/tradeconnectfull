@@ -25,6 +25,10 @@ import {
   RESET_DATA,
   RESET_UI,
   RESET_USER,
+  GET_INBOX,
+  CLEAR_INBOX,
+  DELETE_ITEM_INBOX,
+  SEND_ITEM_INBOX,
 } from "../reducers/types";
 import axios from "axios";
 // TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
@@ -94,7 +98,7 @@ export const forgotPassword = (userData, history) => (dispatch) => {
       });
     });
 };
-//CHANGE PASSWORD 
+//CHANGE PASSWORD
 export const changePassword = (userData, history) => (dispatch) => {
   console.log(userData);
   dispatch({ type: LOADING_UI });
@@ -103,10 +107,9 @@ export const changePassword = (userData, history) => (dispatch) => {
   axios
     .post("/updatepassword", userData)
     .then((res) => {
-      console.log(res)
+      console.log(res);
       dispatch({ type: CLEAR_ERRORS });
-      dispatch({ type: SET_MESSAGE ,
-        payload: res.data.message});
+      dispatch({ type: SET_MESSAGE, payload: res.data.message });
     })
 
     .catch((err) => {
@@ -126,9 +129,8 @@ export const changeEmail = (userData, history) => (dispatch) => {
   axios
     .post("/updateemail", userData)
     .then((res) => {
-      dispatch({ type: SET_MESSAGE ,
-        payload: res.data.message});
-        dispatch(getUserData());
+      dispatch({ type: SET_MESSAGE, payload: res.data.message });
+      dispatch(getUserData());
     })
 
     .catch((err) => {
@@ -411,6 +413,45 @@ export const uploadImage = (formData) => (dispatch) => {
       return res.data.imageUrls;
     })
     .catch((err) => console.log(err));
+};
+
+//GET INBOX
+export const getInbox = () => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .get("/getinbox")
+    .then((res) => {
+      console.log(res);
+      dispatch({ type: GET_INBOX, payload: res.data });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//DELETE MESSAGE
+export const deleteMessage = (messageId, inboxMethod) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  dispatch({
+    type: DELETE_ITEM_INBOX,
+    payload: messageId,
+    inboxMethod: inboxMethod,
+  });
+  axios
+    .delete(`/deletemessage/${messageId}/${inboxMethod}`)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };
 
 //HELPER - SET AUTHORIZATION HEADER

@@ -15,6 +15,10 @@ import {
   DELETE_JOB,
   EDIT_JOB,
   RESET_USER,
+  GET_INBOX,
+  CLEAR_INBOX,
+  DELETE_ITEM_INBOX,
+  SEND_ITEM_INBOX,
 } from "./types";
 
 const initialState = {
@@ -25,6 +29,7 @@ const initialState = {
   editing: false,
   editJobId: "",
   jobs: [],
+  inbox: [],
 };
 
 export default function (state = initialState, action) {
@@ -95,6 +100,47 @@ export default function (state = initialState, action) {
       };
     case RESET_USER:
       return initialState;
+
+    case GET_INBOX:
+      return {
+        ...state,
+        loading: false,
+        inbox: action.payload,
+      };
+
+    case DELETE_ITEM_INBOX:
+      console.log(action.payload);
+      console.log(action.inboxMethod);
+      if (action.inboxMethod === "recipient") {
+        return {
+          ...state,
+          inbox: {
+            inboxAll: [
+              ...state.inbox.inboxAll.filter(
+                (item) => item.messageId !== action.payload
+              ),
+            ],
+            sentAll: [...state.inbox.sentAll],
+          },
+        };
+      } else if (action.inboxMethod === "sender") {
+        return {
+          ...state,
+          inbox: {
+            inboxAll: [...state.inbox.inboxAll],
+            sentAll: [
+              ...state.inbox.sentAll.filter(
+                (item) => item.messageId !== action.payload
+              ),
+            ],
+          },
+        };
+      }
+
+    // case CLEAR_INBOX:
+
+    // SEND_ITEM_INBOX:
+
     default:
       return state;
   }
