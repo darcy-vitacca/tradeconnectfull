@@ -64,7 +64,7 @@ class EmployeeSearch extends Component {
     let { classifcations , stateList} = this.state;
     let recentProfileMarkup = this.props.data.employees ? (
       this.props.data.employees.map((profile) => (
-        <PeopleSearchCard key={profile.userId} profile={profile} />
+        <PeopleSearchCard key={profile.userId} profile={profile} history={this.props.history}/>
       ))
     ) : (
       <h1>here</h1>

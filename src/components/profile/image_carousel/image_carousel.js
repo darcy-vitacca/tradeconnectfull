@@ -2,6 +2,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { uuid } from "uuidv4";
+
 
 class ImageCarousel extends Component {
   constructor() {
@@ -26,11 +28,17 @@ class ImageCarousel extends Component {
       this.setState({ index: this.state.index + 1 });
     }
   };
+  sendMessageToInbox = (userId) => {
+    console.log("here");
+    console.log(userId);
+    this.props.sendMessage(userId.userId, userId.handle);
+  };
 
   render() {
     let { desc, imageUrl, header, index } = this.props.bestWork[
       this.state.index
     ];
+
     return (
       <div className="carouselContainer">
         <img
@@ -55,6 +63,22 @@ class ImageCarousel extends Component {
         </div>
         <h4>{header}</h4>
         <p>{desc}</p>
+        <div className="contactPersonBtn">
+          <button
+            id="contactPersonButton"
+            // onClick={this.sendMessageToInbox({
+            //   userId: this.props.userId,
+            //   handle: this.props.handle,
+            // })}
+            onClick={()=>{this.sendMessageToInbox({
+                userId: this.props.userId,
+                handle: this.props.handle,
+              })}}
+            key={uuid()}
+          >
+            Contact
+          </button>
+        </div>
       </div>
     );
   }
@@ -72,4 +96,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(ImageCarousel);
-

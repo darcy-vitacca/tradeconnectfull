@@ -29,6 +29,8 @@ import {
   CLEAR_INBOX,
   DELETE_ITEM_INBOX,
   SEND_ITEM_INBOX,
+  CONTACT,
+  CLEAR_CONTACT,
 } from "../reducers/types";
 import axios from "axios";
 // TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
@@ -421,7 +423,7 @@ export const getInbox = () => (dispatch) => {
   axios
     .get("/getinbox")
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       dispatch({ type: GET_INBOX, payload: res.data });
     })
     .catch((err) => {
@@ -443,6 +445,27 @@ export const deleteMessage = (messageId, inboxMethod) => (dispatch) => {
   axios
     .delete(`/deletemessage/${messageId}/${inboxMethod}`)
     .then((res) => {
+      // console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+//SEND MESSAGE
+export const sendMessage = (message) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  // dispatch({
+  //   type: SEND_ITEM_INBOX,
+  //   payload: messageId,
+  //   inboxMethod: inboxMethod,
+  // });
+  axios
+    .post(`/sendmessage`, message)
+    .then((res) => {
       console.log(res);
     })
     .catch((err) => {
@@ -452,6 +475,12 @@ export const deleteMessage = (messageId, inboxMethod) => (dispatch) => {
         payload: err.response.data,
       });
     });
+};
+export const Contact = (userId, handle, history) => (dispatch) => {
+  dispatch({ type: LOADING_DATA });
+  dispatch({ type: CLEAR_CONTACT });
+  dispatch({ type: CONTACT, userId: userId, handle: handle });
+  history.push("/inbox");
 };
 
 //HELPER - SET AUTHORIZATION HEADER

@@ -109,8 +109,6 @@ export default function (state = initialState, action) {
       };
 
     case DELETE_ITEM_INBOX:
-      console.log(action.payload);
-      console.log(action.inboxMethod);
       if (action.inboxMethod === "recipient") {
         return {
           ...state,

@@ -1,17 +1,23 @@
 //Core
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+//Redux
+import {Contact} from "../../redux/actions/userActions"
 //Components
 import AboutProfile from "../profile/view_profile/about_profile_section";
 import ExperienceProfile from "../profile/view_profile/experience_profile_section";
 import SkillsProfile from "../profile/view_profile/skills_profile_section";
 import ImageCarousel from "../profile/image_carousel/image_carousel";
 //Packages
+import { uuid } from "uuidv4";
 import dayjs from "dayjs";
 const relativeTime = require("dayjs/plugin/relativeTime");
 
 class PeopleSearchCard extends Component {
   constructor() {
     super();
+    this.sendMessage = this.sendMessage.bind(this);
     this.state = {
       expanded: false,
     };
@@ -20,6 +26,12 @@ class PeopleSearchCard extends Component {
     this.setState((prevState) => ({
       expanded: !prevState.expanded,
     }));
+  };
+  sendMessage = (userId, handle) => {
+    console.log(userId);
+    console.log(handle);
+    console.log(this.props)
+    this.props.Contact(userId, handle, this.props.history)
   };
 
   render() {
@@ -36,12 +48,13 @@ class PeopleSearchCard extends Component {
         recentEmp,
         references,
         trade,
-        userId,
         website,
         workStatus,
         employeeSummary,
         profileImageUrl,
         location,
+        userId,
+        handle,
       },
     } = this.props;
     fullName = fullName.join(" ");
@@ -81,7 +94,7 @@ class PeopleSearchCard extends Component {
           </div>
 
           {expanded ? (
-            <div>
+            <div key={uuid()}>
               <AboutProfile
                 profile={this.props.profile}
                 expanded={this.state}
@@ -113,10 +126,13 @@ class PeopleSearchCard extends Component {
 
                 <div>
                   <h4>Best Work</h4>
-                  <ImageCarousel bestWork={bestWork} />
-                </div>
-                <div className="contactPersonBtn">
-                  <button id="contactPersonButton">Contact</button>
+                  <ImageCarousel
+                    bestWork={bestWork}
+                    sendMessage={this.sendMessage}
+                    userId={userId}
+                    handle={handle}
+                    key={uuid()}
+                  />
                 </div>
               </div>
             </div>
@@ -132,4 +148,21 @@ class PeopleSearchCard extends Component {
   }
 }
 
-export default PeopleSearchCard;
+
+PeopleSearchCard.propTypes = {
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+  data: state.data,
+});
+
+const mapActionsToProps = {
+  Contact,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(PeopleSearchCard);

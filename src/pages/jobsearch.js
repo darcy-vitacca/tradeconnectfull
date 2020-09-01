@@ -11,7 +11,7 @@ import { uuid } from "uuidv4";
 //Components
 import JobCard from "../components/jobsearch/job_search";
 //Dropdowns
-const { ClassificationList , StatesList} = require("../util/dropdowns");
+const { ClassificationList, StatesList } = require("../util/dropdowns");
 
 // TODO: if on this page you need to not redirect through user actions can't research need to clear state on redirect
 class JobSearch extends Component {
@@ -25,7 +25,7 @@ class JobSearch extends Component {
       },
     ],
     classifcations: ClassificationList,
-    stateList: StatesList
+    stateList: StatesList,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -58,7 +58,7 @@ class JobSearch extends Component {
     const {
       UI: { loading, errors },
     } = this.props;
-    let { classifcations , stateList} = this.state;
+    let { classifcations, stateList } = this.state;
     return (
       // search bar
       <div className="jobSearchBody" key={uuid}>

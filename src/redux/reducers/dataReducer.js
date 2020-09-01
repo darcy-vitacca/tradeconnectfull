@@ -8,6 +8,8 @@ import {
   GET_PROFILE,
   CLEAR_PROFILE,
   RESET_DATA,
+  CONTACT,
+  CLEAR_CONTACT,
 } from "./types";
 
 const initialState = {
@@ -15,6 +17,7 @@ const initialState = {
   jobs: [],
   employees: [],
   profile: [],
+  contact: {},
 };
 
 // TODO:// if search is clicked again delete current searches
@@ -62,6 +65,19 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profile: [],
+      };
+    case CONTACT:
+      return {
+        ...state,
+        contact: {
+          userId: action.userId,
+          handle: action.handle,
+        },
+      };
+    case CLEAR_CONTACT:
+      return {
+        ...state,
+        contact: {},
       };
     case RESET_DATA:
       return initialState;
