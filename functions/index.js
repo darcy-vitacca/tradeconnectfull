@@ -49,17 +49,17 @@ app.post("/createprofile", FBAuth, addProfile); //add profile
 app.delete("/deleteprofile/:profileId", FBAuth, deleteProfile);
 
 //TODO: get inbox
-app.get("/getinbox" , fbAuth, getInbox)
-app.post("/sendmessage" , fbAuth, sendMessage)
-app.delete("/deletemessage/:messageid/:inboxmethod" , fbAuth, deleteMessage)
-//TODO: send email 
+app.get("/getinbox", fbAuth, getInbox);
+app.post("/sendmessage", fbAuth, sendMessage);
+app.delete("/deletemessage/:messageid/:inboxmethod", fbAuth, deleteMessage);
+//TODO: send email
 //TODO: Delete email from your inbox
 
 //USER ROUTES
 app.post("/login", login);
 app.post("/signup", signup);
 app.post("/updateemail", FBAuth, updateEmail);
-app.post("/updatepassword", FBAuth,  updatePassword);
+app.post("/updatepassword", FBAuth, updatePassword);
 app.post("/user", FBAuth, addUserDetails);
 app.post("/forgotpassword", forgotPassword);
 app.post("/user/image", FBAuth, uploadImage);
