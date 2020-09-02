@@ -108,6 +108,7 @@ exports.searchJobs = (request, response) => {
           imageUrl: doc.data().imageUrl,
           workType: doc.data().workType,
           createdAt: doc.data().createdAt,
+          userId: doc.data().userId,
         });
       });
     }
