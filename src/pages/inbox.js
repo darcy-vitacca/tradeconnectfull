@@ -10,6 +10,7 @@ import {
   getInbox,
   deleteMessage,
   sendMessage,
+  clearContact
 } from "../redux/actions/userActions";
 //Functions
 //Packages
@@ -57,8 +58,16 @@ class Inbox extends Component {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
-    if(nextProps.data.contact){
-      this.sendNewMessage(nextProps.data.contact.userId, nextProps.data.contact.handle)
+    if (nextProps.data.contact.userId) {
+      this.sendNewMessage(
+        nextProps.data.contact.userId,
+        nextProps.data.contact.handle
+      );
+    }
+  }
+  componentWillUnmount() {
+    if (this.props.contact !== {}) {
+      this.props.clearContact();
     }
   }
 
@@ -71,97 +80,73 @@ class Inbox extends Component {
   };
 
   toggleInbox = () => {
-    this.setState(
-      {
-        inboxState: !this.state.inboxState,
-        viewEmail: false,
-        viewEmailCurr: [],
-        replyEmail: false,
-        replyEmailCurr: [],
-        emailDraft: []
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      inboxState: !this.state.inboxState,
+      viewEmail: false,
+      viewEmailCurr: [],
+      replyEmail: false,
+      replyEmailCurr: [],
+      emailDraft: [],
+    });
   };
-  sendNewMessage (userId, handle){
-    console.log(userId)
-    console.log(handle)
-    this.setState(
-      {
-        viewEmail: false,
-        viewEmailCurr: [],
-        replyEmail: true,
-        sendMessage: true,
-        replyEmailCurr: [],
-        emailDraft: [
-          {
-            recipientId: userId,
-            recipientHandle: handle,
-            createdAt: "",
-            subject: "",
-            body: "",
-            attachments: [],
-          },
-        ],
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
-
-  }
+  sendNewMessage = (userId, handle) => {
+    this.setState({
+      viewEmail: false,
+      viewEmailCurr: [],
+      replyEmail: true,
+      sendMessage: true,
+      replyEmailCurr: [],
+      emailDraft: [
+        {
+          recipientId: userId,
+          recipientHandle: handle,
+          createdAt: "",
+          subject: "",
+          body: "",
+          attachments: [],
+        },
+      ],
+    });
+  };
   replyEmail = (email) => {
     let createdAtFinal = dayjs(email.createdAt).fromNow();
     if (this.state.inboxState === false) {
-      this.setState(
-        {
-          viewEmail: false,
-          viewEmailCurr: [],
-          replyEmail: true,
-          replyEmailCurr: email,
-          emailDraft: [
-            {
-              recipientId: email.senderId,
-              recipientHandle: email.senderHandle,
-              createdAt: email.createdAt,
-              subject: "",
-              body: `\n\n\n\n-----------------------------------------\nRecieved : ${createdAtFinal}\n${email.body}`,
-              attachments: [],
-            },
-          ],
-        },
-        () => {
-          console.log(this.state);
-        }
-      );
+      this.setState({
+        viewEmail: false,
+        viewEmailCurr: [],
+        replyEmail: true,
+        replyEmailCurr: email,
+        emailDraft: [
+          {
+            recipientId: email.senderId,
+            recipientHandle: email.senderHandle,
+            createdAt: email.createdAt,
+            subject: "",
+            body: `\n\n\n\n-----------------------------------------\nRecieved : ${createdAtFinal}\n${email.body}`,
+            attachments: [],
+          },
+        ],
+      });
     } else if (this.state.inboxState === true) {
-      this.setState(
-        {
-          viewEmail: false,
-          viewEmailCurr: [],
-          replyEmail: true,
-          replyEmailCurr: email,
-          emailDraft: [
-            {
-              recipientId: email.recipientId,
-              recipientHandle: email.recipientHandle,
-              createdAt: email.createdAt,
-              subject: "",
-              body: `\n\n\n\n-----------------------------------------\nRecieved : ${createdAtFinal}\n${email.body}`,
-              attachments: [],
-            },
-          ],
-        },
-        () => {
-          console.log(this.state);
-        }
-      );
+      this.setState({
+        viewEmail: false,
+        viewEmailCurr: [],
+        replyEmail: true,
+        replyEmailCurr: email,
+        emailDraft: [
+          {
+            recipientId: email.recipientId,
+            recipientHandle: email.recipientHandle,
+            createdAt: email.createdAt,
+            subject: "",
+            body: `\n\n\n\n-----------------------------------------\nRecieved : ${createdAtFinal}\n${email.body}`,
+            attachments: [],
+          },
+        ],
+      });
     }
   };
   sendEmail = (event) => {
-    console.log("here1234")
     event.preventDefault();
     let {
       recipientId,
@@ -170,7 +155,7 @@ class Inbox extends Component {
       body,
       attachments,
     } = this.state.emailDraft[0];
-    
+
     const message = {
       recipientId: recipientId,
       recipientHandle: recipientHandle,
@@ -188,26 +173,20 @@ class Inbox extends Component {
     let emailDraft = [...this.state.emailDraft];
     emailDraft[0][event.target.name] = event.target.value;
     this.setState({ emailDraft });
-     // console.log(emailDraft);
   };
 
   viewEmail = (email) => {
-    this.setState(
-      {
-        viewEmail: true,
-        viewEmailCurr: email,
-        replyEmail: false,
-        replyInboxCurr: [],
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      viewEmail: true,
+      viewEmailCurr: email,
+      replyEmail: false,
+      replyInboxCurr: [],
+    });
   };
 
   closeEmail = () => {
-    console.log("here7890")
     this.setState({
+      inboxState: false,
       viewEmail: false,
       viewEmailCurr: [],
       replyEmail: false,
@@ -238,9 +217,8 @@ class Inbox extends Component {
       viewEmail,
       viewEmailCurr,
       replyEmail,
-      replyEmailCurr,
       emailDraft,
-      sendMessage
+      sendMessage,
     } = this.state;
     let helpMarkup = !loading ? (
       !authenticated ? (
@@ -365,6 +343,7 @@ const mapActionsToProps = {
   getInbox,
   deleteMessage,
   sendMessage,
+  clearContact
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Inbox);

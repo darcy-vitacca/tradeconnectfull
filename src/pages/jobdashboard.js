@@ -6,7 +6,10 @@ import PropTypes from "prop-types";
 //Components
 import JobDashBoardSummary from "../components/jobdashboard/jobdashboard_summary";
 //Redux
-import { jobDashboard } from "../redux/actions/userActions";
+import {
+  jobDashboard,
+  pageChangeErrorClear,
+} from "../redux/actions/userActions";
 //Function
 //Packages
 import ReactTooltip from "react-tooltip";
@@ -14,9 +17,6 @@ import { ScaleLoader } from "react-spinners";
 import { uuid } from "uuidv4";
 //Dropdowns
 
-
-//TODO: Token expiring need to make the token better
-//TODO: send an error if there is nothing on the data base display no jobs  listed  or something.
 class JobDashboard extends Component {
   constructor() {
     super();
@@ -26,6 +26,11 @@ class JobDashboard extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
+    }
+  }
+  componentWillUnmount() {
+    if (this.props.UI.errors !== null) {
+      this.props.pageChangeErrorClear();
     }
   }
 
@@ -104,6 +109,7 @@ const mapStateToProps = (state) => ({
 });
 const mapActionsToProps = {
   jobDashboard,
+  pageChangeErrorClear
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(JobDashboard);

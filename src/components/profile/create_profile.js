@@ -20,17 +20,7 @@ import ProfileArray from "./create_profile/licences_profile_array";
 import Education from "./create_profile/education_profile_array";
 import RefArray from "./create_profile/references_profile_array";
 //Dropdowns
-const {
-  ClassificationList,
-  WorkTypeList,
-} = require("../../util/dropdowns");
-
-
-
-// TODO: go through every section rename everything so it's clear
-// TODO: allow only a certain ammount of each thing to be dynamically added?
-//TODO:recentEmployment
-//TODO: handle errors if an image can't be uploaded handle in user actions loading to false
+const { ClassificationList, WorkTypeList } = require("../../util/dropdowns");
 
 class CreateProfile extends Component {
   constructor() {
@@ -225,7 +215,6 @@ class CreateProfile extends Component {
         }
       });
     });
-    //TODO: had issues with the uppercase of the a section
     const profileDetails = {
       userId: this.props.user.credentials.userId,
       about: this.state.about,
@@ -479,7 +468,6 @@ class CreateProfile extends Component {
   };
   lengthHandler = (event) => {
     let dynamicContent = ["experienceText", "references", "bestWorkCardDesc"];
-    //TODO: change to react way not document get
     //checks for dynamic sections
     if (dynamicContent.includes(event.target.id) && event.target.id !== "") {
       document.getElementById(

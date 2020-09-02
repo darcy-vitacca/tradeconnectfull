@@ -25,12 +25,17 @@ import Help from "./pages/help"
 //Auth
 import AuthRoute from "./util/auth_route";
 import axios from "axios";
+//Upcoming features
+//applicants and view count record so it can be view
+//Rename dropdowns to not miss anything
 
 
+
+//TODO: Token expiring need to make the token better
+//TODO: maybe delete? safe?
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
-  //TODO: maybe delete? safe?
   if (decodedToken * 1000 < Date.now()) {
     store.dispatch(logoutUser());
     window.location.href = "/login";
@@ -40,12 +45,6 @@ if (token) {
     store.dispatch(getUserData());
   }
 }
-//TODO: licences change to tag things in profile 
-//TODO: refactor code that is duplicates into helper functions
-//TODO: for with formik youtube tutotial docs are bad
-//TODO: the way to make money could be search functionallity for the ideal candidate and give % matches
-//TODO: change all the paths names and file to appropriate things.
-//The provider gives us access to anything in the store to use in the state so everything needs to be within it to have access to the store
 function App() {
   return (
     <Provider store={store}>

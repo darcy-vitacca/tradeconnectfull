@@ -3,14 +3,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "../css/people_search.css";
 //Functions
-import { employeeSearch } from "../components/people_search/employee_search_func";
+import { employeeSearch } from "../components/employee_search/employee_search_func";
 //Redux
 import {
   searchEmployee,
   pageChangeErrorClear,
 } from "../redux/actions/userActions";
 //Components
-import PeopleSearchCard from "../components/people_search/employee_search";
+import PeopleSearchCard from "../components/employee_search/employee_search";
 //Packages
 import { uuid } from "uuidv4";
 import { ScaleLoader } from "react-spinners";
@@ -18,7 +18,6 @@ import { ScaleLoader } from "react-spinners";
 const {ClassificationList, StatesList} = require("../util/dropdowns") 
 
 
-//TODO: needs to delete the search every time it makes one out of stat
 class EmployeeSearch extends Component {
   state = {
     errors: [],

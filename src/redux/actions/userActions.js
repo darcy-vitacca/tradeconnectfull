@@ -56,7 +56,6 @@ export const loginUser = (userData, history) => (dispatch) => {
       //We need to pass the type clear errors in case there is any errors in our form then redirect
       dispatch({ type: CLEAR_ERRORS });
       //this is a method we use to push a path to go to it this will redirect
-      //TODO: this should go to create a profile or profile if they have a profile
       history.push("/myprofile");
     })
     .catch((err) => {
@@ -146,9 +145,7 @@ export const changeEmail = (userData, history) => (dispatch) => {
 
 //HELPER - GET USER DATA
 export const getUserData = () => (dispatch) => {
-  //TODO: add a filter if not needed to get profile?
   let uid;
-
   dispatch({ type: LOADING_USER });
   axios
     .get("/user")
@@ -458,6 +455,7 @@ export const deleteMessage = (messageId, inboxMethod) => (dispatch) => {
 //SEND MESSAGE
 export const sendMessage = (message) => (dispatch) => {
   dispatch({ type: LOADING_USER });
+  dispatch({ type: CLEAR_CONTACT });
   // dispatch({
   //   type: SEND_ITEM_INBOX,
   //   payload: messageId,
@@ -481,6 +479,10 @@ export const Contact = (userId, handle, history) => (dispatch) => {
   dispatch({ type: CLEAR_CONTACT });
   dispatch({ type: CONTACT, userId: userId, handle: handle });
   history.push("/inbox");
+};
+
+export const clearContact = () => (dispatch) => {
+  dispatch({ type: CLEAR_CONTACT });
 };
 
 //HELPER - SET AUTHORIZATION HEADER

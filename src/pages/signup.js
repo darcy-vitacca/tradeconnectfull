@@ -54,7 +54,7 @@ class Signup extends Component {
       <div className="signupCont">
         <img
           className="logoLoginSignup"
-          src={require("../images/tradeconnect.png")}
+          src={require("../images/logo.jpg")}
           alt="logo"
         ></img>
           <h1>Signup</h1>

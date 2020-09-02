@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import {
   loginUser,
   forgotPassword,
-  resetUI
+  resetUI,
 } from "../redux/actions/userActions";
 //Packages
 import { ScaleLoader } from "react-spinners";
@@ -26,23 +26,24 @@ class Login extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors !== null) {
-      
       this.setState({ errors: nextProps.UI.errors, message: null }, () => {
         console.log(this.state);
       });
-      this.props.resetUI()
-    }
-    else if (nextProps.UI.message !== null) {
-      this.setState({ message: nextProps.UI.message, errors: null , forgotPassword: false}, () => {
-        console.log(this.state);
-      });
-      this.props.resetUI()
+      this.props.resetUI();
+    } else if (nextProps.UI.message !== null) {
+      this.setState(
+        { message: nextProps.UI.message, errors: null, forgotPassword: false },
+        () => {
+          console.log(this.state);
+        }
+      );
+      this.props.resetUI();
     }
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    
+
     console.log(event.target.id);
     if (event.target.id === "loginForm") {
       const userData = {
@@ -57,12 +58,10 @@ class Login extends Component {
       };
 
       this.props.forgotPassword(userData, this.props.history);
-      
     }
   };
 
   handleForgetPassword = () => {
-  
     console.log(this.state.errors);
     if (this.state.errors === null) {
       this.setState(
@@ -97,7 +96,7 @@ class Login extends Component {
           <Fragment>
             <img
               className="logoLoginSignup"
-              src={require("../images/tradeconnect.png")}
+              src={require("../images/logo.jpg")}
               alt="logo"
             ></img>
             <h1>Login</h1>
@@ -132,11 +131,7 @@ class Login extends Component {
                   onChange={this.handleChange}
                 ></input>
                 <span>
-                  <Link
-                   
-                    onClick={this.handleForgetPassword}
-                    id="forgotPassowrd"
-                  >
+                  <Link onClick={this.handleForgetPassword} id="forgotPassowrd">
                     Forgot Password?
                   </Link>
                 </span>
@@ -181,7 +176,6 @@ class Login extends Component {
           </Fragment>
         ) : (
           //FORGOT PASSWORD
-          //TODO: add in helper text into if password doesn't exists or if it does a success
           <Fragment>
             <img
               className="logoLoginSignup"
@@ -260,6 +254,6 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   loginUser,
   forgotPassword,
-  resetUI
+  resetUI,
 };
 export default connect(mapStateToProps, mapActionsToProps)(Login);

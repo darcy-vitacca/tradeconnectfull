@@ -20,7 +20,6 @@ const initialState = {
   contact: {},
 };
 
-// TODO:// if search is clicked again delete current searches
 export default function (state = initialState, action) {
   switch (action.type) {
     case LOADING_DATA:

@@ -94,7 +94,6 @@ export function jobSearch(state, props) {
 
     //full empty search
   } else {
-    console.log("here4");
     const searchReq = {
       keywords: "",
       trade: "",

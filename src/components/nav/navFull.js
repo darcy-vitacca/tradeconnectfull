@@ -9,7 +9,7 @@ import { logoutUser } from "../../redux/actions/userActions";
 
 
 //TODO: CHANGE FROM HASH ON LINK
-// TODO: check if signed into display which links
+//TODO: HANDLE CLICK ON MENU MKAE IT DISAPPEAR AND NOT SHOW ON SIGN IN
 class NavFull extends Component {
   constructor() {
     super();

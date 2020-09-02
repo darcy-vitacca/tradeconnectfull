@@ -20,13 +20,11 @@ class ViewProfile extends Component {
       profile: null,
     };
   }
-  //  TODO: CREATE PROFILE BUG
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
   }
-
   renderMarkup() {
     let { profile } = this.props.user;
     let {

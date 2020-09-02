@@ -110,6 +110,7 @@ button[class="inboxButtonToggle"]:disabled {
   font-size: 0.8em;
   margin-bottom: 0.4em;
   white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 .viewEmailHeader {
   display: flex;

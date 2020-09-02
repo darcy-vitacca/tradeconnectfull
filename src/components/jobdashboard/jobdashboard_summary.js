@@ -10,7 +10,7 @@ import ReactTooltip from "react-tooltip";
 import dayjs from "dayjs";
 const relativeTime = require("dayjs/plugin/relativeTime");
 
-//TODO: applicants and view count
+
 class JobDashBoardSummary extends Component {
   constructor() {
     super();

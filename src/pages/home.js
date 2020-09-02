@@ -8,12 +8,12 @@ import { searchJobs } from "../redux/actions/userActions";
 import { searchEmployee } from "../redux/actions/userActions";
 //Functions
 import { jobSearch } from "../components/jobsearch/jobSearchFunc";
-import { employeeSearch } from "../components/people_search/employee_search_func";
+import { employeeSearch } from "../components/employee_search/employee_search_func";
 //Packages
 import { ScaleLoader } from "react-spinners";
 import { uuid } from "uuidv4";
 //Dropdowns
-const { ClassificationList , StatesList} = require("../util/dropdowns");
+const { ClassificationList, StatesList } = require("../util/dropdowns");
 
 class Home extends Component {
   constructor() {
@@ -35,7 +35,7 @@ class Home extends Component {
         },
       ],
       classifcations: ClassificationList,
-      stateList : StatesList
+      stateList: StatesList,
     };
   }
 
@@ -109,11 +109,9 @@ class Home extends Component {
     }
   };
 
-  // TODO: when logged in handle clicking on loggin links or don't show them on the home page
-  //TODO: add no autocmplete
   //Alternating Search Btn Render
   searchStateInput() {
-    let { classifcations ,stateList} = this.state;
+    let { classifcations, stateList } = this.state;
     if (this.state.searchState === true) {
       //JOBSEARCH
       return (
@@ -159,13 +157,13 @@ class Home extends Component {
                 State
               </option>
               {stateList.map((state) => {
-                        return (
-                          <option key={uuid()} value={state}>
-                            {" "}
-                            {state}
-                          </option>
-                        );
-                      })}
+                return (
+                  <option key={uuid()} value={state}>
+                    {" "}
+                    {state}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
@@ -216,13 +214,13 @@ class Home extends Component {
                 State
               </option>
               {stateList.map((state) => {
-                        return (
-                          <option key={uuid()} value={state}>
-                            {" "}
-                            {state}
-                          </option>
-                        );
-                      })}
+                return (
+                  <option key={uuid()} value={state}>
+                    {" "}
+                    {state}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
@@ -279,12 +277,12 @@ class Home extends Component {
               </div>
             </div>
             <div className="loginSignupHome">
-              {authenticated ?  null: (
+              {authenticated ? null : (
                 <Fragment>
                   <Link to="/login">Login</Link>
                   <Link to="/signup">Signup</Link>
                 </Fragment>
-              ) }
+              )}
             </div>
           </div>
         </section>

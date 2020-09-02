@@ -14,7 +14,6 @@ const {
   SalaryFreqList,
 } = require("../util/dropdowns");
 
-//TODO: Token expiring need to make the token better
 class PostJob extends Component {
   constructor() {
     super();
@@ -100,7 +99,7 @@ class PostJob extends Component {
       if (e.target.type !== "file") {
         let fullJob = [...this.state.fullJob];
         fullJob[e.target.dataset.id][e.target.name] = e.target.value;
-        this.setState({ fullJob }, console.log(this.state));
+        this.setState({ fullJob });
       }
     }
   };
@@ -168,16 +167,14 @@ class PostJob extends Component {
       event.target.autocomplete = "";
     }
   };
-  //TODO: need to handle state changing when location set
   onBlur = (event) => {
     if (this.state.fullJob[0].locationCheck === false) {
       event.target.value = "";
     }
   };
-
   handleImageChange = (e) => {
     let target = e.target;
-    let fullJob = [...this.state.fullJob];
+    // let fullJob = [...this.state.fullJob];
     const image = e.target.files[0];
     if (image) {
       //send to server

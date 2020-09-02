@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const relativeTime = require("dayjs/plugin/relativeTime");
 const InboxView = (props, idx) => {
-  console.log(props);
+  // console.log(props);
   dayjs.extend(relativeTime);
   let {
     recipientHandle,
@@ -65,7 +65,7 @@ const InboxView = (props, idx) => {
               <input data-id={idx} name="attachments" type="file"></input>
             </p>
             <button type="submit" className="sendEmailButton">
-              Reply
+            {!messageState ?  ("Send"): ("Reply")}
             </button>
           </div>
 

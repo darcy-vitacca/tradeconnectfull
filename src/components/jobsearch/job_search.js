@@ -1,15 +1,16 @@
 //Core
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Contact } from "../../redux/actions/userActions";
 //Packages
 import dayjs from "dayjs";
 import { uuid } from "uuidv4";
 const relativeTime = require("dayjs/plugin/relativeTime");
 
-//TODO: the search bars are slightly different on the job/people search
-//TODO: Make font smaller to accoutn for lower px size screens
 class JobCard extends Component {
   constructor() {
     super();
+    this.sendMessageToInbox = this.sendMessageToInbox.bind(this);
     this.state = {
       expanded: false,
     };
@@ -20,9 +21,14 @@ class JobCard extends Component {
     }));
   };
 
+  sendMessageToInbox = (userId) => {
+    console.log(userId);
+    console.log(this.props);
+    this.props.Contact(userId.userId, userId.handle, this.props.history);
+  };
+
   render() {
     dayjs.extend(relativeTime);
-    // we can destructure the api call within here
     let { expanded } = this.state;
     let {
       job: {
@@ -41,9 +47,10 @@ class JobCard extends Component {
         additionalInfo,
         contactDetails,
         jobSummary,
+        userId,
+        handle,
       },
     } = this.props;
-
     location = location.join(" ");
     return (
       <div className="jobSearchCard" key={uuid()}>
@@ -54,7 +61,7 @@ class JobCard extends Component {
             <p onClick={this.handleCardExpand}>&#43;</p>
           )}
         </div>
-    
+
         {/* head */}
         <div className="jobSearchHead">
           <img src={imageUrl} className="jobIcon" alt="job search"></img>
@@ -66,7 +73,6 @@ class JobCard extends Component {
             <h4>{salary}</h4>
             <h4 className="jobSearchWage">{salaryFreq}</h4>
             <h4 className="jobSearchWage">{workType}</h4>
-           
 
             {/* </Link> */}
             <h4 className="jobSearchHeadLeftJob">{company}</h4>
@@ -99,7 +105,17 @@ class JobCard extends Component {
               </div>
             </div>
             <div className="applyNowBtn">
-              <button id="applyJobButton">Apply</button>
+              <button
+                id="applyJobButton"
+                onClick={() => {
+                  this.sendMessageToInbox({
+                    userId: userId,
+                    handle: handle,
+                  });
+                }}
+              >
+                Apply
+              </button>
             </div>
           </div>
         ) : (
@@ -113,4 +129,14 @@ class JobCard extends Component {
   }
 }
 
-export default JobCard;
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+  data: state.data,
+});
+
+const mapActionsToProps = {
+  Contact,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(JobCard);

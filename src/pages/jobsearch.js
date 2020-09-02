@@ -3,7 +3,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "../css/jobsearch.css";
 //Redux
-import { searchJobs, pageChangeErrorClear } from "../redux/actions/userActions";
+import {
+  searchJobs,
+  pageChangeErrorClear,
+  Contact,
+} from "../redux/actions/userActions";
 //Functions
 import { jobSearch } from "../components/jobsearch/jobSearchFunc";
 //Packages
@@ -13,20 +17,23 @@ import JobCard from "../components/jobsearch/job_search";
 //Dropdowns
 const { ClassificationList, StatesList } = require("../util/dropdowns");
 
-// TODO: if on this page you need to not redirect through user actions can't research need to clear state on redirect
 class JobSearch extends Component {
-  state = {
-    errors: [],
-    jobSearchInput: [
-      {
-        keywords: "",
-        tradeClassification: "",
-        state: "",
-      },
-    ],
-    classifcations: ClassificationList,
-    stateList: StatesList,
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      errors: [],
+      jobSearchInput: [
+        {
+          keywords: "",
+          tradeClassification: "",
+          state: "",
+        },
+      ],
+      classifcations: ClassificationList,
+      stateList: StatesList,
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
@@ -49,9 +56,10 @@ class JobSearch extends Component {
     e.preventDefault();
     jobSearch(this.state, this.props);
   };
+
   render() {
     let recentJobsMarkup = this.props.data.jobs ? (
-      this.props.data.jobs.map((job) => <JobCard key={job.jobId} job={job} />)
+      this.props.data.jobs.map((job) => <JobCard key={job.jobId} job={job} history={this.props.history}/>)
     ) : (
       <p>Loading...</p>
     );
@@ -192,6 +200,7 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   searchJobs,
   pageChangeErrorClear,
+  Contact,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(JobSearch);

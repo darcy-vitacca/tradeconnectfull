@@ -29,8 +29,6 @@ class ImageCarousel extends Component {
     }
   };
   sendMessageToInbox = (userId) => {
-    console.log("here");
-    console.log(userId);
     this.props.sendMessage(userId.userId, userId.handle);
   };
 
@@ -66,10 +64,6 @@ class ImageCarousel extends Component {
         <div className="contactPersonBtn">
           <button
             id="contactPersonButton"
-            // onClick={this.sendMessageToInbox({
-            //   userId: this.props.userId,
-            //   handle: this.props.handle,
-            // })}
             onClick={()=>{this.sendMessageToInbox({
                 userId: this.props.userId,
                 handle: this.props.handle,

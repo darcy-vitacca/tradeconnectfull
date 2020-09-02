@@ -14,7 +14,7 @@ const SkillsProfile = (props) => {
     return console.log("error");
   }
   return arrayRender.map((val) => {
-    return <li key={uuid()}>{val}</li>;
+    return <li className="skillsListItems"key={uuid()}>{val}</li>;
   });
 };
 
