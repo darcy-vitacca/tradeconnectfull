@@ -31,6 +31,7 @@ const {
   forgotPassword,
   updateEmail,
   updatePassword,
+  uploadFile
 } = require("./handlers/users");
 const { getProfile } = require("./handlers/profile");
 const fbAuth = require("./util/fbAuth");
@@ -43,17 +44,17 @@ app.post("/createjob", FBAuth, createNewJob); //create new job
 app.delete("/deletejob/:jobId", FBAuth, deleteJob); //remove job
 app.get("/jobdashboard/:userid", FBAuth, jobDashboard);
 
+//PROFILE ROUTES
 app.get("/getprofile/:userId", getProfile); //get one profile
 app.post("/searchemployee", searchEmployees); //search people
 app.post("/createprofile", FBAuth, addProfile); //add profile
 app.delete("/deleteprofile/:profileId", FBAuth, deleteProfile);
 
-//TODO: get inbox
+//MESSAGING
 app.get("/getinbox", fbAuth, getInbox);
 app.post("/sendmessage", fbAuth, sendMessage);
 app.delete("/deletemessage/:messageid/:inboxmethod", fbAuth, deleteMessage);
-//TODO: send email
-//TODO: Delete email from your inbox
+
 
 //USER ROUTES
 app.post("/login", login);
@@ -63,6 +64,7 @@ app.post("/updatepassword", FBAuth, updatePassword);
 app.post("/user", FBAuth, addUserDetails);
 app.post("/forgotpassword", forgotPassword);
 app.post("/user/image", FBAuth, uploadImage);
+app.post("/user/file", FBAuth, uploadFile);
 app.get("/user", FBAuth, getAuthenticatedUser);
 app.delete("/delete/:userId/:handle", FBAuth, deleteUser);
 

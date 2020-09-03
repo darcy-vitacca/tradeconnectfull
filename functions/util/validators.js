@@ -110,7 +110,7 @@ exports.passwordUpdate = (data) => {
   //Check all
   if (data.newPassword !== data.confirmPassword)
     errors.confirmPassword = "Passwords must match";
- console.log(data)
+  console.log(data);
   return {
     errors,
     valid: Object.keys(errors).length === 0 ? true : false,
@@ -217,7 +217,8 @@ exports.reduceProfileDetails = (data) => {
       if (
         !isEmpty(doc["company"]) &&
         !isEmpty(doc["date"]) &&
-        !isEmpty(doc["text"])
+        !isEmpty(doc["text"]) &&
+        !isEmpty(doc["imageUrl"])
       ) {
         expArr.push(doc);
       } else {

@@ -58,7 +58,7 @@ exports.sendMessage = (request, response) => {
 exports.getInbox = (request, response) => {
   let inboxAll = [];
   let sentAll = [];
-  let errors = {}
+  let errors = {};
   console.log(request.user.uid);
   //Inbox
   db.collection("messages")
@@ -67,7 +67,6 @@ exports.getInbox = (request, response) => {
     .orderBy("createdAt", "desc")
     .get()
     .then((data) => {
-      console.log("Here1");
 
       if (data.size > 0) {
         data.forEach((entry) => {
@@ -80,26 +79,23 @@ exports.getInbox = (request, response) => {
             attachments: entry.data().attachments,
             senderHandle: entry.data().senderHandle,
             senderId: entry.data().senderId,
-            recipientHandle:  entry.data().recipientHandle,
+            recipientHandle: entry.data().recipientHandle,
             recipientId: entry.data().recipientId,
           });
         });
       }
-      console.log(inboxAll)
+      console.log(inboxAll);
       if (inboxAll === undefined || inboxAll.length === 0) {
         inboxAll = "Inbox empty";
-        console.log("Here2");
         return sentItemCheck();
       } else {
-          console.log("Here3");
         return sentItemCheck();
       }
     })
     .catch((err) => {
       console.error(err);
-      errors = err.code
+      errors = err.code;
       return sentItemCheck();
-      return response.status(500).json({ error: err.code });
     });
 
   // Sent
@@ -110,8 +106,7 @@ exports.getInbox = (request, response) => {
       .orderBy("createdAt", "desc")
       .get()
       .then((data) => {
-        console.log("Here4");
-
+        console.log(data.size);
         if (data.size > 0) {
           data.forEach((entry) => {
             // console.log(entry);
@@ -123,24 +118,21 @@ exports.getInbox = (request, response) => {
               attachments: entry.data().attachments,
               senderHandle: entry.data().senderHandle,
               senderId: entry.data().senderId,
-              recipientHandle:  entry.data().recipientHandle,
+              recipientHandle: entry.data().recipientHandle,
               recipientId: entry.data().recipientId,
             });
           });
-          console.log(sentAll)
-          if (sentAll === undefined || sentAll.length === 0) {
-            sentAll = "No sent items";
-            console.log("Here5");
-            return response.json({ inboxAll ,sentAll});
-          } else {
-            console.log("Here6");
-            return response.json({ inboxAll ,sentAll});
-          }
+        }
+        if (sentAll === undefined || sentAll.length === 0) {
+          sentAll = "No sent items";
+          return response.json({ inboxAll, sentAll });
+        } else {
+          return response.json({ inboxAll, sentAll });
         }
       })
       .catch((err) => {
         console.error(err);
-        return response.status(500).json({ error: errors ? (errors):(err.code) });
+        return response.status(500).json({ error: errors ? errors : err.code });
       });
   };
 };

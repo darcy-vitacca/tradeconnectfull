@@ -122,9 +122,13 @@ exports.forgotPassword = (request, response) => {
       return response.json({ message: "Password reset email sent!" });
     })
     .catch((error) => {
-      return response
-        .status(403)
-        .json({ error: "Wrong credentials please try again." });
+      if (error.code === "auth/user-not-found") {
+        return response.status(403).json({ error: "User not found." });
+      } else {
+        return response
+          .status(403)
+          .json({ error: "Wrong credentials please try again." });
+      }
     });
 };
 //UPDATE PASSWORD
@@ -183,7 +187,7 @@ exports.updateEmail = (request, response) => {
     email: request.body.newEmail,
     password: request.body.password,
     oldEmail: request.body.oldEmail,
-    handle: request.body.handle
+    handle: request.body.handle,
   };
 
   const { valid, errors } = emailUpdate(emailReq);
@@ -537,10 +541,6 @@ exports.getAuthenticatedUser = (request, response) => {
     });
 };
 
-//TODO:
-//check for duplicate images
-////limit size and amount images
-
 //UPLOAD IMAGES
 exports.uploadImage = (request, response) => {
   //path is a default package from node same with os]
@@ -599,7 +599,7 @@ exports.uploadImage = (request, response) => {
           })
       );
     });
-    Promise.allSettled(promises) // .then((results) => results.forEach((result) => console.log(result.status)))
+    Promise.allSettled(promises)
       .then(() => {
         console.log(imageUrls);
         return response.json({
@@ -611,17 +611,81 @@ exports.uploadImage = (request, response) => {
         console.error(err);
         return response.status(500).json({ error: err.code });
       });
-    // //construct an image url to add to our users
-    // .then(() => {
-    //   // alt media allows it to be shown in the broswer without it it gets downloaded and not shown
-    //   const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media&token=${generatedToken}`;
-
-    //   //we need to add the image to our user document so because we use FBAuth we can get access to the user document becuase they have already been authenticated and logged in and can then retrun the users section to add the image to. Because imageURL doesn't exsist it wil create it so you use the firebasfunction update which will take a key value to update
-    //   return db
-    //     .doc(`/users/${request.user.handle}`)
-    //     .update({ imageUrl: imageUrl });
-    // })
   });
+  busboy.end(request.rawBody);
+};
+//UPLOAD FILES
+
+exports.uploadFile = (request, response) => {
+  const BusBoy = require("busboy");
+  const path = require("path");
+  const os = require("os");
+  const fs = require("fs");
+  const busboy = new BusBoy({ headers: request.headers });
+  let fileToBeUploaded = {};
+  let filesToBeUploaded = [];
+  let fileUrl;
+  let fileUrls = [];
+  let fileName;
+  let fileNameFinal;
+
+  let generatedToken;
+
+  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+    generatedToken = uuid();
+    console.log(filename);
+    fileNameFinal = filename
+
+    const fileName = filename.split(".")[filename.split(".").length - 1];
+    finalFileName = `${Math.round(
+      Math.random() * 100000000000
+    )}.${fileName}`;
+
+    const filepath = path.join(os.tmpdir(), finalFileName);
+    console.log(fileName);
+    console.log(filepath);
+
+    // now we have an object created we can use the filesystem library to create the image
+    fileToBeUploaded = { filepath, mimetype };
+    file.pipe(fs.createWriteStream(filepath));
+    filesToBeUploaded.push(fileToBeUploaded);
+    fileUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${finalFileName}?alt=media&token=${generatedToken}`;
+    fileUrls.push(fileUrl);
+  });
+  //this is the finish event once the file has been created
+  busboy.on("finish", () => {
+    let promises = [];
+    filesToBeUploaded.forEach((doc, index) => {
+      promises.push(
+        admin
+          .storage()
+          .bucket(`${config.storageBucket}`)
+          .upload(doc.filepath, {
+            resumable: false,
+            metadata: {
+              metadata: {
+                contentType: doc.mimetype,
+                firebaseStorageDownloadTokens: generatedToken,
+              },
+            },
+          })
+      );
+    });
+    Promise.allSettled(promises)
+      .then(() => {
+        console.log(fileUrls);
+        return response.json({
+          message: "File uploaded successfully",
+          fileUrls: fileUrls,
+          filename : fileNameFinal
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+      });
+  });
+
   busboy.end(request.rawBody);
 };
 
