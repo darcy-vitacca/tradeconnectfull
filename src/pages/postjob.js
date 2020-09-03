@@ -99,7 +99,7 @@ class PostJob extends Component {
       if (e.target.type !== "file") {
         let fullJob = [...this.state.fullJob];
         fullJob[e.target.dataset.id][e.target.name] = e.target.value;
-        this.setState({ fullJob });
+        this.setState({ fullJob }, console.log(this.state));
       }
     }
   };
@@ -174,7 +174,6 @@ class PostJob extends Component {
   };
   handleImageChange = (e) => {
     let target = e.target;
-    // let fullJob = [...this.state.fullJob];
     const image = e.target.files[0];
     if (image) {
       //send to server
@@ -294,9 +293,9 @@ class PostJob extends Component {
                         data-id="0"
                         required
                       >
-                        <option disabled selected hidden>
-                          Trade Classification
-                        </option>
+                        <option value="" disabled selected hidden>
+                        Trade Classification
+                      </option>
                         {classifcations.map((classifcation) => {
                           return (
                             <option key={uuid()} value={classifcation}>

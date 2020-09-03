@@ -15,27 +15,27 @@ import PeopleSearchCard from "../components/employee_search/employee_search";
 import { uuid } from "uuidv4";
 import { ScaleLoader } from "react-spinners";
 //Drop downs
-const {ClassificationList, StatesList} = require("../util/dropdowns") 
-
+const { ClassificationList, StatesList } = require("../util/dropdowns");
 
 class EmployeeSearch extends Component {
-  state = {
-    errors: [],
-    item : 0,
-    currItem : "",
-    peopleSearchInput: [
-      {
-        name: "",
-        tradeClassification: "",
-        state: "",
-      },
-    ],
-    classifcations: ClassificationList,
-    stateList : StatesList
-  };
+  constructor() {
+    super();
+    this.state = {
+      errors: [],
+      peopleSearchInput: [
+        {
+          name: "",
+          tradeClassification: "",
+          state: "",
+        },
+      ],
+      classifcations: ClassificationList,
+      stateList: StatesList,
+    };
+  }
   //
   componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
+    if (nextProps.UI.errors !== null) {
       this.setState({ errors: nextProps.UI.errors });
     }
   }
@@ -48,32 +48,52 @@ class EmployeeSearch extends Component {
   handleChange = (e) => {
     let peopleSearchInputState = [...this.state.peopleSearchInput];
     peopleSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
+    this.setState({ peopleSearchInput: peopleSearchInputState });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     employeeSearch(this.state, this.props);
   };
+  clearSearch = () => {
+  
+    this.setState({
+      errors: [],
+      peopleSearchInput: [
+        {
+          name: "",
+          tradeClassification: "",
+          state: "",
+        },
+      ],
+    });
+    this.props.pageChangeErrorClear();
+  };
 
   render() {
+    let recentProfileMarkup = this.props.data.employees ? (
+      this.props.data.employees.map((profile) => (
+        <PeopleSearchCard
+          key={profile.userId}
+          profile={profile}
+          history={this.props.history}
+        />
+      ))
+    ) : (
+      <p>...loading</p>
+    );
     const {
       data: { employees },
       UI: { loading, errors },
     } = this.props;
-    let { classifcations , stateList} = this.state;
-    let recentProfileMarkup = this.props.data.employees ? (
-      this.props.data.employees.map((profile) => (
-        <PeopleSearchCard key={profile.userId} profile={profile} history={this.props.history}/>
-      ))
-    ) : (
-      <h1>here</h1>
-    );
+    let { classifcations, stateList } = this.state;
+    let { name, tradeClassification, state } = this.state.peopleSearchInput[0];
     return (
-      <div className="peopleSearchBody" key={uuid()}>
+      <div className="peopleSearchBody">
         <div className="search">
           <div className="peopleSearchBarSection">
-            <h1 className="peopleSearchHeader">People Search</h1>
-            <div className="peopleSearchBar">
+            <h1 className="peopleSearchHeader">Employee Search</h1>
+            <div className="peopleSearchBar ">
               <form
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
@@ -84,8 +104,9 @@ class EmployeeSearch extends Component {
                     <label>Name</label>
                     <input
                       type="search"
-                      data-id="0"
                       name="name"
+                      value={name}
+                      data-id="0"
                       placeholder="Name"
                       className="searchTradeJobs"
                     ></input>
@@ -97,6 +118,7 @@ class EmployeeSearch extends Component {
                       name="tradeClassification"
                       className="searchPeopleBar"
                       data-id="0"
+                      value={tradeClassification}
                     >
                       <option value="" disabled selected hidden>
                         Trade Classification
@@ -117,6 +139,7 @@ class EmployeeSearch extends Component {
                       name="state"
                       data-id="0"
                       className="searchTradeJobs"
+                      value={state}
                     >
                       <option value="" disabled selected hidden>
                         State
@@ -129,7 +152,6 @@ class EmployeeSearch extends Component {
                           </option>
                         );
                       })}
-                  
                     </select>
                   </div>
                 </div>
@@ -138,9 +160,18 @@ class EmployeeSearch extends Component {
                     <div className="errorsMessage">{errors.error}</div>
                   ) : null}
                 </div>
-                <div className="peopleSearchBottom"></div>
+               
                 <div className="applyNowBtn">
+               
+              
                   <button className="peopleToggleButton">Search</button>
+                  <img
+                      className="clearSearchIcon"
+                      src={require("../images/deletedash.png")}
+                      alt="profile"
+                      onClick={this.clearSearch}
+                    ></img>{" "}
+                
                 </div>
               </form>
             </div>
@@ -186,18 +217,14 @@ class EmployeeSearch extends Component {
               </div>
             )
           }
-           <div className="spinner">
-                  {loading === true ? (
-                    <div>
-                      {" "}
-                      <ScaleLoader
-                        className="spinner"
-                        size={240}
-                        loading
-                      />{" "}
-                    </div>
-                  ) : null}{" "}
-                </div>
+          <div className="spinner">
+            {loading === true ? (
+              <div>
+                {" "}
+                <ScaleLoader className="spinner" size={240} loading />{" "}
+              </div>
+            ) : null}{" "}
+          </div>
         </div>
       </div>
     );

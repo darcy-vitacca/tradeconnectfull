@@ -21,18 +21,17 @@ const exp = (props) => {
             required
           ></input>
           <h5>Company Logo Image</h5>
-           <input
-                type="file"
-                className="expCardSec"
-                name="imageUrl"
-                onChange={props.imageUploadFunc}
-                data-id={idx}
-                placeholder="Company logo image"
-                id="expImageUrl"
-              ></input>
-<h5>Period Worked</h5>
+          <input
+            type="file"
+            className="expCardSec"
+            name="imageUrl"
+            onChange={props.imageUploadFunc}
+            data-id={idx}
+            placeholder="Company logo image"
+            id="expImageUrl"
+          ></input>
+          <h5>Period Worked</h5>
           <div className="periodWorkedArea">
-            
             <div className="periodWorked">
               <select
                 name="date1"
@@ -102,20 +101,20 @@ const exp = (props) => {
             </div>
             <div className="btnExpCont">
               {idx === 0 ? (
-                <button
+                <img
+                  className="clearSearchIcon"
+                  src={require("../../../images/plusIcon.png")}
+                  alt="profile"
+                  className="dynamicButtons"
                   onClick={() => props.add(props)}
-                  type="button"
-                  className="expBtnPlus"
-                >
-                  +
-                </button>
+                ></img>
               ) : (
-                <button
-                  className="expBtnMinus"
+                <img
+                  className="dynamicButtons"
+                  src={require("../../../images/deletedash.png")}
+                  alt="profile"
                   onClick={() => props.delete(val)}
-                >
-                  -
-                </button>
+                ></img>
               )}
             </div>
           </div>
@@ -133,7 +132,9 @@ const exp = (props) => {
               className="createProfileTextAreas"
               placeholder="A description of experience and work done by you as well as your role in the company...."
             ></textarea>
-            <p id={`experienceText${idx}Label`} className="inputLengthLabels">0/600</p>
+            <p id={`experienceText${idx}Label`} className="inputLengthLabels">
+              0/600
+            </p>
           </div>
         </div>
       </div>

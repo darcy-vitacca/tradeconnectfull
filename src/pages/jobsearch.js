@@ -50,16 +50,32 @@ class JobSearch extends Component {
   handleChange = (e) => {
     let jobSearchInputState = [...this.state.jobSearchInput];
     jobSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
+    this.setState({ jobSearchInput: jobSearchInputState });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     jobSearch(this.state, this.props);
   };
+  clearSearch = () => {
+    this.setState({
+      errors: [],
+      jobSearchInput: [
+        {
+          keywords: "",
+          tradeClassification: "",
+          state: "",
+        },
+      ],
+    });
+    this.props.pageChangeErrorClear();
+  };
 
   render() {
     let recentJobsMarkup = this.props.data.jobs ? (
-      this.props.data.jobs.map((job) => <JobCard key={job.jobId} job={job} history={this.props.history}/>)
+      this.props.data.jobs.map((job) => (
+        <JobCard key={job.jobId} job={job} history={this.props.history} />
+      ))
     ) : (
       <p>Loading...</p>
     );
@@ -67,6 +83,7 @@ class JobSearch extends Component {
       UI: { loading, errors },
     } = this.props;
     let { classifcations, stateList } = this.state;
+    let { keywords, tradeClassification, state } = this.state.jobSearchInput[0];
     return (
       // search bar
       <div className="jobSearchBody" key={uuid}>
@@ -85,6 +102,7 @@ class JobSearch extends Component {
                     <input
                       type="search"
                       name="keywords"
+                      value={keywords}
                       data-id="0"
                       placeholder="Enter Job Keywords"
                       className="searchTradeJobs"
@@ -97,6 +115,7 @@ class JobSearch extends Component {
                       name="tradeClassification"
                       className="searchTradeJobs"
                       data-id="0"
+                      value={tradeClassification}
                     >
                       <option value="" disabled selected hidden>
                         Trade Classification
@@ -118,6 +137,7 @@ class JobSearch extends Component {
                       name="state"
                       className="searchTradeJobs"
                       data-id="0"
+                      value={state}
                     >
                       <option value="" disabled selected hidden>
                         State
@@ -138,8 +158,15 @@ class JobSearch extends Component {
                     <div className="errorsMessage">{errors.error}</div>
                   ) : null}
                 </div>
-                <div className="jobSearchBarBottom">
+
+                <div className="applyNowBtn">
                   <button className="jobToggleButton">Search</button>
+                  <img
+                    className="clearSearchIcon"
+                    src={require("../images/deletedash.png")}
+                    alt="profile"
+                    onClick={this.clearSearch}
+                  ></img>{" "}
                 </div>
               </form>
             </div>

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const relativeTime = require("dayjs/plugin/relativeTime");
 const InboxView = (props, idx) => {
-  // console.log(props);
+  console.log(props)
   dayjs.extend(relativeTime);
   let {
     recipientHandle,
@@ -23,7 +23,11 @@ const InboxView = (props, idx) => {
         <form onSubmit={props.sendEmail} onChange={props.handleChange}>
           <div className="viewEmailHeader">
             <p className="emailFontView">
-              {!messageState ? (<b>Send a message to :</b>) : (<b>Replying to :</b>)} 
+              {!messageState ? (
+                <b>Send a message to :</b>
+              ) : (
+                <b>Replying to :</b>
+              )}
               <span>{recipientHandle}</span>
             </p>
             <div>
@@ -62,10 +66,15 @@ const InboxView = (props, idx) => {
           <div className="replyEmailFooter">
             <p className="emailFontView">
               <b>Add attachments : </b>{" "}
-              <input data-id={idx} name="attachments" type="file"></input>
+              <input
+                data-id={idx}
+                name="attachments"
+                type="file"
+                onChange={props.handleFileUpload}
+              ></input>
             </p>
             <button type="submit" className="sendEmailButton">
-            {!messageState ?  ("Send"): ("Reply")}
+              {!messageState ? "Send" : "Reply"}
             </button>
           </div>
 
@@ -122,7 +131,7 @@ const InboxView = (props, idx) => {
           <div className="replyEmailFooter">
             <p className="emailFontView">
               <b>Add attachments : </b>{" "}
-              <input data-id={idx} name="attachments" type="file"></input>
+              <input data-id={idx} name="attachments" type="file" onChange={props.handleFileUpload}></input>
             </p>
             <button type="submit" className="sendEmailButton">
               Reply

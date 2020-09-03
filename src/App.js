@@ -28,21 +28,20 @@ import axios from "axios";
 //Upcoming features
 //applicants and view count record so it can be view
 //Rename dropdowns to not miss anything
+//Need to handle after 1hr session logging out
+//Store resumes in db
 
-
-
-//TODO: Token expiring need to make the token better
-//TODO: maybe delete? safe?
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
-  if (decodedToken * 1000 < Date.now()) {
+  if (decodedToken.exp * 1000 < Date.now()) {
     store.dispatch(logoutUser());
-    window.location.href = "/login";
+    window.location.href ="/login"
   } else {
     store.dispatch({ type: SET_AUTHENTICATED });
     axios.defaults.headers.common["Authorization"] = token;
     store.dispatch(getUserData());
+    
   }
 }
 function App() {
@@ -50,7 +49,6 @@ function App() {
     <Provider store={store}>
       <Router>
         <div className="container">
-          {/* <Nav /> */}
           <Route  component={Nav} />
           <div className="AppBody">
             <Switch>
@@ -59,7 +57,7 @@ function App() {
               <AuthRoute path="/signup" component={Signup} />
               <Route path="/jobsearch" component={JobSearch} />
               <Route path="/jobdashboard" component={JobDashboard} />
-              <Route path="/peoplesearch" component={EmployeeSearch} />
+              <Route path="/peoplesearch" component={EmployeeSearch}  />
               <Route path="/myprofile" component={MyProfile} />
               <Route path="/contact" component={Contact} />
               <Route path="/inbox" component={Inbox} />

@@ -83,7 +83,6 @@ export function jobSearch(state, props) {
 
     //trade only search
   } else if (searchInput.tradeClassification !== "") {
-    console.log(searchInput.tradeClassification);
     const searchReq = {
       keywords: "",
       trade: searchInput.tradeClassification,

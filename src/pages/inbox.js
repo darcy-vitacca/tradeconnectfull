@@ -10,7 +10,8 @@ import {
   getInbox,
   deleteMessage,
   sendMessage,
-  clearContact
+  clearContact,
+  uploadFile,
 } from "../redux/actions/userActions";
 //Functions
 //Packages
@@ -34,6 +35,7 @@ class Inbox extends Component {
     this.viewEmail = this.viewEmail.bind(this);
     this.replyEmail = this.replyEmail.bind(this);
     this.clickOnDelete = this.clickOnDelete.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
 
     this.state = {
       inboxState: false,
@@ -48,7 +50,12 @@ class Inbox extends Component {
           recipientHandle: "",
           subject: "",
           body: "",
-          attachments: [],
+          attachments: [
+            {
+              attachment: "",
+              filename: "",
+            },
+          ],
         },
       ],
     };
@@ -70,6 +77,38 @@ class Inbox extends Component {
       this.props.clearContact();
     }
   }
+  handleFileUpload = (e) => {
+    console.log(e.target.files[0]);
+    const formData = new FormData();
+    formData.append("file", e.target.files[0], e.target.files[0].name);
+    this.props
+      .uploadFile(formData)
+      .then((res) => {
+        let uploadedFile = res;
+        console.log(uploadedFile);
+        console.log(uploadedFile.fileUrls[0]);
+        console.log(uploadedFile.filename);
+        this.setState(
+          (prevState) => ({
+            ...prevState,
+            emailDraft: [
+              {
+                ...prevState.emailDraft[0],
+
+                attachments: [
+                  {
+                    attachment: uploadedFile.fileUrls[0],
+                    filename: uploadedFile.filename,
+                  },
+                ],
+              },
+            ],
+          }),
+          console.log(this.state)
+        );
+      })
+      .catch((err) => console.log(err));
+  };
 
   componentDidMount() {
     this.props.getInbox(this.props.user.credentials.userId);
@@ -103,7 +142,12 @@ class Inbox extends Component {
           createdAt: "",
           subject: "",
           body: "",
-          attachments: [],
+          attachments: [
+            {
+              attachment: "",
+              filename: "",
+            },
+          ],
         },
       ],
     });
@@ -123,7 +167,12 @@ class Inbox extends Component {
             createdAt: email.createdAt,
             subject: "",
             body: `\n\n\n\n-----------------------------------------\nRecieved : ${createdAtFinal}\n${email.body}`,
-            attachments: [],
+            attachments: [
+              {
+                attachment: "",
+                filename: "",
+              },
+            ],
           },
         ],
       });
@@ -140,7 +189,12 @@ class Inbox extends Component {
             createdAt: email.createdAt,
             subject: "",
             body: `\n\n\n\n-----------------------------------------\nRecieved : ${createdAtFinal}\n${email.body}`,
-            attachments: [],
+            attachments: [
+              {
+                attachment: "",
+                filename: "",
+              },
+            ],
           },
         ],
       });
@@ -198,7 +252,12 @@ class Inbox extends Component {
           recipientHandle: "",
           subject: "",
           body: "",
-          attachments: [],
+          attachments: [
+            {
+              attachment: "",
+              filename: "",
+            },
+          ],
         },
       ],
     });
@@ -248,6 +307,7 @@ class Inbox extends Component {
                   handleChange={this.handleChange}
                   closeEmail={this.closeEmail}
                   sendEmail={this.sendEmail}
+                  handleFileUpload={this.handleFileUpload}
                 />
               ) : null}
               <div className="inboxButtons">
@@ -257,7 +317,10 @@ class Inbox extends Component {
                   disabled={inboxState !== true}
                   className="inboxButtonToggle"
                 >
-                  Inbox : {inboxAll !== undefined ? inboxAll.length : 0}
+                  Inbox :{" "}
+                  {inboxAll !== undefined && inboxAll !== "Inbox empty"
+                    ? inboxAll.length
+                    : 0}
                 </button>
                 <button
                   onClick={this.toggleInbox}
@@ -265,7 +328,10 @@ class Inbox extends Component {
                   disabled={inboxState}
                   className="inboxButtonToggle"
                 >
-                  Sent: {sentAll !== undefined ? sentAll.length : 0}{" "}
+                  Sent:{" "}
+                  {sentAll !== undefined && sentAll !== "No sent items"
+                    ? sentAll.length
+                    : 0}{" "}
                 </button>
               </div>
 
@@ -343,7 +409,8 @@ const mapActionsToProps = {
   getInbox,
   deleteMessage,
   sendMessage,
-  clearContact
+  clearContact,
+  uploadFile,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Inbox);

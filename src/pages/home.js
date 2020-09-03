@@ -86,25 +86,19 @@ class Home extends Component {
       let peopleSearchInputState = [...this.state.peopleSearchInput];
       peopleSearchInputState[e.target.dataset.id][e.target.name] =
         e.target.value;
-      console.log(peopleSearchInputState[0]);
     } else if (this.state.searchState === true) {
       let jobSearchInputState = [...this.state.jobSearchInput];
       jobSearchInputState[e.target.dataset.id][e.target.name] = e.target.value;
-      console.log(jobSearchInputState[0]);
     }
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-
     //handle employee search
     if (this.state.searchState === false) {
       employeeSearch(this.state, this.props);
-      // console.log(this.state.jobSearchInput)
-
       //handle job search
     } else if (this.state.searchState === true) {
-      // console.log(this.state.peopleSearchInput)
       jobSearch(this.state, this.props);
     }
   };
@@ -252,14 +246,14 @@ class Home extends Component {
                   <button
                     onClick={() => this.ToggleButton()}
                     disabled={searchState}
-                    className="homeToggleButton"
+                    className="homeSearchButton"
                   >
                     Job Search
                   </button>
                   <button
                     onClick={() => this.ToggleButton()}
                     disabled={searchState !== true}
-                    className="homeToggleButton"
+                    className="homeSearchButton"
                   >
                     Employee Search
                   </button>

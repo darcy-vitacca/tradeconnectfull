@@ -7,7 +7,6 @@ import "../../App.css";
 //Redux
 import { logoutUser } from "../../redux/actions/userActions";
 
-
 //TODO: CHANGE FROM HASH ON LINK
 //TODO: HANDLE CLICK ON MENU MKAE IT DISAPPEAR AND NOT SHOW ON SIGN IN
 class NavFull extends Component {
@@ -44,9 +43,14 @@ class NavFull extends Component {
       }
       this.setState({
         menu: "show-desktop hide-mobile nav-links",
+        avatar: "show-menu",
       });
-    } else if (e.target.id === "avatar") {
-      if (this.state.avatar === "show-menu") {
+    } else if (e.target.id === "avatar" || e.target.id === "avatarItems") {
+      if (this.state.avatar === "show-menu" && e.target.id === "avatarItems") {
+        this.setState({
+          avatar: "hide-menu",
+        });
+      } else if (this.state.avatar === "show-menu") {
         this.setState({
           avatar: "hide-menu",
         });
@@ -55,6 +59,12 @@ class NavFull extends Component {
           avatar: "show-menu",
         });
       }
+    } else if (e.target.id === "home"){
+      this.setState({
+        menu: "show-desktop hide-mobile nav-links",
+        avatar: "show-menu",
+      }, console.log(this.state));
+
     }
   };
 
@@ -107,10 +117,15 @@ class NavFull extends Component {
             </li>
           </Link>
           <div>
-            <div className=" Avatar" id="avatar">
-              <li className="nav-links" id="avatar" onClick={this.handleClick}>
-                DV
-              </li>
+            <div className="Avatar" id="avatar">
+             
+              <img
+              id="avatar"
+              className="Avatar"
+                src={require("../../images/no-img.png")}
+                alt="profile"
+                onClick={this.handleClick}
+              ></img>
             </div>
             <div className={`arrow-up ${this.state.avatar}`}></div>
             <div className={`${this.state.avatar} menu`}>
@@ -156,8 +171,10 @@ class NavFull extends Component {
           <Link to="/">
             <img
               className="logoNav"
+              id="home"
               src={require("../../images/logo.svg")}
               alt="logo"
+              onClick={this.handleClick}
             ></img>
           </Link>
         </div>

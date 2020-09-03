@@ -8,6 +8,7 @@
 }
 .peopleSearchExpandBar p {
   margin-top: -2px;
+  cursor: pointer;
 }
 
 .peopleSearchBarSection {
@@ -22,6 +23,15 @@
   border-bottom-right-radius: 50px;
 }
 
+.clearSearchIcon {
+  height: 30px;
+  width: 30px;
+  background: white;
+  border-radius: 50%;
+  margin: 1em 0;
+  cursor: pointer;
+}
+
 .peopleToggleButton {
   box-shadow: 3px 4px 0px 0px #f3a764;
   background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
@@ -32,6 +42,8 @@
   color: #ffffff;
   padding: 7px 25px;
   margin: 1em;
+  margin-right: 0.5em;
+  cursor: pointer;
 }
 
 .peopleSearchTrade {
@@ -200,19 +212,7 @@
   margin: 0 auto 0 auto;
 }
 
-.skillsListItems {
-  background-color: #e5e5e5;
-  display: flex;
-  flex-wrap: wrap;
-  display: inline-block;
-  padding: 0.5em;
-  margin-right: 0.4em;
-  border-radius: 28px;
-  border: 2px solid #cecece;
-  box-shadow: 0 7px 14px rgba(146, 146, 146, 0.25),
-    0 5px 5px rgba(162, 162, 162, 0.25);
-  margin-bottom: 1.5em;
-}
+
 
 @media only screen and (max-width: 450px) {
   .peopleSearchHead {

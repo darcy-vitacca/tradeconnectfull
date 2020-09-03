@@ -15,20 +15,22 @@ const Education = (props) => {
           value={val.education}
           required
         ></input>
-        
-          {idx === 0 ? (
-            <button
-              onClick={() => props.add(props)}
-              type="button"
-              className="licBtnPlus"
-            >
-              +
-            </button>
-          ) : (
-            <button className="licBtcMinus" onClick={() => props.delete(val)}>
-              -
-            </button>
-          )}
+         {idx === 0 ? (
+                <img
+                  className="clearSearchIcon"
+                  src={require("../../../images/plusIcon.png")}
+                  alt="profile"
+                  className="dynamicButtonsSmall"
+                  onClick={() => props.add(props)}
+                ></img>
+              ) : (
+                <img
+                  className="dynamicButtonsSmall"
+                  src={require("../../../images/deletedash.png")}
+                  alt="profile"
+                  onClick={() => props.delete(val)}
+                ></img>
+              )}
         
       </div>
     );

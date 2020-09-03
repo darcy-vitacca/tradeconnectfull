@@ -81,8 +81,10 @@
   color: #ffffff;
   padding: 7px 25px;
   margin: 1em;
+  margin-right: 0.5em;
+  cursor: pointer;
 }
-button[class="homeToggleButton"]:disabled{
+/* button[class="homeToggleButton"]:disabled{
   box-shadow: 3px 4px 0px 0px #f3a764;
   background: linear-gradient(to bottom, #f2d2b6 5%, #f5b578 100%);
   background-color: #e16b05;
@@ -92,7 +94,7 @@ button[class="homeToggleButton"]:disabled{
   color: #ffffff;
   padding: 7px 25px;
   margin: 1em;
-}
+} */
 /**/
 
 .jobSearchExpandBar {
@@ -107,6 +109,7 @@ button[class="homeToggleButton"]:disabled{
   margin-top: -1px;
   padding-right: 0.6em;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .jobSearchCard {
@@ -263,6 +266,7 @@ button[class="homeToggleButton"]:disabled{
     display: flex;
     justify-content: flex-end;
   }
+
 
 }
 

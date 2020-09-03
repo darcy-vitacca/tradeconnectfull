@@ -207,7 +207,6 @@ class Settings extends Component {
                         onSubmit={this.handleSubmit}
                       >
                         <div className="updateEmails">
-                          <h4>Current email</h4>
                           <h4>New Email</h4>
                           <input
                             type="email"
@@ -224,7 +223,7 @@ class Settings extends Component {
                             placeholder="Enter password to confirm email update"
                           ></input>
                         </div>
-                        <button type="submit">Submit</button>
+                        <button type="submit" className="settingsBtn">Submit</button>
                       </form>
                     ) : null}
 
@@ -258,7 +257,7 @@ class Settings extends Component {
                             placeholder="Confirm new password"
                           ></input>
                         </div>
-                        <button type="submit">Submit</button>
+                        <button type="submit" className="settingsBtn">Submit</button>
                       </form>
                     ) : null}
                   </div>

@@ -80,6 +80,24 @@
   list-style-position: inside;
 }
 
+
+.skillsListItems {
+  background-color: #e5e5e5;
+  display: flex;
+  flex-wrap: wrap;
+  display: inline-block;
+  padding: 0.5em;
+  margin-right: 0.4em;
+  border-radius: 28px;
+  border: 2px solid #cecece;
+  margin-bottom: 1.5em;
+}
+
+.refrencesListItems{
+  list-style: none;
+  margin: 1.2em 0;
+}
+
 .bestWorkLeftImg {
   min-width: 250px;
   /* width:80%; */
@@ -246,6 +264,25 @@
   background-color: #afb4b7;
   color: white;
 }
+
+.dynamicButtonsSmall{
+  width: 21px;
+  height: 21px;
+  border-radius: 20%;
+  border: none;
+  font-weight: 600;
+  margin: 0.4vh;
+}
+.dynamicButtons{
+  width: 34px;
+  height: 34px;
+  border-radius: 20%;
+  border: none;
+  font-weight: 600;
+  margin-top: -2em;
+  cursor: pointer;
+}
+
 
 .arrSkills {
   width: 240px;

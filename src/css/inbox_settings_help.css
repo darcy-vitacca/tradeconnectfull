@@ -96,8 +96,6 @@
 }
 
 button[class="inboxButtonToggle"]:disabled {
-  /* /* margin: 0;
-  padding: 0; */
   background-color: rgb(49, 55, 59);
 }
 
@@ -181,7 +179,18 @@ button[class="inboxButtonToggle"]:disabled {
   margin: 0.5em 0;
 }
 .updatePassword {
-  margin: 1em 0;
+  margin: 0 0 0.2em 0;
+}
+.settingsBtn{
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin:0;
 }
 
 @media only screen and (min-width: 650px) {

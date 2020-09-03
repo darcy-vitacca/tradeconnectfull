@@ -34,20 +34,24 @@ const bestwork = (props) => {
 
               <div className="btnExpCont">
                 {idx === 0 ? (
-                  <button
-                    onClick={() => props.add(props)}
-                    type="button"
-                    className="expBtnPlus"
-                  >
-                    +
-                  </button>
+                   <img
+                   className="clearSearchIcon"
+                   src={require("../../../images/plusIcon.png")}
+                   alt="profile"
+                   className="dynamicButtons"
+                   onClick={() => props.add(props)}
+                  
+                 ></img>
+          
                 ) : (
-                  <button
-                    className="expBtnMinus"
+               
+                    <img
+                    className="dynamicButtons"
+                    src={require("../../../images/deletedash.png")}
+                    alt="profile"
                     onClick={() => props.delete(val)}
-                  >
-                    -
-                  </button>
+                   
+                  ></img>
                 )}
               </div>
             </div>

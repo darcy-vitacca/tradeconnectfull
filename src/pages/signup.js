@@ -25,8 +25,6 @@ class Signup extends Component {
   }
 
   handleSubmit = (event) => {
-    console.log(event);
-
     event.preventDefault();
     this.setState({
       loading: true,
@@ -48,7 +46,9 @@ class Signup extends Component {
   };
 
   render() {
-    const { UI : {loading}} = this.props;
+    const {
+      UI: { loading },
+    } = this.props;
     const { errors } = this.state;
     return (
       <div className="signupCont">
@@ -57,87 +57,89 @@ class Signup extends Component {
           src={require("../images/logo.jpg")}
           alt="logo"
         ></img>
-          <h1>Signup</h1>
-          <form onSubmit={this.handleSubmit}>
-            <div className="signupSection">
+        <h1>Signup</h1>
+        <form onSubmit={this.handleSubmit}>
+          <div className="signupSection">
             <p className="loginSignupLabel">Email</p>
-              <input
-                placeholder="Email"
-                className="emailSignup"
-                id="email"
-                name="email"
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              ></input>
-              <span className="helper-text">{errors.email}</span>
-            </div>
+            <input
+              placeholder="Email"
+              className="emailSignup"
+              id="email"
+              name="email"
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+            ></input>
+            <span className="helper-text">{errors.email}</span>
+          </div>
 
-            {/* password */}
-            <div className="passwordSection">
-            <p className="loginSignupLabel">Password (8 characters in length)</p>
-              <input
-                placeholder="Password"
-                className="passwordSignup"
-                id="password"
-                name="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              ></input>
-              <span className="helper-text">{errors.password}</span>
-            </div>
-            {/* confrim password */}
-            <div className="passwordSection">
+          {/* password */}
+          <div className="passwordSection">
+            <p className="loginSignupLabel">
+              Password (8 characters in length)
+            </p>
+            <input
+              placeholder="Password"
+              className="passwordSignup"
+              id="password"
+              name="password"
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            ></input>
+            <span className="helper-text">{errors.password}</span>
+          </div>
+          {/* confrim password */}
+          <div className="passwordSection">
             <p className="loginSignupLabel">Confirm Password</p>
-              <input
-                placeholder="Confirm Password"
-                className="passwordSignup"
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                value={this.state.confirmPassword}
-                onChange={this.handleChange}
-              ></input>
-              <span className="helper-text">{errors.confirmPassword}</span>
-            </div>
-            {/* Handle */}
-            <div className="passwordSection">
+            <input
+              placeholder="Confirm Password"
+              className="passwordSignup"
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              value={this.state.confirmPassword}
+              onChange={this.handleChange}
+            ></input>
+            <span className="helper-text">{errors.confirmPassword}</span>
+          </div>
+          {/* Handle */}
+          <div className="passwordSection">
             <p className="loginSignupLabel">Username</p>
-              <input
-                placeholder="Username"
-                className="handle"
-                id="handle"
-                name="handle"
-                type="text"
-                value={this.state.handle}
-                onChange={this.handleChange}
-              ></input>
-              <span className="helper-text">{errors.handle}</span>
-            </div>
+            <input
+              placeholder="Username"
+              className="handle"
+              id="handle"
+              name="handle"
+              type="text"
+              value={this.state.handle}
+              onChange={this.handleChange}
+            ></input>
+            <span className="helper-text">{errors.handle}</span>
+          </div>
 
-            <div className="submitSpinner">
-              <button type="submit" class="submitSignup" disabled={loading}>
-                Signup
-              </button>
-              <div className="spinner">
-                {loading === true ? (
-                  <div>
-                    {" "}
-                    <ScaleLoader className="spinner" size={240} loading />{" "}
-                  </div>
-                ) : null}{" "}
-              </div>
+          <div className="submitSpinner">
+            <button type="submit" class="submitSignup" disabled={loading}>
+              Signup
+            </button>
+            <div className="spinner">
+              {loading === true ? (
+                <div>
+                  {" "}
+                  <ScaleLoader className="spinner" size={240} loading />{" "}
+                </div>
+              ) : null}{" "}
             </div>
+          </div>
 
-            <div className="signupErrorsGeneral">
-              <span className="helper-text">{errors.general}</span>
-            </div>
-          </form>
-          <span>
-            Already have an account? Login <Link to="/login">here</Link>
-          </span>
-        </div>
+          <div className="signupErrorsGeneral">
+            <span className="helper-text">{errors.general}</span>
+          </div>
+        </form>
+        <span>
+          Already have an account? Login <Link to="/login">here</Link>
+        </span>
+      </div>
     );
   }
 }

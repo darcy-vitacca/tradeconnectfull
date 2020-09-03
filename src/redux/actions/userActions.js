@@ -56,6 +56,7 @@ export const loginUser = (userData, history) => (dispatch) => {
       //We need to pass the type clear errors in case there is any errors in our form then redirect
       dispatch({ type: CLEAR_ERRORS });
       //this is a method we use to push a path to go to it this will redirect
+
       history.push("/myprofile");
     })
     .catch((err) => {
@@ -70,13 +71,16 @@ export const loginUser = (userData, history) => (dispatch) => {
 
 //LOGOUT USER
 export const logoutUser = (history) => (dispatch) => {
+  console.log(history)
   //THIS REMOVES THE TOKEN FROM THE STORAGE
   localStorage.removeItem(`FBIdToken`);
   //THIS REMOVED THE AUTH HEADER WHICH HAS BEEN SET
   delete axios.defaults.headers.common["Authorization"];
   //THIS CHANGES AUTHENTICATED TO FALSE AND DISPATCHES IT
   dispatch({ type: SET_UNAUTHENTICATED });
-  history.push("/login");
+  if (history) {
+    history.push("/login");
+  }
 };
 
 //FORGOT PASSWORD
@@ -189,9 +193,9 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     .post("/signup", newUserData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
-      // dispatch(getUserData());
+      dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
-      history.push("/login");
+      history.push("/myprofile");
     })
     .catch((err) => {
       console.log(err);
@@ -405,11 +409,25 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
 //UPLOAD IMAGE
 export const uploadImage = (formData) => (dispatch) => {
   // dispatch({ type: LOADING_USER });
+  console.log(formData)
   return axios
     .post("/user/image", formData)
     .then((res) => {
       console.log("here");
       return res.data.imageUrls;
+    })
+    .catch((err) => console.log(err));
+};
+
+//UPLOAD FILE
+export const uploadFile = (formData) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  console.log(formData)
+  return axios
+    .post("/user/file", formData)
+    .then((res) => {
+      console.log("here");
+      return res.data
     })
     .catch((err) => console.log(err));
 };
@@ -456,11 +474,6 @@ export const deleteMessage = (messageId, inboxMethod) => (dispatch) => {
 export const sendMessage = (message) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   dispatch({ type: CLEAR_CONTACT });
-  // dispatch({
-  //   type: SEND_ITEM_INBOX,
-  //   payload: messageId,
-  //   inboxMethod: inboxMethod,
-  // });
   axios
     .post(`/sendmessage`, message)
     .then((res) => {

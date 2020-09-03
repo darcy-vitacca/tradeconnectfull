@@ -19,18 +19,21 @@ const references = (props) => {
         <div className="referencesInfo">
         
         {idx === 0 ? (
-          <button
-            onClick={() => props.add(props)}
-            type="button"
-            className="licBtnPlus"
-          >
-            +
-          </button>
-        ) : (
-          <button className="licBtcMinus" onClick={() => props.delete(val)}>
-            -
-          </button>
-        )}
+                <img
+                  className="clearSearchIcon"
+                  src={require("../../../images/plusIcon.png")}
+                  alt="profile"
+                  className="dynamicButtonsSmall"
+                  onClick={() => props.add(props)}
+                ></img>
+              ) : (
+                <img
+                  className="dynamicButtonsSmall"
+                  src={require("../../../images/deletedash.png")}
+                  alt="profile"
+                  onClick={() => props.delete(val)}
+                ></img>
+              )}
         <p id={`references${idx}Label`} className="inputLengthLabels">0/500</p>
 
         </div>
