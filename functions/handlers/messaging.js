@@ -16,6 +16,29 @@ const { profile } = require("console");
 const { json, response } = require("express");
 const { user } = require("firebase-functions/lib/providers/auth");
 
+//CONTACT FORM
+
+exports.contactForm = (request, response) => {
+  console.log(request.body);
+  const templateParams = {
+    firstName: request.body.firstName,
+    lastName: request.body.lastName,
+    email: request.body.email,
+    state: request.body.state,
+    currentEmployer: request.body.currentEmployer ?(request.body.currentEmployer):(""),
+    enquiry: request.body.enquiry,
+  };
+  console.log(templateParams)
+  emailjs.send('default_service','template_3t7llpv', templateParams, 'tradeconnect')
+    .then((response) => {
+      console.log('SUCCESS!', response.status, response.text);
+    //  return response.json({ message: `Message Successful` });
+    }, (err) => {
+      console.log('FAILED...', error);
+      // return response.status(500).json({ error: `Message Failed` });
+    });
+};
+
 //SEND MESSAGE
 exports.sendMessage = (request, response) => {
   console.log(request.body);
@@ -48,7 +71,7 @@ exports.sendMessage = (request, response) => {
         });
     })
     .catch((err) => {
-      response.status(500).json({ error: "something went wrong" });
+      response.status(500).json({ error: "Something went wrong" });
       console.error(err);
     });
 };
@@ -67,7 +90,6 @@ exports.getInbox = (request, response) => {
     .orderBy("createdAt", "desc")
     .get()
     .then((data) => {
-
       if (data.size > 0) {
         data.forEach((entry) => {
           // console.log(entry);

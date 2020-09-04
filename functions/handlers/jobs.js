@@ -12,7 +12,6 @@ exports.getJob = (request, response) => {
         return response.status(404).json({ error: "Job not found" });
       }
       jobData = doc.data();
-      console.log(jobData);
       return response.json({ message: "Job retrived", jobData: jobData });
     })
     .catch((err) => {
@@ -24,15 +23,12 @@ exports.getJob = (request, response) => {
 
 //JOB DASHBOARD
 exports.jobDashboard = (request, response) =>{
-  // console.log(request.params.userid)
-  // console.log(request.params)
  let jobsAll = [];
   db.collection("job")
   .where("userId", "==", request.params.userid)
   .orderBy("createdAt", "desc")
   .get()
   .then((data) => {
-    console.log("Here")
 
     if (data.size > 0) {
     data.forEach((entry) =>{
@@ -81,8 +77,6 @@ exports.jobDashboard = (request, response) =>{
 
 //SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS//SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS //SEARCH JOBS  //SEARCH JOBS
 exports.searchJobs = (request, response) => {
-  console.log("here");
-  console.log(request.body);
   let jobsAll = [];
   //jobs search func
   jobSearch = (data) => {
@@ -126,7 +120,6 @@ exports.searchJobs = (request, response) => {
   if (
     (request.body.trade && request.body.state && request.body.keywords) !== ""
   ) {
-    console.log("here2");
     const searchReq = {
       keywords: request.body.keywords,
       trade: request.body.trade,
@@ -154,7 +147,6 @@ exports.searchJobs = (request, response) => {
     (request.body.trade && request.body.state) !== "" &&
     request.body.keywords === ""
   ) {
-    console.log("here2");
     const searchReq = {
       trade: request.body.trade,
       state: request.body.state,
@@ -179,7 +171,6 @@ exports.searchJobs = (request, response) => {
     (request.body.trade && request.body.keywords) !== "" &&
     request.body.state === ""
   ) {
-    console.log("here2");
     const searchReq = {
       trade: request.body.trade,
       keywords: request.body.keywords,
@@ -204,7 +195,6 @@ exports.searchJobs = (request, response) => {
     (request.body.keywords && request.body.state) !== "" &&
     request.body.trade === ""
   ) {
-    console.log("here2");
     const searchReq = {
       keywords: request.body.keywords,
       state: request.body.state,
@@ -231,7 +221,6 @@ exports.searchJobs = (request, response) => {
     request.body.keywords !== "" &&
     (request.body.state && request.body.trade) === ""
   ) {
-    console.log("here3");
     const searchReq = {
       keywords: request.body.keywords,
     };

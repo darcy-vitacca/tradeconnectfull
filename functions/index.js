@@ -17,6 +17,7 @@ const {
   getInbox,
   sendMessage,
   deleteMessage,
+  contactForm
 } = require("./handlers/messaging");
 const {
   signup,
