@@ -78,23 +78,28 @@ class Inbox extends Component {
     }
   }
   handleFileUpload = (e) => {
-    console.log(e.target.files[0]);
+    let { recipientId,
+    recipientHandle,
+    subject,
+    body,} = this.state.emailDraft[0]
     const formData = new FormData();
     formData.append("file", e.target.files[0], e.target.files[0].name);
     this.props
       .uploadFile(formData)
       .then((res) => {
         let uploadedFile = res;
-        console.log(uploadedFile);
-        console.log(uploadedFile.fileUrls[0]);
-        console.log(uploadedFile.filename);
+        // console.log(uploadedFile);
+        // console.log(uploadedFile.fileUrls[0]);
+        // console.log(uploadedFile.filename);
         this.setState(
           (prevState) => ({
             ...prevState,
             emailDraft: [
               {
-                ...prevState.emailDraft[0],
-
+                recipientId: recipientId,
+                recipientHandle: recipientHandle,
+                subject: subject,
+                body: body,
                 attachments: [
                   {
                     attachment: uploadedFile.fileUrls[0],
@@ -103,8 +108,7 @@ class Inbox extends Component {
                 ],
               },
             ],
-          }),
-          console.log(this.state)
+          })
         );
       })
       .catch((err) => console.log(err));
@@ -308,6 +312,7 @@ class Inbox extends Component {
                   closeEmail={this.closeEmail}
                   sendEmail={this.sendEmail}
                   handleFileUpload={this.handleFileUpload}
+                  loading={this.props.user.loading}
                 />
               ) : null}
               <div className="inboxButtons">

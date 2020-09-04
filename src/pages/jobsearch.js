@@ -7,6 +7,7 @@ import {
   searchJobs,
   pageChangeErrorClear,
   Contact,
+  clearJobs
 } from "../redux/actions/userActions";
 //Functions
 import { jobSearch } from "../components/jobsearch/jobSearchFunc";
@@ -68,6 +69,7 @@ class JobSearch extends Component {
         },
       ],
     });
+    this.props.clearJobs();
     this.props.pageChangeErrorClear();
   };
 
@@ -228,6 +230,7 @@ const mapActionsToProps = {
   searchJobs,
   pageChangeErrorClear,
   Contact,
+  clearJobs
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(JobSearch);

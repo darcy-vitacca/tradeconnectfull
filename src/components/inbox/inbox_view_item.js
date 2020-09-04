@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const relativeTime = require("dayjs/plugin/relativeTime");
 const InboxView = (props, idx) => {
   dayjs.extend(relativeTime);
+  console.log(props.message.attachments)
   if (props.inboxState === false) {
     return (
       <div className="viewMessageHolder" key={uuid()}>
@@ -35,18 +36,19 @@ const InboxView = (props, idx) => {
         {/* TODO: need to handle file uploads to firebase*/}
         <p className="emailFontView">
           <b>Attachments: </b>{" "}
-          {props.message.attachments.map((val) => {
+          { props.message.attachments.attachment !== "" ? props.message.attachments.map((val) => {
+            console.log(val);
             return (
               <a
-                download="charity_key.pdf"
-                href={val}
+                download={val.attachment}
+                href={val.attachment}
                 target="_blank"
                 key={uuid()}
               >
-                a
+                {val.filename}
               </a>
             );
-          })}
+          }) : null }
         </p>
         <p className="emailFontView">
           Recieved: {dayjs(props.message.createdAt).fromNow()}
@@ -82,18 +84,19 @@ const InboxView = (props, idx) => {
         {/* TODO: need to handle file uploads to firebase*/}
         <p className="emailFontView">
           <b>Attachments: </b>{" "}
-          {props.message.attachments.map((val) => {
+          { props.message.attachments.attachment !== "" ? props.message.attachments.map((val) => {
+            console.log(val);
             return (
               <a
-                download="charity_key.pdf"
-                href={val}
+                download={val.attachment}
+                href={val.attachment}
                 target="_blank"
                 key={uuid()}
               >
-                a
+                {val.filename}
               </a>
             );
-          })}
+          }) : null }
         </p>
         <p className="emailFontView">
           Sent: {dayjs(props.message.createdAt).fromNow()}

@@ -3,6 +3,7 @@ import {
   SET_ERRORS,
   CLEAR_ERRORS,
   LOADING_UI,
+  CLEAR_LOADING,
   SET_AUTHENTICATED,
   LOADING_USER,
   SET_UNAUTHENTICATED,
@@ -81,6 +82,11 @@ export default function (state = initialState, action) {
         ...state,
         loading: true,
       };
+      case CLEAR_LOADING:
+        return {
+          ...state,
+          loading:false,
+        }
     case JOB_DASHBOARD:
       return {
         ...state,

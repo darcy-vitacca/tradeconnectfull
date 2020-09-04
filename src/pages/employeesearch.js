@@ -8,6 +8,7 @@ import { employeeSearch } from "../components/employee_search/employee_search_fu
 import {
   searchEmployee,
   pageChangeErrorClear,
+  clearEmployees
 } from "../redux/actions/userActions";
 //Components
 import PeopleSearchCard from "../components/employee_search/employee_search";
@@ -67,6 +68,7 @@ class EmployeeSearch extends Component {
         },
       ],
     });
+    this.props.clearEmployees();
     this.props.pageChangeErrorClear();
   };
 
@@ -240,6 +242,7 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   searchEmployee,
   pageChangeErrorClear,
+  clearEmployees
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(EmployeeSearch);

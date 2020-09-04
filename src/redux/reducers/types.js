@@ -3,6 +3,7 @@ export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED';
 export const SET_USER = 'SET_USER';
 export const LOADING_USER = 'LOADING_USER';
+export const CLEAR_LOADING = 'CLEAR_LOADING';
 export const SET_PROFILE = 'SET_PROFILE'
 export const DELETE_PROFILE_CREATED = 'DELETE_PROFILE_CREATED';
 export const SET_ERRORS_PROFILE = 'SET_ERRORS_PROFILE';
@@ -12,12 +13,7 @@ export const DELETE_JOB = 'DELETE_JOB'
 export const  EDIT_JOB = 'EDIT_JOB'
 export const  RESET_USER = 'RESET_USER'
 export const  GET_INBOX = 'GET_INBOX'
-export const  CLEAR_INBOX = 'CLEAR_INBOX'
 export const  DELETE_ITEM_INBOX ='DELETE_ITEM_INBOX'
-export const  SEND_ITEM_INBOX ='SEND_ITEM_INBOX'
-
-
-
 
 //UI REDUCER TYPES
 export const SET_ERRORS = 'SET_ERRORS';

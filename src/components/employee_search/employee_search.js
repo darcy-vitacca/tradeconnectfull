@@ -132,6 +132,7 @@ class PeopleSearchCard extends Component {
                     userId={userId}
                     handle={handle}
                     key={uuid()}
+                    history={this.props.history}
                   />
                 </div>
               </div>

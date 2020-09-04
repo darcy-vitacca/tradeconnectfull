@@ -16,9 +16,10 @@ class Nav extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
+    if (nextProps.UI.errors !== null) {
       this.setState({ errors: nextProps.UI.errors });
     }
+    
   }
 
   render() {

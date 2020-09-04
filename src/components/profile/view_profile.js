@@ -149,7 +149,7 @@ class ViewProfile extends Component {
           </div>
           <div className="bestWorkCont">
             <h4>Best Work</h4>
-            <ImageCarousel bestWork={bestWork} />
+            <ImageCarousel bestWork={bestWork} history={this.props.history} />
           </div>
         </div>
       </div>

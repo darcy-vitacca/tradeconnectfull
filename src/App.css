@@ -148,7 +148,7 @@ button[class="homeSearchButton"]:disabled {
 }
 .searchPeopleName {
   width: 80%;
-  max-width: 400px;
+  max-width: 360px;
   margin: 0 auto 0.4em auto;
 }
 .searchHomeLabels {

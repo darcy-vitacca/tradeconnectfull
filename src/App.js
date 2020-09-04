@@ -31,6 +31,8 @@ import axios from "axios";
 //Need to handle after 1hr session logging out
 //Store resumes in db
 
+axios.defaults.baseURL = "https://australia-southeast1-tradeconnect-ab140.cloudfunctions.net/api"
+
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);

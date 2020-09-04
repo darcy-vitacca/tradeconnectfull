@@ -12,8 +12,7 @@ import {
   LOADING_DATA,
   CLEAR_EMPLOYEES,
   CLEAR_JOBS,
-  GET_PROFILE,
-  CLEAR_PROFILE,
+  CLEAR_LOADING,
   SET_PROFILE,
   DELETE_PROFILE_CREATED,
   LOADING_USER,
@@ -26,17 +25,13 @@ import {
   RESET_UI,
   RESET_USER,
   GET_INBOX,
-  CLEAR_INBOX,
   DELETE_ITEM_INBOX,
-  SEND_ITEM_INBOX,
   CONTACT,
   CLEAR_CONTACT,
 } from "../reducers/types";
 import axios from "axios";
-// TODO: WHEN YOU CHANGE PAGES REMOVE DATA FROM REDUX
+import emailjs from "emailjs-com";
 
-//this is taken from the login page and we need to user dispatch because we have asynchronous code. We can set the login from the  action itself here we use dispatch to set the type whcih is loading UI. We dispatch the type then catch it from the user. We need to redirect by passing in history from the login component to the action then the action will use it
-//LOGIN USER
 export const pageChangeErrorClear = (state) => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
   dispatch({ type: CLEAR_MESSAGE });
@@ -53,15 +48,11 @@ export const loginUser = (userData, history) => (dispatch) => {
     .then((res) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
-      //We need to pass the type clear errors in case there is any errors in our form then redirect
       dispatch({ type: CLEAR_ERRORS });
-      //this is a method we use to push a path to go to it this will redirect
-
       history.push("/myprofile");
     })
     .catch((err) => {
       console.log(err);
-      //if there are errors we need to dispatch to the global state to show errors this is similar to what we had in the components but this will set it to the global state
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data,
@@ -71,12 +62,9 @@ export const loginUser = (userData, history) => (dispatch) => {
 
 //LOGOUT USER
 export const logoutUser = (history) => (dispatch) => {
-  console.log(history)
-  //THIS REMOVES THE TOKEN FROM THE STORAGE
+  console.log(history);
   localStorage.removeItem(`FBIdToken`);
-  //THIS REMOVED THE AUTH HEADER WHICH HAS BEEN SET
   delete axios.defaults.headers.common["Authorization"];
-  //THIS CHANGES AUTHENTICATED TO FALSE AND DISPATCHES IT
   dispatch({ type: SET_UNAUTHENTICATED });
   if (history) {
     history.push("/login");
@@ -107,8 +95,6 @@ export const forgotPassword = (userData, history) => (dispatch) => {
 export const changePassword = (userData, history) => (dispatch) => {
   console.log(userData);
   dispatch({ type: LOADING_UI });
-  // dispatch({ type: CLEAR_ERRORS });
-  // dispatch({ type: CLEAR_MESSAGE });
   axios
     .post("/updatepassword", userData)
     .then((res) => {
@@ -159,11 +145,9 @@ export const getUserData = () => (dispatch) => {
         type: SET_USER,
         payload: res.data,
       });
-      // dispatch(jobDashboard(uid))
       axios
         .get(`/getprofile/${uid}`)
         .then((res) => {
-          // console.log(res.data);
           dispatch({
             type: SET_PROFILE,
             payload: res.data.profile,
@@ -199,7 +183,6 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
-      //if there are errors we need to dispatch to the global state to show errors this is similar to what we had in the components but this will set it to the global state
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data,
@@ -215,7 +198,6 @@ export const createProfile = (profileDetails, history, editProfile) => (
   axios
     .post("/createprofile", profileDetails)
     .then((res) => {
-      // console.log(res.data);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
       if (editProfile === true) {
@@ -223,7 +205,6 @@ export const createProfile = (profileDetails, history, editProfile) => (
       } else {
         history.push("/myprofile");
       }
-      //redirect to user page
     })
     .catch((err) => {
       console.log(err);
@@ -250,7 +231,6 @@ export const deleteUser = (userCredentials, history) => (dispatch) => {
     .delete(`/deleteprofile/${userCredentials.userId}`, userCredentials)
     .then((res) => {
       console.log(res);
-      // dispatch({ type: DELETE_PROFILE_CREATED });
       dispatch({ type: CLEAR_ERRORS });
       history.push("/");
       dispatch({ type: DELETE_PROFILE_CREATED });
@@ -326,7 +306,6 @@ export const jobDashboard = (userId) => (dispatch) => {
     });
 };
 //EDIT JOB
-
 export const editJob = (jobId, editPage, history) => (dispatch) => {
   if (editPage === true) {
     dispatch({ type: EDIT_JOB, payload: jobId });
@@ -362,7 +341,6 @@ export const searchJobs = (searchReq, history) => (dispatch) => {
   axios
     .post("/searchjobs", searchReq)
     .then((res) => {
-      // console.log(res.data);
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: SEARCH_JOBS,
@@ -388,7 +366,6 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
   axios
     .post("/searchemployee", searchReq)
     .then((res) => {
-      // console.log(res.data);
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: SEARCH_EMPLOYEE,
@@ -408,8 +385,7 @@ export const searchEmployee = (searchReq, history) => (dispatch) => {
 };
 //UPLOAD IMAGE
 export const uploadImage = (formData) => (dispatch) => {
-  // dispatch({ type: LOADING_USER });
-  console.log(formData)
+  console.log(formData);
   return axios
     .post("/user/image", formData)
     .then((res) => {
@@ -422,12 +398,12 @@ export const uploadImage = (formData) => (dispatch) => {
 //UPLOAD FILE
 export const uploadFile = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
-  console.log(formData)
+  console.log(formData);
   return axios
     .post("/user/file", formData)
     .then((res) => {
-      console.log("here");
-      return res.data
+      dispatch({ type: CLEAR_LOADING });
+      return res.data;
     })
     .catch((err) => console.log(err));
 };
@@ -438,7 +414,6 @@ export const getInbox = () => (dispatch) => {
   axios
     .get("/getinbox")
     .then((res) => {
-      // console.log(res);
       dispatch({ type: GET_INBOX, payload: res.data });
     })
     .catch((err) => {
@@ -498,13 +473,49 @@ export const clearContact = () => (dispatch) => {
   dispatch({ type: CLEAR_CONTACT });
 };
 
+export const contactForm = (formData) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  dispatch({ type: CLEAR_MESSAGE });
+  dispatch({ type: CLEAR_ERRORS });
+  console.log(formData);
+  const templateParams = {
+    from_name: `${formData.firstName} ${formData.lastName}`,
+
+    reply_to: formData.email,
+    state: formData.state,
+    currentEmployer: formData.currentEmployer ? formData.currentEmployer : "",
+    message: formData.enquiry,
+  };
+  console.log(templateParams);
+
+  emailjs
+    .send(
+      "service_gj94f58",
+      "template_jlpaeya",
+      templateParams,
+      "user_ab3pyJc4cyGkWpr0MFdkO"
+    )
+    .then(
+      (res) => {
+        dispatch({ type: SET_MESSAGE, payload: `Message Successful` });
+      },
+      (err) => {
+        dispatch({ type: SET_ERRORS, payload: `Message Failed` });
+      }
+    );
+};
+//CLEAR JOBS
+export const clearJobs = () => (dispatch)=>{
+  dispatch({ type: CLEAR_JOBS });
+}
+//CLEAR EMPLOYEES
+export const clearEmployees = () => (dispatch)=>{
+  dispatch({ type: CLEAR_EMPLOYEES });
+}
+
 //HELPER - SET AUTHORIZATION HEADER
 const setAuthorizationHeader = (token) => {
-  //the promise returned will through an error if not successful and if we are will be redirected to the home page using history.push loading is changed back becuase we have the result
-  //this is for when you get the token you store it in local storage in the browser to be accessed
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem("FBIdToken", FBIdToken);
-  //when we set and store the token we also need to add auth headers through axios to each request to a protected route. Axios default headers allows us to each time we send a request to add the header even to unprotected routes so you are are sotring it in the header
   axios.defaults.headers.common["Authorization"] = FBIdToken;
-  //We can dispatch the getUser action which allows us to run it after we are loggedin and authorized
 };

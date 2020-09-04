@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { uuid } from "uuidv4";
 
-
 class ImageCarousel extends Component {
   constructor() {
     super();
@@ -36,6 +35,7 @@ class ImageCarousel extends Component {
     let { desc, imageUrl, header, index } = this.props.bestWork[
       this.state.index
     ];
+    let { pathname } = this.props.history.location;
 
     return (
       <div className="carouselContainer">
@@ -62,16 +62,20 @@ class ImageCarousel extends Component {
         <h4>{header}</h4>
         <p>{desc}</p>
         <div className="contactPersonBtn">
-          <button
-            id="contactPersonButton"
-            onClick={()=>{this.sendMessageToInbox({
-                userId: this.props.userId,
-                handle: this.props.handle,
-              })}}
-            key={uuid()}
-          >
-            Contact
-          </button>
+          {pathname === "/myprofile" ? null : (
+            <button
+              id="contactPersonButton"
+              onClick={() => {
+                this.sendMessageToInbox({
+                  userId: this.props.userId,
+                  handle: this.props.handle,
+                });
+              }}
+              key={uuid()}
+            >
+              Contact
+            </button>
+          )}
         </div>
       </div>
     );
