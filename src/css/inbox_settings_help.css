@@ -1,0 +1,200 @@
+.accountContainer {
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 1em;
+  box-sizing: border-box;
+  width: 96%;
+  border: 2px solid #cecece;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  max-width: 850px;
+  min-width: 250px;
+  min-height: 800px;
+}
+.accountHeader {
+  text-align: center;
+  margin: 0 0 0.5em 0;
+  padding: 0 0.3em;
+  background-color: #e16b05;
+  color: white;
+}
+.accountCont {
+  margin: 1em;
+  text-align: left;
+}
+.inboxHeader {
+  display: flex;
+}
+
+/* inbox */
+.inbox {
+  border-collapse: collapse;
+  width: 100%;
+}
+.inbox tr:nth-child(even) {
+  background-color: #e5e5e5;
+}
+.inbox tr:hover {
+  background-color: #ddd;
+}
+
+.inbox td,
+.inbox th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+.inbox th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: rgb(49, 55, 59);
+  color: white;
+}
+.col1 {
+  width: 24%;
+}
+.col2 {
+  width: 58%;
+}
+.col3 {
+  width: 18%;
+}
+
+.inboxDeleteIcon {
+  height: 20px;
+  width: 20px;
+  background: white;
+  border-radius: 50%;
+  margin: 0;
+
+  cursor: pointer;
+}
+
+.inboxReplyIcon {
+  height: 22px;
+  width: 22px;
+
+  margin: 0 auto;
+  margin-top: 0.25em;
+  cursor: pointer;
+  display: flex;
+}
+
+.inboxButtons {
+  display: flex;
+  margin: 0 0;
+}
+
+.inboxButtons button {
+  width: 80px;
+  font-family: "Montserrat", sans-serif;
+  background-color: #ddd;
+
+  color: white;
+  margin-right: 0.2em;
+  font-weight: 700;
+  border-radius: 18px;
+}
+
+button[class="inboxButtonToggle"]:disabled {
+  background-color: rgb(49, 55, 59);
+}
+
+.viewMessageHolder {
+  border: 2px solid rgb(49, 55, 59);
+  padding: 0.8em;
+  margin: 0.6em 0;
+}
+.emailFontView {
+  font-size: 0.8em;
+  margin-bottom: 0.4em;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+.viewEmailHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.replyMessageTextArea {
+  width: 99%;
+  font-family: "Montserrat", sans-serif;
+  resize: vertical;
+  margin: 0px ;
+  min-height: 200px;
+}
+.replyEmailFooter{
+  margin: 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+.sendEmailButton{
+  box-shadow: 3px 4px 0px 0px #f3a764;
+    background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+    background-color: #e16b05;
+    border-radius: 18px;
+    font-weight: 600;
+    border: 1px solid #e16b05;
+    color: #ffffff;
+    padding: 5px 20px;
+    margin: 1em 0;
+    text-align: center;
+}
+
+/* Settings */
+
+.accountCard {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.accountCard h4,
+.accountCont h4 {
+  margin: 0;
+}
+
+.accountCard img {
+  margin-top: 0;
+}
+.accountCard p {
+  margin: 0;
+}
+.accountCont p {
+  margin-top: 0;
+}
+
+/* HELP */
+.helpImage {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.helpCont {
+  margin: 1em;
+  text-align: center;
+}
+
+.settingsUpdate input {
+  width: 100%;
+  max-width: 400px;
+  margin: 0.5em 0;
+}
+.updatePassword {
+  margin: 0 0 0.2em 0;
+}
+.settingsBtn{
+  box-shadow: 3px 4px 0px 0px #f3a764;
+  background: linear-gradient(to bottom, #e16b05 5%, #e16b05 100%);
+  background-color: #e16b05;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #e16b05;
+  color: #ffffff;
+  padding: 7px 25px;
+  margin:0;
+}
+
+@media only screen and (min-width: 650px) {
+  .viewMessageHolder {
+    padding: 1.4em 5.4em;
+  }
+}
