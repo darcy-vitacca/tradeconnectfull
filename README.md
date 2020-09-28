@@ -1,5 +1,9 @@
 TradeConnect is a full stack Job website that’s a mix between Linkedin and Seek for the Trade Industry. You can create an account, create a profile for employers to view, post job ads for people to apply to, search for either jobs or employees, send messages/ resumes/ other documents to prospects through an inbox system and manage your current job ads on the job dashboard. It’s fully responsive and you can edit your profile or jobs as well as many other things.
 
+#### Test Login and Password:
+tradeconnecthelp@gmail.com
+12345678
+
 #### Profile Page:
 <img width="956" alt="Screen Shot 2020-09-28 at 11 28 12 am" src="https://user-images.githubusercontent.com/60879777/94382149-04ec4700-017f-11eb-979f-01321159f9c0.png">
  
