@@ -1,6 +1,6 @@
 A full stack Job website that’s a mix between Linkedin and Seek for the Trade Industry. You can create an account, create a profile for employers to view, post job ads for people to apply to, search for either jobs or employees, send messages/ resumes/ other documents to prospects through an inbox system and manage your current job ads on the job dashboard. It’s fully responsive and you can edit your profile or jobs as well as many other things.
 
-Full stack web app creating a Backend REST API server using Node.js, Express, Firebase (Authentication, NoSQL DB, Cloud functions,Hosting,Image/Document uploading) and on the Frontend Javascript (ES6), React, Redux, Express,HTML, CSS.
+Created Backend REST API server using Node.js, Express, Firebase (Authentication, NoSQL DB, Cloud functions,Hosting,Image/Document uploading) and on the Frontend Javascript (ES6), React, Redux, Express,HTML, CSS.
 
 #### Test Login and Password:
 tradeconnecthelp@gmail.com
